@@ -34,3 +34,8 @@ a{
   background-color: green;
   color: white;
 }
+
+
+.logged {
+  float:right
+}

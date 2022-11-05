@@ -8,20 +8,23 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Inicio - Admin</title>
+<title>Administrar Clientes - Admin</title>
+
 </head>
 <body>
-<a href="login.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
+<div class="logged">loggeado</div>
+<a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
+
 <div class="menu">
-<h1>Panel Administrador</h1>
+
+<h1>Administrar Clientes</h1>
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
-			<a href=adminClientes.jsp> Administrar Clientes </a>
-			<a href=adminCuentas.jsp> Administrar Cuentas </a>
-		  	<a href=adminPrestamos.jsp> Administrar Préstamos </a>
-		    <a href=#> Informes </a>
+			<a href=#> Alta nuevo Cliente </a>
+			<a href=# > Modificar/Eliminar Cliente </a>
 		</div>
 </div>
+
 
 </body>
 </html>
