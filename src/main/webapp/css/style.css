@@ -37,5 +37,10 @@ a{
 
 
 .logged {
-  float:right
+  float:right;
+}
+
+dl
+{
+	text-align:left;
 }
