@@ -17,7 +17,8 @@
 	<div class="opcionesMenu">
 			<a href=movimientos.jsp>Movimientos</a>
 			<a href=transferencias.jsp >Transferencias</a>
-		  	<a href=administrarPrestamos.jsp>Administrar Préstamos</a>
+		  	<a href=solicitarPrestamo.jsp>Solicitar prestamo</a>
+		  	<a href=pagarPrestamo.jsp>Pagar prestamos</a>
 		</div>
 </div>
 </body>
