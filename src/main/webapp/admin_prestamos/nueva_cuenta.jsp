@@ -7,6 +7,15 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h2></h2>
+<div style="float:right">
+Usuario Loggeado<br>
+<a href="Index.jsp"> Inicio </a><br>
+<a href="Index.jsp"> Hacete Cliente </a><br>
+<a href="Index.jsp"> Clientes </a><br>
+</div>
+
+
 <form>
     DNI:      <input type="text" name="DNI"><br>
     CUIL:     <input type="text" name="CUIL"><br>
