@@ -8,31 +8,41 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Alta Cuenta - Admin</title>
+<title>Baja Cuenta - Admin</title>
 </head>
 <body>
 <div class="logged">loggeado</div>
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 <div class="menu">
-	<h2>Alta de Cuenta</h2>
+	<h2>Baja de Cuenta</h2>
 	 <form>
 		 <label for="labeldni">Buscar DNI:</label><br>
 		 <input type="text" name="txtdni" required>
 		 <input type="submit" value="Buscar" name="btnBuscar">
 	 </form>
-	 <dl>
-<dt>Cuenta 0001</dt>
-<dd>estado 1</dd>
-<dt>Cuenta 0002</dt>
-<dd>estado 2</dd>
-</dl>
-	<label for="TC">Elige un tipo de cuenta:</label>
+	 
+	 <table border="1">
+<tr>	
+<th>Nro Cuenta</th>
+<th>CBU</th>
+<th>DNI</th>
+<th>fecha de creacion</th>
+<th>tipo de Cuenta</th>
+<th>Saldo</th>
+<th>Estado</th>
 
-<select name="TC">
-  <option value="CA">Caja de Ahorro</option>
-  <option value="CC">Cuenta Corriente</option>
-</select>
-<input type="submit" value="Agregar" name="btnAgregar">
-		 </div>
+</tr>
+<tr>
+<td>001</td>
+<td>11111111</td>
+<td>56809576</td>
+<td>5/11/2022</td>
+<td>1</td>
+<td>1000000</td>
+<td>Activo</td>
+<td><input type="button" value="Baja"></td>
+</tr>
+</table>
+
 </body>
 </html>
