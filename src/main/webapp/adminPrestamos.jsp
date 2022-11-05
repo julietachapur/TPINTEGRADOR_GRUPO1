@@ -8,7 +8,7 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Administrar Prestamos - Admin</title>
+<title>Administrar Préstamos - Admin</title>
 <div class="logged">loggeado</div>
 </head>
 <body>
@@ -19,8 +19,8 @@
 <h1>Administrar Prestamos</h1>
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
-			<a href=#> Autorización de Prestamos </a>
-			<a href=# > Modificar/Dar de baja Prestamos </a>
+			<a href=#> Autorización de Préstamos </a>
+			<a href=# > Modificar/Dar de baja Préstamos </a>
 		</div>
 </div>
 

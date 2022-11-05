@@ -4,7 +4,6 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<<<<<<< Updated upstream
 <title>HOME</title>
 </head>
 <body>
@@ -13,7 +12,6 @@
 <a href="Index.jsp"> Hacete Cliente </a>
 <a href="Index.jsp"> Clientes </a>
 
-=======
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
@@ -36,6 +34,5 @@
 	 			<a href=CrearCuenta.jsp>No sos Usuario aun?,Crea uno!</a>
 	  </div>
 	    </div>
->>>>>>> Stashed changes
 </body>
 </html>

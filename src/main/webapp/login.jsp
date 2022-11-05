@@ -16,6 +16,9 @@
 		 <input type="text" name="txtContraseña" ><br><br>
 		 <input type="submit" value="Agregar" name="btnAgregar">
 	 </form>
+	 <br><br>
+	 <br><br>
+	 <a href=inicioAdmin.jsp>PANEL ADMIN</a>
 	 
 </body>
 </html>

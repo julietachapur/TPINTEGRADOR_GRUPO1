@@ -17,8 +17,8 @@
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
 			<a href=adminClientes.jsp> Administrar Clientes </a>
-			<a href=# > Administrar Cuentas </a>
-		  	<a href=#> Administrar Préstamos </a>
+			<a href=adminCuentas.jsp > Administrar Cuentas </a>
+		  	<a href=adminPrestamos.jsp> Préstamos </a>
 		    <a href=reportes.jsp> Informes </a>
 		</div>
 </div>

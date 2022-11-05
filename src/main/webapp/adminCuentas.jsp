@@ -8,7 +8,7 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Administrar Clientes - Admin</title>
+<title>Administrar Cuentas - Admin</title>
 
 </head>
 <body>
@@ -17,11 +17,11 @@
 
 <div class="menu">
 
-<h1>Administrar Clientes</h1>
+<h1>Administrar Cuentas</h1>
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
-			<a href=#> Alta nuevo Cliente </a>
-			<a href=# > Modificar/Eliminar Cliente </a>
+			<a href=#> Alta nuevo Cuentas </a>
+			<a href=# > Modificar/Eliminar Cuentas </a>
 		</div>
 </div>
 
