@@ -175,7 +175,8 @@ INSERT INTO TiposUsuarios (tipoUsuario) VALUES ('Cliente');
 
 INSERT INTO TiposMovimientos (tipoMovimiento) VALUES ('Alta de cuenta');
 INSERT INTO TiposMovimientos (tipoMovimiento) VALUES ('Alta préstamo');
-INSERT INTO TiposMovimientos (tipoMovimiento) VALUES ('Alta préstamo');
+INSERT INTO TiposMovimientos (tipoMovimiento) VALUES ('Pago préstamo');
+INSERT INTO TiposMovimientos (tipoMovimiento) VALUES ('Transferencia');
 	
 INSERT INTO TiposCuentas (tipoCuenta) VALUES ('Caja de Ahorro');
 INSERT INTO TiposCuentas (tipoCuenta) VALUES ('Cuenta Corriente');
