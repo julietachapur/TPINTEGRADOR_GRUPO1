@@ -15,7 +15,7 @@
 	<h1 style="margin:auto; margin-bottom:20px;text-align:center;">Movimientos</h1>
 	<div class="comboEleccionCuenta">
 		<label>Seleccionar cuenta</label>
-		<select>
+		<select class="select">
 			<option>1515616488</option>
 			<option>46855415</option>
 		</select>
