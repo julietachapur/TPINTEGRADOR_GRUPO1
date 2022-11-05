@@ -16,8 +16,8 @@
 <h1>Administrar Clientes</h1>
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
-			<a href=#> Alta nuevo Cliente </a>
-			<a href=# > Modificar/Eliminar Cliente </a>
+			<a href="altaCliente.jsp"> Alta nuevo Cliente </a>
+			<a href="modifCliente.jsp" > Modificar/Eliminar Cliente </a>
 		</div>
 </div>
 
