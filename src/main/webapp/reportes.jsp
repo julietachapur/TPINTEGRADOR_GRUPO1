@@ -4,9 +4,11 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <title>Reportes</title>
 </head>
 <body>
+<a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1> Reportes </h1>
 <form method = "post" action=""> 
  <p class= "tiposMovimientos">

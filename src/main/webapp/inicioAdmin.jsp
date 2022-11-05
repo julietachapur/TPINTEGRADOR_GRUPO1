@@ -19,7 +19,7 @@
 			<a href=adminClientes.jsp> Administrar Clientes </a>
 			<a href=# > Administrar Cuentas </a>
 		  	<a href=#> Administrar Préstamos </a>
-		    <a href=#> Informes </a>
+		    <a href=reportes.jsp> Informes </a>
 		</div>
 </div>
 
