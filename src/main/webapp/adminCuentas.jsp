@@ -8,16 +8,20 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Administrar Cuentas - Admin</title>
+<title>Administrar Clientes - Admin</title>
+
 </head>
 <body>
+<div class="logged">loggeado</div>
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
+
 <div class="menu">
-<h1>Administrar Cuentas</h1>
+
+<h1>Administrar Clientes</h1>
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
-			<a href="altaCliente.jsp"> Alta nuevo Cliente </a>
-			<a href="modifCliente.jsp" > Modificar/Eliminar Cliente </a>
+			<a href=#> Alta nuevo Cliente </a>
+			<a href=# > Modificar/Eliminar Cliente </a>
 		</div>
 </div>
 

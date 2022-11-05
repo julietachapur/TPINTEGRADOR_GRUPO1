@@ -8,16 +8,19 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Administrar Cuentas - Admin</title>
+<title>Administrar Prestamos - Admin</title>
+<div class="logged">loggeado</div>
 </head>
 <body>
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
+
 <div class="menu">
-<h1>Administrar Cuentas</h1>
+
+<h1>Administrar Prestamos</h1>
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
-			<a href="altaCliente.jsp"> Alta nuevo Cliente </a>
-			<a href="modifCliente.jsp" > Modificar/Eliminar Cliente </a>
+			<a href=#> Autorización de Prestamos </a>
+			<a href=# > Modificar/Dar de baja Prestamos </a>
 		</div>
 </div>
 

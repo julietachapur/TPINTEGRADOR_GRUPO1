@@ -35,7 +35,6 @@ a{
   color: white;
 }
 
-
 .ABM {
 	display: flex;	
 	flex-direction: column;
@@ -90,4 +89,12 @@ a{
    vertical-align: top;
    border: 1px solid #000;
    border-spacing: 0;
+   
+.logged {
+  float:right;
+}
+
+dl
+{
+	text-align:left;
 }
