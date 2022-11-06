@@ -147,11 +147,13 @@ table th {
     min-width: 72px;
     display:flex;
     text-align: center;
-    border-radius:10px;
+    border-radius:10px;.ABM {
+	display: flex;	
+	flex-direction: column;
+	align-items:center;
 }
 
 .Cuenta-Detalle{
-	
 	display:flex;
 	flex-direction:column;
 	justify-content:space-around;
@@ -170,7 +172,6 @@ table th {
 	margin:auto;
 	width:1000px;
 }
-
 
 .ABM {
 	display: flex;	
@@ -199,7 +200,7 @@ table th {
 .button {
 	display: flex;
 	flex-direction: row-reverse;
-	
+
 }
 
 #btnRegistrar {
