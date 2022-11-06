@@ -16,7 +16,7 @@
 	<h1>Panel Cliente</h1>
 	<span>Seleccione la opción deseada: </span>
 			<div class="opcionesMenu">
-				<a href=#> Seleccionar Cuentas </a>
+				<a href=gestionarCuentas.jsp> Gestionar cuentas </a>
 				<a href=# > Información personal </a>
 			  	<a href=#> Informes </a>
 			</div>

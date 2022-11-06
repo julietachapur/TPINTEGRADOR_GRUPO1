@@ -28,6 +28,14 @@
         <label for="txtDate">Fecha de depósito</label>
         <input id="txtDate" type="date"required name="txtDate" placeholder="">
       </p>
+      <p class="inputForm">
+        <label for="cuentaDestino">Cuenta destino</label>
+        <select id="cuentaDestino" name="cuentaDestino" required>
+        	<option value="12312">123131421<option>
+        	<option value="1231">1241241<option>
+        	<option value="1231">X<option>
+        </select>
+      </p>
       <p class="buton">
         <input id="btnRealizarTransferencia" type="submit" value="Solicitar" required name="btnRealizarTransferencia">
       </p>
