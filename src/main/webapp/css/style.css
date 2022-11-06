@@ -119,6 +119,18 @@ a{
    border: 1px solid #000;
    border-spacing: 0;
 }
+.tablaMovimientos {
+   margin-top: 1rem;
+   width: 70vw;
+   border: 1px solid #000;
+}
+.tablaMovimientos th, td {
+   width: 25%;
+   text-align: left;
+   vertical-align: top;
+   border: 1px solid #000;
+   border-spacing: 0;
+}
 
 .logged {
  text-align: right;

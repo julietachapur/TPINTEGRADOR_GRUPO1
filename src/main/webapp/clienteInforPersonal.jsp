@@ -11,7 +11,7 @@
 	<title>Informacion personal </title>
 </head>
 <body>
-	<a href="inicioClientes.jsp"> <span class="fas fa-times-circle">Salir</span></a>
+	<a href="inicioClientes.jsp"> <span class="fa fa-home">Volver</span></a>
 	<div class="inforPer">
 	<h1>#Nombre Personal</h1>
 	<span>Datos:</span>

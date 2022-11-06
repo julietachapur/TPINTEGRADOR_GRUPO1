@@ -18,7 +18,7 @@
 			<div class="opcionesMenu">
 				<a href=#> Seleccionar Cuentas </a>
 				<a href="clienteInforPersonal.jsp"> Información personal </a>
-			  	<a href=#> Informes </a>
+			  	<a href="informes.jsp"> Informes </a>
 			</div>
 	</div>
 </body>
