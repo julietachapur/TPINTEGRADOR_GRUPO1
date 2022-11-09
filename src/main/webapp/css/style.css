@@ -179,6 +179,12 @@ table th {
 	align-items:center;
 }
 
+.inforPer{
+	display: flex;	
+	flex-direction: column;
+	align-items:center;	
+}
+
 .form {
 	display: flex;
 	flex-direction: column;
@@ -221,7 +227,6 @@ table th {
    width: 70vw;
    border: 1px solid #000;
 }
-
 .tablaClientes th, td {
    width: 25%;
    text-align: left;
@@ -229,6 +234,43 @@ table th {
    border: 1px solid #000;
    border-spacing: 0;
 }
+.tablaDatos{
+   margin-top: 1rem;
+   width: 70vw;
+   border: 1px solid #000;
+}
+.tablaDatos th, td {
+   width: 25%;
+   text-align: left;
+   vertical-align: top;
+   border: 1px solid #000;
+   border-spacing: 0;
+}
+.tablaCuentas{
+   margin-top: 1rem;
+   width: 70vw;
+   border: 1px solid #000;
+}
+.tablaCuentas th, td {
+   width: 25%;
+   text-align: left;
+   vertical-align: top;
+   border: 1px solid #000;
+   border-spacing: 0;
+}
+.tablaMovimientos {
+   margin-top: 1rem;
+   width: 70vw;
+   border: 1px solid #000;
+}
+.tablaMovimientos th, td {
+   width: 25%;
+   text-align: left;
+   vertical-align: top;
+   border: 1px solid #000;
+   border-spacing: 0;
+}
+
 .logged {
  text-align: right;
 }
