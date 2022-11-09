@@ -1,6 +1,6 @@
 package entidad;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Cliente {
 	
@@ -8,7 +8,7 @@ public class Cliente {
 	private String nombre;
 	private String apellido;
 	private String cuil;
-	private char sexo;
+	private String sexo;
 	private Pais nacionalidad;
 	private Date fecha_nac; 
 	private String direccion;
@@ -20,7 +20,7 @@ public class Cliente {
 
 	public Cliente() {	}
 
-	public Cliente(String dni, String nombre, String apellido, String cuil, char sexo, Pais nacionalidad,
+	public Cliente(String dni, String nombre, String apellido, String cuil, String sexo, Pais nacionalidad,
 			Date fecha_nac, String direccion, Localidad localidad, Provincia provincia, Pais pais,
 			String correo_electronico, boolean estado) {
 		this.dni = dni;
@@ -70,11 +70,11 @@ public class Cliente {
 		this.cuil = cuil;
 	}
 
-	public char getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(char sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 
