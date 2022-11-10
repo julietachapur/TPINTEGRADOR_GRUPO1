@@ -7,24 +7,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.LocalidadDao;
-import dao.PaisDao;
-import dao.ProvinciaDao;
-import entidad.Localidad;
-import entidad.Pais;
-import entidad.Provincia;
+import dao.TipoMovimientoDao;
+import entidad.TipoMovimiento;
 
+public class TipoMovimientoDaoImpl implements TipoMovimientoDao {
+	private static final String insert = "INSERT INTO TiposMovimientos(tipoMovimiento) VALUES (?)";
+	private static final String logicalDeletion = "UPDATE TiposMovimientos set estado = 0 Where codTipo = ?";
+	private static final String readall = "SELECT * FROM TiposMovimientos";
+	private static final String update = "UPDATE TiposMovimientos set tipoMovimiento = ? Where codTipo = ?";
+	private static final String readlast = "SELECT * FROM TiposMovimientos ORDER by codTipo DESC LIMIT 1";
+	private static final String readOne = "SELECT * FROM TiposMovimientos Where codTipo = ?";
 
-public class LocalidadDaoImpl implements LocalidadDao {
-
-	private static final String insert = "INSERT INTO Localidades (localidad) VALUES (?)";
-	private static final String logicalDeletion = "UPDATE Localidades set estado = 0 Where codLocalidad = ?";
-	private static final String readall = "SELECT * FROM Localidades";
-	private static final String update = "UPDATE Localidades set localidad = ? Where codLocalidad = ?";
-	private static final String readlast = "SELECT * FROM Localidades ORDER by codLocalidad DESC LIMIT 1";
-	private static final String readOne = "SELECT * FROM Localidades Where codLocalidad = ?";
 	
-	public boolean insert(Localidad localidad_a_agregar) {
+	public boolean insert(TipoMovimiento tipo_movimiento_a_agregar) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
@@ -36,7 +31,7 @@ public class LocalidadDaoImpl implements LocalidadDao {
 
 		try {
 			statement = conexion.prepareStatement(insert);
-			statement.setString(1,  localidad_a_agregar.getLocalidad());
+			statement.setString(1,  tipo_movimiento_a_agregar.getTipoMovimiento());
 
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
@@ -49,36 +44,9 @@ public class LocalidadDaoImpl implements LocalidadDao {
 
 		return isInsertExitoso;
 	}
+
 	
-	public boolean update(Localidad localidad_a_actualizar) {
-
-		System.out.println(localidad_a_actualizar.toString());
-		PreparedStatement statement;
-		Connection conexion = Conexion.getConexion().getSQLConexion();
-		boolean isUpdateExitoso = false;
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		try {
-			statement = conexion.prepareStatement(update);
-			statement.setString(1, localidad_a_actualizar.getLocalidad());
-
-
-			if (statement.executeUpdate() > 0) {
-				conexion.commit();
-				isUpdateExitoso = true;
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-
-		return isUpdateExitoso;
-	}
-
-	public boolean logicalDeletion(Localidad localidad_a_eliminar) {
+	public boolean logicalDeletion(TipoMovimiento tipo_movimiento_a_eliminar) {
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isLogicalDeletionExitoso = false;
@@ -89,7 +57,7 @@ public class LocalidadDaoImpl implements LocalidadDao {
 		}
 		try {
 			statement = conexion.prepareStatement(logicalDeletion);
-			statement.setBoolean(1, localidad_a_eliminar.isEstado());
+			statement.setBoolean(1, tipo_movimiento_a_eliminar.isEstado());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isLogicalDeletionExitoso = true;
@@ -100,12 +68,12 @@ public class LocalidadDaoImpl implements LocalidadDao {
 		return isLogicalDeletionExitoso;
 	}
 	
-	public List<Localidad> readAll() {
+	public List<TipoMovimiento> readAll() {
 		PreparedStatement statement;
 		ResultSet resultSet; // Guarda el resultado de la query
-		ArrayList<Localidad> localidades = new ArrayList<Localidad>();
+		ArrayList<TipoMovimiento> tipoMovimiento = new ArrayList<TipoMovimiento>();
 		Conexion conexion = Conexion.getConexion();
-
+	
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -115,20 +83,19 @@ public class LocalidadDaoImpl implements LocalidadDao {
 			statement = conexion.getSQLConexion().prepareStatement(readall);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				localidades.add(getLocalidad(resultSet));
+				tipoMovimiento.add(getTipoMovimiento(resultSet));
 			}
 		} catch (SQLException e) {
 			System.out.print("Error al Querer obtener todos los registros(SQL ERROR)");
 		}
-		return localidades;
-	}
+		return tipoMovimiento;
 	
 	public int readLast() {
 		PreparedStatement statement;
 		ResultSet resultSet; // Guarda el resultado de la query
-		Localidad localidad = new Localidad();
+		TipoMovimiento tipoMovimiento = new TipoMovimiento();
 		Conexion conexion = Conexion.getConexion();
-
+	
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -138,20 +105,20 @@ public class LocalidadDaoImpl implements LocalidadDao {
 			statement = conexion.getSQLConexion().prepareStatement(readlast);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				localidad = getLocalidad(resultSet);
+				tipoMovimiento = getTipoMovimiento(resultSet);
 			}
 		} catch (SQLException e) {
 			System.out.print("Error al Querer   el registro(SQL ERROR)");
 		}
-		return localidad.getCodLocalidad();
+		return tipoMovimiento.getCodTipo();
 	}
 	
-	public Localidad readOne(int codLocalidad) {
+	public TipoMovimiento readOne(int codTipo) {
 		PreparedStatement statement;
 		ResultSet resultSet; // Guarda el resultado de la query
-		Localidad localidad = new Localidad();
+		TipoMovimiento tipoMovimiento = new TipoMovimiento();
 		Conexion conexion = Conexion.getConexion();
-
+	
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -159,32 +126,33 @@ public class LocalidadDaoImpl implements LocalidadDao {
 		}
 		try {
 			statement = conexion.getSQLConexion().prepareStatement(readOne);
-			statement.setInt(1, codLocalidad);
+			statement.setInt(1, codTipo);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				localidad = getLocalidad(resultSet);
+				tipoMovimiento = getTipoMovimiento(resultSet);
 			}
 		} catch (SQLException e) {
 			System.out.print("Error al Querer   el registro(SQL ERROR)");
 		}
 		
-		return localidad;
+		return tipoMovimiento;
 	}
 	
-	private Localidad getLocalidad(ResultSet resultSet) throws SQLException {
-
-		int codLocalidad = resultSet.getInt("codLocalidad");
-		String localidad = resultSet.getString("localidad");
-		int codProvincia = resultSet.getInt("codProvincia");
-		int codPais = resultSet.getInt("codPais");
+	private TipoMovimiento getTipoMovimiento(ResultSet resultSet) throws SQLException {
+	
+		int codTipo = resultSet.getInt("codTipo");
+		String tipoMovimiento = resultSet.getString("tipoMovimiento");
 		boolean estado = resultSet.getBoolean("estado");
-		
-		ProvinciaDao provinciaDao = new ProvinciaDaoImpl();
-		Provincia provincia = provinciaDao.readOne(codProvincia);		
-		PaisDao paisDao = new PaisDaoImpl();
-		Pais pais = paisDao.readOne(codPais);
+	
+		return new TipoMovimiento(codTipo, tipoMovimiento, estado);
+	}
 
-		return new Localidad(codLocalidad, provincia, pais, localidad, estado);
+
+	@Override
+	public boolean update(TipoMovimiento tipo_movimiento_a_modificar) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
+

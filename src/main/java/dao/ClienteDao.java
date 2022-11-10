@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import entidad.Cliente;
+import entidad.Cuenta;
 
 public interface ClienteDao {
 	
@@ -12,6 +13,8 @@ public interface ClienteDao {
 
 	//public boolean update(Cliente cliente_a_modificar);
 
+	public Cliente readOne(String dni);
+	
 	public List<Cliente> readAll();
 
 	public String readLast();

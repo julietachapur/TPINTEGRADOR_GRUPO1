@@ -13,6 +13,7 @@ import dao.LocalidadDao;
 import dao.PaisDao;
 import dao.ProvinciaDao;
 import entidad.Cliente;
+import entidad.Cuenta;
 import entidad.Localidad;
 import entidad.Pais;
 import entidad.Provincia;
@@ -21,6 +22,7 @@ public class ClienteDaoImpl implements ClienteDao {
 	private static final String insert = "INSERT INTO Clientes(dni,nombre,apellido,CUIL,sexo,nacionalidad,fecha_nac,direccion,codLocalidad, codProvincia, codPais,correo_electronico) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	//private static final String delete = "DELETE FROM Clientes WHERE idSeguro = ?";
 	private static final String readall = "SELECT * FROM Clientes";
+	private static final String readOne = "SELECT * FROM Clientes Where dni = ?";
 	//private static final String update = "UPDATE Clientes set descripcion = ?, idTipo = ?, costoContratacion = ?, costoAsegurado = ? Where idSeguro = ?";
 	private static final String readlast = "SELECT * FROM Clientes ORDER by dni DESC LIMIT 1";
 	
@@ -83,6 +85,31 @@ public class ClienteDaoImpl implements ClienteDao {
 			System.out.print("Error al Querer obtener todos los registros(SQL ERROR)");
 		}
 		return clientes;
+	}
+	
+	public Cliente readOne(String dni) {
+		PreparedStatement statement;
+		ResultSet resultSet; // Guarda el resultado de la query
+		Cliente cliente = new Cliente();
+		Conexion conexion = Conexion.getConexion();
+	
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(readOne);
+			statement.setString(1, dni);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				cliente = getCliente(resultSet);
+			}
+		} catch (SQLException e) {
+			System.out.print("Error al Querer   el registro(SQL ERROR)");
+		}
+		
+		return cliente;
 	}
 	
 	public String readLast() {
