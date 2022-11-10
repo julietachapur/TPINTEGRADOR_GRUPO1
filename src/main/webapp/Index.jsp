@@ -11,7 +11,6 @@
 <a href="Index.jsp"> Inicio </a>
 <a href="Index.jsp"> Hacete Cliente </a>
 <a href="Index.jsp"> Clientes </a>
-
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
@@ -22,12 +21,14 @@
 <div class="menu">
 <img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
 <h2>Bienvenido a el Banco LABIV</h2>
- <form action="inicioClientes.jsp">
+ <form action="inicioClientes.jsp" method="post">
 		 <label for="labelUsuario">Usuario:</label><br>
 		 <input type="text" name="txtUsuario" required><br><br>
-		 <label for="labelContraseña">Contraseña:</label><br>
+		 <label for="labeldni">DNI:</label><br>
+		 <input type="text" name="txtDNI" required><br><br>
+		 <label for="lblContraseña">Contraseña:</label><br>
 		 <input type="text" name="txtContraseña" required><br><br>
-		 <input type="submit" value="Iniciar" name="btnIniciar">
+		 <input type="submit" value="Iniciar sesion" name="btnIniciarSesion">
 	 </form>
 	
 	 <div class="opcionesMenu">
