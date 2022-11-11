@@ -20,6 +20,26 @@ public class ClienteNegocioImpl implements ClienteNegocio {
 		//}
 		return estado;
 	}
+	
+	public boolean update(Cliente cliente) {
+
+		boolean estado = false;
+		estado = cDao.update(cliente);
+		
+		return estado;
+	}
+
+	public boolean logicalDeletion(Cliente cliente_a_eliminar) {
+		boolean estado = false;
+		try {
+			if (cliente_a_eliminar.getDni() != null) {
+				estado = cDao.logicalDeletion(cliente_a_eliminar);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return estado;
+	}
 
 
 	public List<Cliente> readAll() {
@@ -34,5 +54,6 @@ public class ClienteNegocioImpl implements ClienteNegocio {
 		System.out.print(cDao.readLast());
 		return cDao.readLast();
 	}
+
 
 }
