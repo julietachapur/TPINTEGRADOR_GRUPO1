@@ -1,9 +1,9 @@
 package servlets;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,6 +22,7 @@ import entidad.Cliente;
 import entidad.Localidad;
 import entidad.Pais;
 import entidad.Provincia;
+
 
 /**
  * Servlet implementation class ServletCliente
@@ -50,22 +51,12 @@ public class ServletCliente extends HttpServlet {
 				registrarCliente(request, response);
 		}
 		
-		if (request.getParameter("getId") != null) {
+		if (request.getParameter("getId") != null || request.getParameter("btnFiltrar") != null || request.getParameter("btnLimpiar") != null ) {
 			cargarClientes(request, response);
-		}		
-		
-		if (request.getParameter("clienteSeleccionado") != null && request.getParameter("btnFiltrar") != null) {
-				ClienteDao cliente = new ClienteDaoImpl(); 
-				ArrayList<Cliente> lCliente = (ArrayList<Cliente>) cliente.readAll();
-				lCliente.stream()
-	         	.filter(c -> c.getDni().equals(request.getAttribute("clienteSeleccionado")));
-				request.setAttribute("clienteFiltrado", lCliente);
-		        
-				RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
-				rd.forward(request, response);
-		}
 
-	}
+			}
+		}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -95,20 +86,22 @@ public class ServletCliente extends HttpServlet {
 		ArrayList<Cliente> lCliente = (ArrayList<Cliente>) cliente.readAll();
 		request.setAttribute("clientes", lCliente);
 				
-		RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
-		rd.forward(request, response);
+		if (request.getParameter("btnFiltrar") != null) {
+	        
+	        String clienteSeleccionado = request.getParameter("clienteSeleccionado");			
+			ListIterator<Cliente> it = lCliente.listIterator();
+			while (it.hasNext()) {
+				Cliente cl = it.next();
+				if(!cl.getDni().equals(clienteSeleccionado)) {
+					it.remove();
+				}
+				request.setAttribute("listaFiltrada", lCliente);
+			}
+		}
+
+			RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
+			rd.forward(request, response);
 	}
-	
-/*	private void filtrarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ClienteDao clienteDao = new ClienteDaoImpl(); 
-		Cliente cliente = (Cliente) clienteDao.readOne(request.getParameter("getDni"));
-		ArrayList<Cliente> lClienteFiltrado = 
-		//listaClientes
-		//request.setAttribute("clientes", lCliente);
-				
-		RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
-		rd.forward(request, response);
-	}*/
 	
 	
 	private void registrarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
