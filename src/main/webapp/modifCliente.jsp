@@ -22,8 +22,8 @@
 	}
 
 	
-	//boolean modificado = false;
-	//if( request.getAttribute("modificado") != null) modificado = (boolean)request.getAttribute("modificado");
+	//boolean eliminado = false;
+	//if( request.getAttribute("eliminado") != null) eliminado = (boolean)request.getAttribute("eliminado");
 	
 	
  %>
@@ -40,10 +40,11 @@
   <%
  	if(listaClientes!=null)
  		for(Cliente clFil : listaClientes) 
-		{
+		{ 
+ 			if(clFil.isEstado()) {
 	%>
 	<option value="<%=clFil.getDni()%>" > <%= clFil.getApellido() %>, <%= clFil.getNombre() %> - DNI: <%=clFil.getDni()%> </option>
-	<%	}%>
+	<%	} }%>
   
 </select>
     <input type="submit" value="Filtrar" name="btnFiltrar">
@@ -66,10 +67,11 @@
        <%  if(listaClientes != null)
 		for(Cliente cl : listaClientes) 
 		{			
+			if(cl.isEstado()) {   //Así solo muestra los que tienen el estado en true
 	%>
 		<tr>  
-		    <form name="listadoClientes" action="ServletCliente?id=<%=cl.getDni()%>" method="get">
-				<td><%= cl.getDni() %> </td> 
+		    <form name="listadoClientes" action="ServletCliente" method="get">
+				<td><%= cl.getDni() %> <input type= "hidden" name="dni" value=<%=cl.getDni()%>> </td> 
 				<td><%= cl.getApellido() %>,   
 				    <%= cl.getNombre() %></td>
 				<td><%= cl.getSexo()%></td>
@@ -86,7 +88,7 @@
 			
 			</form> 
 		</tr>
-	<%  } %>
+	<% } } %>
 		
     </tbody>
 </table>

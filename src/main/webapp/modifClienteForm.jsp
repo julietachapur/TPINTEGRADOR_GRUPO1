@@ -1,5 +1,6 @@
 <%@page import="entidad.Pais" %>
 <%@page import="entidad.Localidad" %>
+<%@page import="entidad.Cliente" %>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -10,16 +11,24 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Alta Cliente - Admin</title>
+<title>Modificar Cliente - Admin</title>
 </head>
 <body>
 
 <% 
-	
+
 	ArrayList<String> sexo = new ArrayList<String>();
 	sexo.add("F");
 	sexo.add("M");
 	sexo.add("X");
+	
+	ArrayList<Cliente> listaCliente = null;
+	if(request.getAttribute("cliente") != null)
+	{
+		listaCliente = (ArrayList<Cliente>) request.getAttribute("cliente");
+	}
+
+
 	ArrayList<Pais> listaPaises = null;
 	if(request.getAttribute("nacionalidad") != null)
 	{
@@ -32,48 +41,56 @@
 		listaLocalidades = (ArrayList<Localidad>) request.getAttribute("localidad");
 	}
 	
-	boolean agregado = false;
-	if( request.getAttribute("agregado") != null) agregado = (boolean)request.getAttribute("agregado");
+	boolean modificado = false;
+	if( request.getAttribute("modificado") != null) modificado = (boolean)request.getAttribute("modificado");
 	
 	
  %>
  
  
-<a href="adminClientes.jsp"> <span class="fa fa-home"></span> Volver</a>
+<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId"> <span class="fa fa-home"></span> Volver</a>
 <div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
-<h1>Alta nuevo cliente</h1>
-  <%  if( agregado == false)	{ %>
-<span>Por favor complete todos los datos </span>
-<div class="ABM">
+<h1>Modificar cliente</h1>
+  <% if(listaCliente!=null )	{ %>
 
+<div class="ABM">
 <form class="form " method="get" action="ServletCliente">
     <fieldset>
-      <legend>Nuevo cliente</legend>
+    
+      <legend>Modificar cliente</legend>
+   <%
+
+		for(Cliente cl:listaCliente){
+	%>
       <p class="inputForm">
         <label for="dni">DNI</label>
-        <input id="dni" type="text" required name="txtDNI" value= ${txtDni}>
+        <input id="dni" type="text" required name="txtDNI" value=<%= cl.getDni() %> >
       </p>
       <p class="inputForm">
         <label for="nombres">Nombre</label>
-        <input id="nombres" type="text"required name="txtNombre">
+        <input id="nombres" type="text"required name="txtNombre" value=<%= cl.getNombre() %>>
       </p>
       <p class="inputForm">
         <label for="apellidos">Apellido</label>
-        <input id="apellidos" type="text" required name="txtApellido">
+        <input id="apellidos" type="text" required name="txtApellido" value=<%= cl.getApellido() %>>
       </p>      
       <p class="inputForm">
         <label for="cuil">CUIL</label>
-        <input id="cuil" type="text" required name="txtCuil">
+        <input id="cuil" type="text" required name="txtCuil" value=<%= cl.getCuil() %> >
       </p>
       <p class="inputForm">
         <label for="sexo">Sexo</label>
         <select id="sexo" name="sexo" required>
          <%
 		 	if(sexo!=null)
-				for(String s:sexo){
+				for(String s:sexo)
+				{
+					if(!s.equals(cl.getSexo())){
 			%>
-				<option value="<%= s %>" > <%= s %></option>
-			<%	} %>
+				<option value=<%= s %> > <%= s %></option>
+			<%	} else { %>
+				<option value=<%= s %> selected> <%= s %></option>
+			<%	} } %>
         </select>
       </p>
       <p class="inputForm">
@@ -83,18 +100,21 @@
 		 	if(listaPaises!=null)
 				for(Pais p:listaPaises)
 				{
+					if(p.getCodPais() != cl.getNacionalidad().getCodPais()){
 			%>
 			<option value="<%=p.getCodPais()%>" > <%=p.getPais()%></option>
-			<%	}%>
+			<%	} else {%>
+				<option value="<%=p.getCodPais()%>" selected > <%=p.getPais()%></option>
+		<%	} }%>
         </select>
       </p>
       <p class="inputForm">
         <label for="fecha_nac">Fecha de nacimiento</label>
-        <input id="fecha_nac" type="date" required name="txtFecha_nac">
+        <input id="fecha_nac" type="date" required name="txtFecha_nac" value=<%= cl.getFecha_nac() %>>
       </p>     
       <p class="inputForm">
         <label for="direccion">Dirección</label>
-        <input id="direccion" type="text" required name="txtDireccion">
+        <input id="direccion" type="text" required name="txtDireccion" value=<%= cl.getDireccion() %>>
       </p>
       <p class="inputForm">
         <label for="localidad">Localidad</label> 
@@ -103,28 +123,35 @@
 		 	if(listaLocalidades!=null)
 				for(Localidad l:listaLocalidades)
 				{
+					if(l.getCodLocalidad() != cl.getLocalidad().getCodLocalidad()){
 			%>
 			<option value="<%=l.getCodLocalidad()%>" > <%=l.getLocalidad()%></option>
-			<%	}%>
+			<%	} else { %>
+				<option value="<%=l.getCodLocalidad()%>" selected> <%=l.getLocalidad()%></option>
+			<%	} } %>
         </select>
       </p>
       <p class="inputForm">
         <label for="email">E-mail</label>
-        <input id="email" type="email" required name="txtEmail">
+        <input id="email" type="email" required name="txtEmail" value=<%= cl.getCorreo_electronico() %>>
       </p>
+    <%	}%>
       <p class="button">
-        <input id="btnRegistrar" type="submit" value="Registrar" required name="btnAltaCliente">
+        <input id="btnRegistrar" type="submit" value="Modificar" required name="btnModificarBD">
       </p>
     </fieldset>
-
 </form>		
 
 </div>
-  <%	}%>
+    <%	}%>
+
+
 <div style="display:flex; flex-direction: column; align-items: center;">
-<% if( agregado == true) { %>	
+<% if( modificado == true) 
+	{
+%>	
 	<div>
-		<p style="font-size: 1.5rem;">Cliente agregado con éxito <p>
+		<p style="font-size: 1.5rem;">Cliente modificado con éxito <p>
 	</div>
 	<div>
 	<% if(request.getAttribute("resultado") != null) {%>

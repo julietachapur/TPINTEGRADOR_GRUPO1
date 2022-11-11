@@ -84,7 +84,7 @@ public class PaisDaoImpl implements PaisDao {
 			e.printStackTrace();
 		}
 		try {
-			statement = conexion.prepareStatement(update);
+			statement = conexion.prepareStatement(logicalDeletion);
 			statement.setBoolean(1, pais_a_eliminar.isEstado());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();

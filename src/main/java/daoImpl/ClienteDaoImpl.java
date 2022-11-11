@@ -13,17 +13,16 @@ import dao.LocalidadDao;
 import dao.PaisDao;
 import dao.ProvinciaDao;
 import entidad.Cliente;
-import entidad.Cuenta;
 import entidad.Localidad;
 import entidad.Pais;
 import entidad.Provincia;
 
 public class ClienteDaoImpl implements ClienteDao {
-	private static final String insert = "INSERT INTO Clientes(dni,nombre,apellido,CUIL,sexo,nacionalidad,fecha_nac,direccion,codLocalidad, codProvincia, codPais,correo_electronico) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-	//private static final String delete = "DELETE FROM Clientes WHERE idSeguro = ?";
+	private static final String insert = "INSERT INTO Clientes(dni,nombre,apellido,CUIL,sexo,nacionalidad,fecha_nac,direccion,codLocalidad, codProvincia, codPais, correo_electronico) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final String logicalDeletion = "UPDATE Clientes set estado = 0 Where dni = ?";
 	private static final String readall = "SELECT * FROM Clientes ORDER by apellido, dni ASC";
 	private static final String readOne = "SELECT * FROM Clientes Where dni = ?";
-	//private static final String update = "UPDATE Clientes set descripcion = ?, idTipo = ?, costoContratacion = ?, costoAsegurado = ? Where idSeguro = ?";
+	private static final String update = "UPDATE Clientes set nombre = ?, apellido = ?, CUIL = ?, sexo = ?, nacionalidad = ?, fecha_nac = ?, direccion = ?, codLocalidad = ?, codProvincia = ?, codPais = ?, correo_electronico = ?  Where dni = ?";
 	private static final String readlast = "SELECT * FROM Clientes ORDER by dni DESC LIMIT 1";
 	
 	public boolean insert(Cliente cliente_a_agregar) {
@@ -63,6 +62,71 @@ public class ClienteDaoImpl implements ClienteDao {
 
 		return isInsertExitoso;
 	}
+	
+	public boolean update(Cliente cliente_a_actualizar) {
+
+		System.out.println(cliente_a_actualizar.toString());
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdateExitoso = false;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, cliente_a_actualizar.getNombre());
+			statement.setString(2, cliente_a_actualizar.getApellido());
+			statement.setString(3, cliente_a_actualizar.getCuil());
+			statement.setString(4, cliente_a_actualizar.getSexo());
+			statement.setInt(5, cliente_a_actualizar.getNacionalidad().getCodPais());
+			statement.setDate(6, cliente_a_actualizar.getFecha_nac());
+			statement.setString(7, cliente_a_actualizar.getDireccion());
+			statement.setInt(8, cliente_a_actualizar.getLocalidad().getCodLocalidad());
+			statement.setInt(9, cliente_a_actualizar.getLocalidad().getProvincia().getCodProvincia());
+			statement.setInt(10, cliente_a_actualizar.getLocalidad().getPais().getCodPais());
+			statement.setString(11, cliente_a_actualizar.getCorreo_electronico());
+			statement.setString(12, cliente_a_actualizar.getDni());
+
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				isUpdateExitoso = true;
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		return isUpdateExitoso;
+	}
+	
+	public boolean logicalDeletion(Cliente cliente_a_eliminar) {
+		System.out.println(cliente_a_eliminar.toString());
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isLogicalDeletionExitoso = false;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			statement = conexion.prepareStatement(logicalDeletion);
+			statement.setString(1, cliente_a_eliminar.getDni());
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				isLogicalDeletionExitoso = true;
+			}
+		} catch (SQLException e) {
+			System.out.print("Error al Querer dar la baja lógica del registro(SQL ERROR)");
+		}
+		return isLogicalDeletionExitoso;
+	}
+	
 	
 	public List<Cliente> readAll() {
 		PreparedStatement statement;
@@ -106,7 +170,7 @@ public class ClienteDaoImpl implements ClienteDao {
 				cliente = getCliente(resultSet);
 			}
 		} catch (SQLException e) {
-			System.out.print("Error al Querer   el registro(SQL ERROR)");
+			System.out.print("Error al Querer leer  el registro(SQL ERROR)");
 		}
 		
 		return cliente;
@@ -130,7 +194,7 @@ public class ClienteDaoImpl implements ClienteDao {
 				cliente = getCliente(resultSet);
 			}
 		} catch (SQLException e) {
-			System.out.print("Error al Querer   el registro(SQL ERROR)");
+			System.out.print("Error al Querer leer el registro(SQL ERROR)");
 		}
 		return cliente.getDni();
 	}

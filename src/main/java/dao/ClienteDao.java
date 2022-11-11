@@ -9,9 +9,9 @@ public interface ClienteDao {
 	
 	public boolean insert(Cliente cliente);
 
-	//public boolean delete(Cliente cliente_a_eliminar);
+	public boolean logicalDeletion(Cliente cliente_a_eliminar); // Baja lógica
 
-	//public boolean update(Cliente cliente_a_modificar);
+	public boolean update(Cliente cliente_a_modificar);
 
 	public Cliente readOne(String dni);
 	

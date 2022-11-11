@@ -54,8 +54,21 @@ public class ServletCliente extends HttpServlet {
 		if (request.getParameter("getId") != null || request.getParameter("btnFiltrar") != null || request.getParameter("btnLimpiar") != null ) {
 			cargarClientes(request, response);
 
-			}
 		}
+		
+		if (request.getParameter("btnModificar") != null) {
+			cargarClienteParaModif(request, response);
+		}
+		
+		if (request.getParameter("btnModificarBD") != null) {
+			modificarCliente(request, response);
+		}		
+		
+		if (request.getParameter("btnEliminar") != null) {
+			eliminarCliente(request, response);
+		}
+		
+	}
 	
 
 	/**
@@ -77,11 +90,21 @@ public class ServletCliente extends HttpServlet {
 		ArrayList<Localidad> lLoc = (ArrayList<Localidad>) l.readAll();
 		request.setAttribute("localidad", lLoc);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/altaCliente.jsp");
-		rd.forward(request, response);
+		if(request.getParameter("btnModificar") != null){
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/modifClienteForm.jsp");
+			rd.forward(request, response);
+			
+		} else {
+			
+			RequestDispatcher rd = request.getRequestDispatcher("/altaCliente.jsp");
+			rd.forward(request, response);
+			
+		}
+		
 	}
 	
-	private void cargarClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void cargarClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 		ClienteDao cliente = new ClienteDaoImpl(); 
 		ArrayList<Cliente> lCliente = (ArrayList<Cliente>) cliente.readAll();
 		request.setAttribute("clientes", lCliente);
@@ -101,6 +124,28 @@ public class ServletCliente extends HttpServlet {
 
 			RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
 			rd.forward(request, response);
+	}
+	
+	private void cargarClienteParaModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+		ClienteDao cliente = new ClienteDaoImpl(); 
+		ArrayList<Cliente> cl = (ArrayList<Cliente>) cliente.readAll();					        
+	    String clienteSeleccionado = request.getParameter("dni");	
+	    
+		ListIterator<Cliente> it = cl.listIterator();
+		while (it.hasNext()) {
+			Cliente cList = it.next();
+			if(!cList.getDni().equals(clienteSeleccionado)) {
+				it.remove();
+			}
+		}
+        System.out.println(cl); 
+
+		request.setAttribute("cliente", cl);
+		RequestDispatcher rd = request.getRequestDispatcher("/modifClienteForm.jsp");
+		
+		cargarDesplegables(request, response);
+		
+		rd.forward(request, response);
 	}
 	
 	
@@ -144,10 +189,89 @@ public class ServletCliente extends HttpServlet {
 			
 				String resultado="";
 				resultado+="Cliente: "+apellido+", "+nombre+"<br><br>DNI: "+dni+ " - CUIL: "+ cuil+"<br><br>Sexo: "+sexo;
-				resultado+="<br><br>Fecha de Nacimiento: "+fNac+"<br><br>Domicilio: "+direccion+", "+localidad.getLocalidad()+"<br><br>Email: "+email;
+				resultado+="<br><br>Fecha de Nacimiento: "+fNac+"<br><br>Domicilio: "+direccion+", "+localidad.getLocalidad()+", "+localidad.getProvincia().getProvincia()+", "+localidad.getPais().getPais();
+				resultado+="<br><br>Email: "+email;
 				request.setAttribute("resultado", resultado);
 
 				rd = request.getRequestDispatcher("/altaCliente.jsp");
+				rd.forward(request, response);
+			} 
+		} catch (Exception e) {
+				e.printStackTrace();
+		}  
+	}
+	
+	
+	private void modificarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		RequestDispatcher rd;
+		boolean modificado = false;
+		String dni = request.getParameter("txtDNI");
+		String nombre = request.getParameter("txtNombre");
+		String apellido = request.getParameter("txtApellido");
+		String cuil = request.getParameter("txtCuil");
+		String sexo = request.getParameter("sexo");
+		int nac = Integer.parseInt(request.getParameter("nacionalidad"));
+		String direccion = request.getParameter("txtDireccion");
+		int loc = Integer.parseInt(request.getParameter("localidad"));
+		String email = request.getParameter("txtEmail");
+		
+		
+		LocalidadDao locDao = new LocalidadDaoImpl();
+		Localidad localidad = locDao.readOne(loc);			
+		Provincia provincia = new Provincia();		
+		provincia.setCodProvincia(localidad.getProvincia().getCodProvincia());
+		Pais pais = new Pais();
+		pais.setCodPais(localidad.getPais().getCodPais());
+		Pais nacionalidad = new Pais();
+		nacionalidad.setCodPais(nac);
+		
+		try {
+	        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+	        java.util.Date fecha = formato.parse(request.getParameter("txtFecha_nac"));
+			java.sql.Date fNac = new java.sql.Date(fecha.getTime());  
+	        
+	        Cliente cliente = new Cliente(dni, nombre, apellido, cuil, sexo, nacionalidad, fNac, direccion, localidad, provincia, pais, email, true);
+			ClienteDao clienteDao = new ClienteDaoImpl();
+			modificado = clienteDao.update(cliente);
+			if (modificado) {
+		        System.out.println(cliente); 
+				request.setAttribute("modificado", modificado);
+			
+			
+				String resultado="";
+				resultado+="Cliente: "+apellido+", "+nombre+"<br><br>DNI: "+dni+ " - CUIL: "+ cuil+"<br><br>Sexo: "+sexo;
+				resultado+="<br><br>Fecha de Nacimiento: "+ fNac;
+				resultado+="<br><br>Domicilio: "+direccion+", "+localidad.getLocalidad()+", "+localidad.getProvincia().getProvincia()+", "+localidad.getPais().getPais();
+				resultado+="<br><br>Email: "+email;
+				request.setAttribute("resultado", resultado);
+
+				rd = request.getRequestDispatcher("/modifClienteForm.jsp");
+				rd.forward(request, response);
+			} 
+		} catch (Exception e) {
+				e.printStackTrace();
+		}  
+	}
+	
+	
+	private void eliminarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		RequestDispatcher rd;
+		boolean eliminado = false;
+		String dni = request.getParameter("dni");
+				
+		try {
+
+	        Cliente cliente = new Cliente();
+	        cliente.setDni(dni);
+			ClienteDao clienteDao = new ClienteDaoImpl();
+	        eliminado = clienteDao.logicalDeletion(cliente);
+			if (eliminado) {
+		        System.out.println("cliente eliminado"); 
+				request.setAttribute("eliminado", eliminado);
+			
+				rd = request.getRequestDispatcher("/ServletCliente?getId");
 				rd.forward(request, response);
 			} 
 		} catch (Exception e) {
