@@ -21,7 +21,7 @@ import entidad.Provincia;
 public class ClienteDaoImpl implements ClienteDao {
 	private static final String insert = "INSERT INTO Clientes(dni,nombre,apellido,CUIL,sexo,nacionalidad,fecha_nac,direccion,codLocalidad, codProvincia, codPais,correo_electronico) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 	//private static final String delete = "DELETE FROM Clientes WHERE idSeguro = ?";
-	private static final String readall = "SELECT * FROM Clientes";
+	private static final String readall = "SELECT * FROM Clientes ORDER by apellido, dni ASC";
 	private static final String readOne = "SELECT * FROM Clientes Where dni = ?";
 	//private static final String update = "UPDATE Clientes set descripcion = ?, idTipo = ?, costoContratacion = ?, costoAsegurado = ? Where idSeguro = ?";
 	private static final String readlast = "SELECT * FROM Clientes ORDER by dni DESC LIMIT 1";

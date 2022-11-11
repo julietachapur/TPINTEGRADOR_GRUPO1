@@ -45,7 +45,7 @@
       <legend>Nuevo cliente</legend>
       <p class="inputForm">
         <label for="dni">DNI</label>
-        <input id="dni" type="text"required name="txtDNI" value= ${dni}>
+        <input id="dni" type="text" required name="txtDNI" value= ${txtDni}>
       </p>
       <p class="inputForm">
         <label for="nombres">Nombre</label>

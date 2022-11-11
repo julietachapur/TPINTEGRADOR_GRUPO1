@@ -218,22 +218,21 @@ table th {
 
 .tablaClientes {
    margin-top: 1rem;
-   width: 70vw;
+   width: 90vw;
    border: 1px solid #000;
 }
-.tablaClientes th, td {
-   width: 25%;
-   text-align: left;
-   vertical-align: top;
+
+.tablaClientes th {
    border: 1px solid #000;
-   border-spacing: 0;
 }
+
 .tablaDatos{
    margin-top: 1rem;
    width: 70vw;
    border: 1px solid #000;
 }
-.tablaDatos th, td {
+
+.tablaDatos th, .tablaDatos td {
    width: 25%;
    text-align: left;
    vertical-align: top;
@@ -245,19 +244,22 @@ table th {
    width: 70vw;
    border: 1px solid #000;
 }
-.tablaCuentas th, td {
+
+.tablaCuentas th, .tablaCuentas td {
    width: 25%;
    text-align: left;
    vertical-align: top;
    border: 1px solid #000;
    border-spacing: 0;
 }
+
 .tablaMovimientos {
    margin-top: 1rem;
    width: 70vw;
    border: 1px solid #000;
 }
-.tablaMovimientos th, td {
+
+.tablaMovimientos th, .tablaMovimientos td {
    width: 25%;
    text-align: left;
    vertical-align: top;
