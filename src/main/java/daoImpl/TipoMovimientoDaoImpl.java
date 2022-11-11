@@ -89,6 +89,7 @@ public class TipoMovimientoDaoImpl implements TipoMovimientoDao {
 			System.out.print("Error al Querer obtener todos los registros(SQL ERROR)");
 		}
 		return tipoMovimiento;
+	}
 	
 	public int readLast() {
 		PreparedStatement statement;
