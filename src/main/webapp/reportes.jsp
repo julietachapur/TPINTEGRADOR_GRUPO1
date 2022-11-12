@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Movimiento" %>
+<%@page import="entidad.TipoMovimiento" %>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,21 +11,41 @@
 <title>Reportes</title>
 </head>
 <body>
+
+<% 
+	
+	ArrayList<TipoMovimiento> listaTipoMovimientos = null;
+	if(request.getAttribute("tipoMovimiento") != null)
+	{
+		listaTipoMovimientos = (ArrayList<TipoMovimiento>) request.getAttribute("tipoMovimiento");
+	}
+	
+ %>
+
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1> Reportes </h1>
-<form method = "post" action=""> 
- <p class= "tiposMovimientos">
- <label for="tipoMovimiento">Movimiento:</label>
- <select id="tipoMovimiento" name= "movimiento" required style="width: 176px;"><option> tipos de movimientos</option></select>
- </p>
- <label for="labelDni">DNI:</label>
- <input type="text" name="txtDni" >
- <label for="labelFechaInicio">Fecha de inicio:</label>
- <input type="text" name="txtFechaInicio" >
- <label for="labelFechaInicio">Fecha de fin:</label>
- <input type="text" name="txtFechaFin" ><br><br>
- <input type="submit" value="Filtrar" name="btnFiltrar" style="width: 156px; ">
-
+<form method = "post" action="SelvetMovimientos"> 
+    <fieldset>
+	<p class="inputForm">
+		 <label for="tipoMovimiento">Movimiento:</label>
+		 <select id="tipoMovimiento" name="movimiento">
+			<%
+			if(listaTipoMovimientos!=null)
+				for(TipoMovimiento t:listaTipoMovimientos)
+				{
+				%>
+				<option value="<%=t.getCodTipo()%>" > <%=t.getTipoMovimiento()%></option>
+				<%	}%>
+		 </select>
+	 </p>
+	 <label for="labelDni">DNI:</label>
+	 <input type="text" name="txtDni" >
+	 <label for="labelFechaInicio">Fecha de inicio:</label>
+	 <input type="text" name="txtFechaInicio" >
+	 <label for="labelFechaInicio">Fecha de fin:</label>
+	 <input type="text" name="txtFechaFin" ><br><br>
+	 <input type="submit" value="Filtrar" name="btnFiltrar" style="width: 156px; ">
+    </fieldset>
 </form>
 <table border="1">
 <tr> <th>N Cuenta</th>    <th>Saldo</th>   <th>Monto</th> </tr>

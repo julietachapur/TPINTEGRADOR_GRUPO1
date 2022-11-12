@@ -11,19 +11,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.ClienteDao;
-import dao.LocalidadDao;
-import dao.PaisDao;
-import daoImpl.ClienteDaoImpl;
-import daoImpl.LocalidadDaoImpl;
-import daoImpl.PaisDaoImpl;
-import entidad.Cliente;
-import entidad.Localidad;
-import entidad.Pais;
-import entidad.Provincia;
-import entidad.Movimiento;
+import dao.TipoMovimientoDao;
+import daoImpl.TipoMovimientoDaoImpl;
 import entidad.TipoMovimiento;
-import entidad.Prestamo;
+import negocio.LocalidadNegocio;
+import negocio.TipoMovimientoNegocio;
+import negocioImpl.LocalidadNegocioImpl;
+import negocioImpl.TipoMovimientoNegocioImpl;
+
 
 /**
  * Servlet implementation class ServletMovimientos
@@ -43,7 +38,9 @@ public class SelvetMovimientos extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		if (request.getParameter("listaTipoMovimientos") != null) {
+			cargarDesplegables(request, response);
+		}
 		if (request.getParameter("btnFiltrar") != null) {
 				filtrarMovimientos(request, response);
 		}
@@ -54,6 +51,14 @@ public class SelvetMovimientos extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+
+	}
+	private void cargarDesplegables(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		TipoMovimientoNegocio tipoMovimientoNegocio = new TipoMovimientoNegocioImpl(); 
+		ArrayList<TipoMovimiento> tipoMovimiento = (ArrayList<TipoMovimiento>) tipoMovimientoNegocio.readAll();
+		request.setAttribute("tipoMovimiento", tipoMovimiento);
+		RequestDispatcher rd = request.getRequestDispatcher("/reportes.jsp");
+		rd.forward(request, response);
 
 	}
 	private void filtrarMovimientos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
