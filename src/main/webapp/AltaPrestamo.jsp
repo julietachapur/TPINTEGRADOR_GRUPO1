@@ -39,7 +39,5 @@
 <td><input type="button" value="Denegar"></td>
 </tr>
 </table>
-
-
 </body>
 </html>
