@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.mysql.cj.jdbc.CallableStatement;
+
 import dao.ClienteDao;
 import dao.CuentaDao;
 import dao.TipoCuentaDao;
@@ -18,7 +20,7 @@ import entidad.TipoCuenta;
 import entidad.Cliente;
 
 public class CuentaDaoImpl implements CuentaDao{
-	private static final String insert = "INSERT INTO Cuentas(CBU, dni, fecha_creacion, tipoCuenta, saldo) VALUES (?,?,?,?,?)";
+	private static final String insert = "{CALL agregarCuenta(?,?,?)}";
 	private static final String logicalDeletion = "UPDATE Cuentas set estado = 0 Where nroCuenta = ?";
 	private static final String readall = "SELECT * FROM Cuentas";
 	private static final String readlast = "SELECT * FROM Cuentas ORDER by nroCuenta DESC LIMIT 1";
@@ -29,24 +31,23 @@ public class CuentaDaoImpl implements CuentaDao{
 
 
 	public boolean insert(Cuenta cuenta_a_agregar) {
-		PreparedStatement statement;
+		
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
 		try {
+	
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();   //setInt setDouble
 		}
 
 		try {
-			statement = conexion.prepareStatement(insert);
-			statement.setInt(1, cuenta_a_agregar.getCbu());
-			statement.setString(2, cuenta_a_agregar.getDni().getDni());
-			statement.setDate(3,(java.sql.Date) cuenta_a_agregar.getFecha_creacion());
-			statement.setInt(4, cuenta_a_agregar.getTipoCuenta().getCodTipo());
-			statement.setBigDecimal(5, (BigDecimal)cuenta_a_agregar.getSaldo());
+			 CallableStatement cs = (CallableStatement) conexion.prepareCall(insert);
+			cs.setInt(1, cuenta_a_agregar.getCbu());
+			cs.setString(2, cuenta_a_agregar.getDni().getDni());
+			cs.setInt(3, cuenta_a_agregar.getTipoCuenta().getCodTipo());
 
-			if (statement.executeUpdate() > 0) {
+			if (cs.executeUpdate() > 0) {
 				conexion.commit();
 				isInsertExitoso = true;
 			}

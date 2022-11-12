@@ -1,7 +1,6 @@
 package servlets;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -11,12 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.TipoMovimientoDao;
-import daoImpl.TipoMovimientoDaoImpl;
+
 import entidad.TipoMovimiento;
-import negocio.LocalidadNegocio;
+
 import negocio.TipoMovimientoNegocio;
-import negocioImpl.LocalidadNegocioImpl;
+
 import negocioImpl.TipoMovimientoNegocioImpl;
 
 

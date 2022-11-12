@@ -1,6 +1,6 @@
 package negocioImpl;
 
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,22 +81,38 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) cDao.readForClient(dni);
 
 		///verificamos realmente que exista ese dni
-
-		if(clienteDao.readOne(dni).getDni() == dni)
-				{
-			try {
+		try
+		{
 				c.setDni(clienteDao.readOne(dni));
 				c.setTipoCuenta(tcDao.readOne(tc));
-				c.setCbu(lCuenta.size()+1);
-				c.setEstado(true);
-				c.setSaldo(new BigDecimal("10000"));
-				 agregado = cDao.insert(c);
-				 return agregado;
-				}
-			catch(Exception e) {
-		return false;
-	}
-	}
-		return false;
+				c.setCbu(Integer.parseInt(clienteDao.readOne(dni).getDni().toString()));
+				System.out.print(c.toString());
+				return cDao.insert(c);
+		}
+		catch(Exception e) {
+            e.printStackTrace();
 }
+		return false;
+				
+}
+	public boolean verificarCliente(String dni) {
+		ClienteDao clienteDao = new ClienteDaoImpl();
+		try										
+		{
+		return !clienteDao.readOne(dni).equals(dni);
+		}
+		catch(Exception e) {
+           return false;
+}
+	}
+
+	public boolean verificarMaxCuentas(String dni) {
+		CuentaDao cDao = new CuentaDaoImpl();
+		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) cDao.readForClient(dni);
+		if(lCuenta.size()>=3)
+		{
+			return true;
+		}
+		return false;
+	}
 }

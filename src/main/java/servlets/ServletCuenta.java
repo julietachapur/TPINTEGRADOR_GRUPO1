@@ -12,21 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.ClienteDao;
 import dao.CuentaDao;
-import dao.LocalidadDao;
-import dao.PaisDao;
-import dao.TipoCuentaDao;
-import daoImpl.ClienteDaoImpl;
 import daoImpl.CuentaDaoImpl;
-import daoImpl.LocalidadDaoImpl;
-import daoImpl.PaisDaoImpl;
-import daoImpl.TipoCuentaDaoImpl;
-import entidad.Cliente;
 import entidad.Cuenta;
-import entidad.Localidad;
-import entidad.Pais;
-import entidad.Provincia;
 import negocio.CuentaNegocio;
 import negocioImpl.CuentaNegocioImpl;
 
@@ -83,25 +71,36 @@ public class ServletCuenta extends HttpServlet {
 
 	private void registrarCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+	
 		RequestDispatcher rd;
 		boolean agregado = false;
 		int tc = Integer.parseInt(request.getParameter("TC"));
 		String dni = request.getParameter("dni");
 		CuentaNegocio neg = new CuentaNegocioImpl();
 		String resultado="";
-		 agregado = neg.insert(dni,tc);
+		if(neg.verificarCliente(dni))
+			if(!neg.verificarMaxCuentas(dni))
+			{
+			 agregado = neg.insert(dni,tc);
 
-			if (agregado) {
+				if (agregado) {
 
-				resultado="Cuenta agregada Satisfactoriamente";
-
+					resultado="Cuenta agregada Satisfactoriamente";
+				}
+				else
+				{
+					resultado="Cuenta no pudo ser agregada satisfactoriamente";
+				}
 			}
 			else
-			{
-				resultado="Cuenta no pudo ser agregada satisfactoriamente";
-			}
+				resultado="El cliente  tiene mas de 3 cuentas a su nombre";
+		else
+			resultado="El cliente no existe";
+			
 			request.setAttribute("resultado", resultado);
-			rd = request.getRequestDispatcher("/altaCliente.jsp");
+			rd = request.getRequestDispatcher("/adminAltaCuenta.jsp");
 			rd.forward(request, response);
-	}
-}
+		}
+			
+		}
+		

@@ -9,18 +9,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import entidad.Cliente;
+
 import entidad.Cuenta;
-import entidad.Localidad;
+
 import entidad.Movimiento;
-import entidad.Pais;
-import entidad.Provincia;
+
 import entidad.TipoMovimiento;
 import dao.CuentaDao;
-import dao.LocalidadDao;
+
 import dao.MovimientoDao;
-import dao.PaisDao;
-import dao.ProvinciaDao;
+
 import dao.TipoMovimientoDao;
 
 

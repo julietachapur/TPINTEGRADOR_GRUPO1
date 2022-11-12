@@ -19,6 +19,7 @@
 <% 
 	ArrayList<Cuenta> listaCuentas= null;
 	String dni=null;
+	String res=null;
 	if(request.getAttribute("Cuentas")!=null)
 	{
 		listaCuentas = (ArrayList<Cuenta>) request.getAttribute("Cuentas");
@@ -27,7 +28,10 @@
 	{
 		dni =  request.getAttribute("dni").toString();
 	}
-	
+	if(request.getAttribute("resultado")!=null)
+	{
+		res =  request.getAttribute("resultado").toString();
+	}
  %>
 <div class="menu">
 	<h2>Alta de Cuenta</h2>
@@ -36,14 +40,20 @@
 		 <input type="text" name="txtdni" required>
 		 <input type="submit" value="Buscar" name="btnBuscar">
 	 </form>
-	 
-<%
+	<% 
+	if(res!=null)
+{%>
+<script>
+alert("<%=res%>");
+</script>
+	<%}
+	if(listaCuentas != null)
 	if(!listaCuentas.isEmpty())
 	{%>
 		<table >
 		<thead>
 		<tr>
-			<td colspan="2">Tipo de cuenta</td>
+			<td colspan="2">Cuentas disponibles para el DNI <%=dni%></td>
 		</tr>
 		   	</thead>
 		<tr>
@@ -61,7 +71,7 @@
 		</table>
 			<label for="TC">Elige un tipo de cuenta:</label>
  
- <form method="get" action="registrarCuenta">
+ <form method="get" action="ServletCuenta">
 <select name="TC">
   <option value="1">Caja de Ahorro</option>
   <option value="2">Cuenta Corriente</option>
@@ -71,9 +81,13 @@
 </form>
 		<%  	
 	}
-	else{
+	else{%>
+	
+		<script>
+		alert("No existe el Cliente Solicitado");
+		</script>
 		
-		}%>
+		<%}%>
 		
 		 </div>
 </body>

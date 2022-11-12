@@ -3,7 +3,7 @@ package dao;
 import java.util.List;
 
 import entidad.Cliente;
-import entidad.Cuenta;
+
 
 public interface ClienteDao {
 	

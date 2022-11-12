@@ -17,4 +17,8 @@ public interface CuentaNegocio {
 	public int readLast();
 
 	public boolean insert(String dni, int tc);
+
+	boolean verificarMaxCuentas(String dni);
+	
+	boolean verificarCliente(String dni);
 }
