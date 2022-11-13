@@ -1,4 +1,5 @@
 /*drop schema bdBanco;*/
+
 create schema bdBanco;
 use bdBanco;
 
