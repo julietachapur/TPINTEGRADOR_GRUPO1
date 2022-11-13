@@ -11,15 +11,38 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 </head>
 <body>
+
+<% 
+
+	//BigDecimal currentCuenta = 0;
+	/*Usuario usuario = null;
+	if(request.getSession().getAttribute("Usuario") != null) {
+		usuario = (Usuario) request.getSession().getAttribute("Usuario");
+	}
+	
+	ArrayList<Cuenta> listaCuentas = null;
+	if(request.getSession().getAttribute("cuentas") != null)
+	{
+		listaCuentas = (ArrayList<Cuenta>) request.getSession().getAttribute("cuentas");
+		currentCuenta = listaCuentas.get(0).getNroCuenta();
+	}*/
+	
+	/*if( request.getAttribute("cuentaSeleccionada") != null) 
+	{
+		currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
+	}*/
+	
+	/*if( request.getAttribute("saldo") != null) 
+	{
+		currentCuenta = (BigDecimal) request.getSession().getAttribute("saldo");
+	}
+		*/
+		
+ %> 
+ 
+ 
 <a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
 	<h1 style="margin:auto; margin-bottom:20px;text-align:center;">Movimientos</h1>
-	<div class="comboEleccionCuenta">
-		<label>Seleccionar cuenta</label>
-		<select class="select">
-			<option>1515616488</option>
-			<option>46855415</option>
-		</select>
-	</div>
 	
 	<section class="Cuenta">
 		<div class="Cuenta-Tipo">

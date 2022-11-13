@@ -39,6 +39,11 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		return cDao.readLast();
 	}
 
+	public List<Cuenta> readForClient(String dni){
+		List<Cuenta> lCuentas_x_usuario;
+		lCuentas_x_usuario = cDao.readForClient(dni);
+		return lCuentas_x_usuario; 
+	}
 
 
 
@@ -85,7 +90,7 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		{
 				c.setDni(clienteDao.readOne(dni));
 				c.setTipoCuenta(tcDao.readOne(tc));
-				c.setCbu(Integer.parseInt(clienteDao.readOne(dni).getDni().toString()));
+				c.setCbu(Long.parseLong(clienteDao.readOne(dni).getDni().toString()));
 				System.out.print(c.toString());
 				return cDao.insert(c);
 		}

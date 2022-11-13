@@ -2,6 +2,7 @@ package daoImpl;
 
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,7 +44,7 @@ public class CuentaDaoImpl implements CuentaDao{
 
 		try {
 			 CallableStatement cs = (CallableStatement) conexion.prepareCall(insert);
-			cs.setInt(1, cuenta_a_agregar.getCbu());
+			cs.setLong(1, cuenta_a_agregar.getCbu());
 			cs.setString(2, cuenta_a_agregar.getDni().getDni());
 			cs.setInt(3, cuenta_a_agregar.getTipoCuenta().getCodTipo());
 
@@ -171,7 +172,7 @@ public class CuentaDaoImpl implements CuentaDao{
 				cuenta.add(getCuenta(resultSet));
 			}
 		} catch (SQLException e) {
-			System.out.print("Error al Querer   el registro(SQL ERROR)");
+			System.out.print("Error al querer leer las cuentas del registro(SQL ERROR)");
 		}
 
 		return cuenta;
@@ -180,7 +181,8 @@ public class CuentaDaoImpl implements CuentaDao{
 	private Cuenta getCuenta(ResultSet resultSet) throws SQLException {
 
 		int nroCuenta = resultSet.getInt("nroCuenta");
-		int cbu = resultSet.getInt("cbu");
+		//int cbu = resultSet.getInt("cbu");
+		Long cbu = resultSet.getLong("cbu");
 		String dni = resultSet.getString("dni");
 		ClienteDao clienteDao = new ClienteDaoImpl();
 		Cliente cliente = clienteDao.readOne(dni);
@@ -210,7 +212,7 @@ public boolean update(Cuenta cuenta_a_actualizar) {
 		try {
 				statement = conexion.prepareStatement(update);	
 				statement.setBigDecimal(1, cuenta_a_actualizar.getSaldo());
-				statement.setInt(2, cuenta_a_actualizar.getCbu());
+				statement.setLong(2, cuenta_a_actualizar.getCbu());
 				statement.setString(3, cuenta_a_actualizar.getDni().getDni());
 				statement.setString(4, cuenta_a_actualizar.getTipoCuenta().getTipoCuenta());
 				statement.setInt(5,cuenta_a_actualizar.getNroCuenta());

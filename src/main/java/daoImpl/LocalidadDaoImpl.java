@@ -165,7 +165,7 @@ public class LocalidadDaoImpl implements LocalidadDao {
 				localidad = getLocalidad(resultSet);
 			}
 		} catch (SQLException e) {
-			System.out.print("Error al Querer   el registro(SQL ERROR)");
+			System.out.print("Error al querer leer la localidad del registro(SQL ERROR)");
 		}
 		
 		return localidad;

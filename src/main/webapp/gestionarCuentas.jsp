@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Cuenta" %>
+<%@page import="entidad.Usuario" %>
+<%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,15 +13,60 @@
 </style>
 </head>
 <body>
-<a href="login.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
+
+<% 
+	Usuario usuario = null;
+	if(request.getSession().getAttribute("Usuario") != null) {
+		usuario = (Usuario) request.getSession().getAttribute("Usuario");
+	}
+	
+	ArrayList<Cuenta> listaCuentas = null;
+	int currentCuenta = 0;
+	if(request.getSession().getAttribute("cuentas") != null)
+	{
+		listaCuentas = (ArrayList<Cuenta>) request.getSession().getAttribute("cuentas");
+		currentCuenta = listaCuentas.get(0).getNroCuenta();
+	}
+	
+	if( request.getSession().getAttribute("cuentaSeleccionada") != null) 
+	{
+		currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
+	}
+		
+ %> 
+ 
+<a href="inicioClientes.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1 style="margin:auto; margin-bottom:20px; text-align:center;">Gestionar Cuentas</h1>
+<div class= "selectorCuentas">
+ 	<label for="cuentaSeleccionada">Cuenta <%=currentCuenta%> </label><br>
+	<span>Cambiar cuenta:  </span>
+	
+<form method="get" action="ServletCuenta" >
+	 <select name="cuentaSeleccionada">   
+	  <%
+	 	if(listaCuentas!=null)
+	 		for(Cuenta cta : listaCuentas) { 
+	 			if(cta.isEstado()) {
+	 				if(cta.getNroCuenta() != currentCuenta){
+		%>
+				<option value="<%=cta.getNroCuenta()%>" > Cuenta  <%=cta.getNroCuenta()%> </option>
+		<%	} else { %>
+				<option value="<%=cta.getNroCuenta()%>" selected > Cuenta  <%=cta.getNroCuenta()%> </option>
+		<%	} } }%>
+	  
+	</select>
+	    <input id="btnSeleccionar" type="submit" value="Seleccionar" name="btnSeleccionar">
+</form>
+</div>
+
 <div class="menu">
 	<div class="opcionesMenu">
-			<a href=movimientos.jsp>Movimientos</a>
+			<a href="/TPINTEGRADOR_GRUPO1/ServletMovimientos?getCuenta">Movimientos</a> 
 			<a href=transferencias.jsp >Transferencias</a>
 		  	<a href=solicitarPrestamo.jsp>Solicitar prestamo</a>
 		  	<a href=pagarPrestamo.jsp>Pagar prestamos</a>
 		</div>
 </div>
+
 </body>
 </html>

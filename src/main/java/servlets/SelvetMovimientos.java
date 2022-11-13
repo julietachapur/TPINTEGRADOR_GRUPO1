@@ -10,11 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import entidad.Movimiento;
+import entidad.Pais;
 import entidad.TipoMovimiento;
-
+import negocio.MovimientoNegocio;
+import negocio.PaisNegocio;
 import negocio.TipoMovimientoNegocio;
-
+import negocioImpl.MovimientoNegocioImpl;
+import negocioImpl.PaisNegocioImpl;
 import negocioImpl.TipoMovimientoNegocioImpl;
 
 
@@ -36,12 +39,15 @@ public class SelvetMovimientos extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		if (request.getParameter("listaTipoMovimientos") != null) {
 			cargarDesplegables(request, response);
 		}
-		if (request.getParameter("btnFiltrar") != null) {
+		
+		if (request.getParameter("getCuenta") == null) {
 				filtrarMovimientos(request, response);
 		}
+		
 	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -59,8 +65,18 @@ public class SelvetMovimientos extends HttpServlet {
 		rd.forward(request, response);
 
 	}
+	
 	private void filtrarMovimientos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
 		
+		MovimientoNegocio movNeg = new MovimientoNegocioImpl(); 
+		ArrayList<Movimiento> lMov = movNeg.readOneCta(currentCuenta);
+		Movimiento mov = movNeg.readLast();
+		request.setAttribute("saldo", mov.getSaldo());
+		
+	
+		RequestDispatcher rd = request.getRequestDispatcher("/movimientos.jsp");
+		rd.forward(request, response);
 	}
 	
 	
