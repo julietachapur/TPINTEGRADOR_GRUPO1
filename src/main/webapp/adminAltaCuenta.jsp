@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="entidad.Cuenta" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -13,26 +15,80 @@
 <body>
 <div class="logged">loggeado</div>
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
+
+<% 
+	ArrayList<Cuenta> listaCuentas= null;
+	String dni=null;
+	String res=null;
+	if(request.getAttribute("Cuentas")!=null)
+	{
+		listaCuentas = (ArrayList<Cuenta>) request.getAttribute("Cuentas");
+	}
+	if(request.getAttribute("dni")!=null)
+	{
+		dni =  request.getAttribute("dni").toString();
+	}
+	if(request.getAttribute("resultado")!=null)
+	{
+		res =  request.getAttribute("resultado").toString();
+	}
+ %>
 <div class="menu">
 	<h2>Alta de Cuenta</h2>
-	 <form>
+	 <form method="get" action="ServletCuenta">
 		 <label for="labeldni">Buscar DNI:</label><br>
 		 <input type="text" name="txtdni" required>
 		 <input type="submit" value="Buscar" name="btnBuscar">
 	 </form>
-	 <dl>
-<dt>Cuenta 0001</dt>
-<dd>estado 1</dd>
-<dt>Cuenta 0002</dt>
-<dd>estado 2</dd>
-</dl>
-	<label for="TC">Elige un tipo de cuenta:</label>
-
+	<% 
+	if(res!=null)
+{%>
+<script>
+alert("<%=res%>");
+</script>
+	<%}
+	if(listaCuentas != null)
+	if(!listaCuentas.isEmpty())
+	{%>
+		<table >
+		<thead>
+		<tr>
+			<td colspan="2">Cuentas disponibles para el DNI <%=dni%></td>
+		</tr>
+		   	</thead>
+		<tr>
+		    <th>Numero de cuenta</th>
+		    <th>Tipo de cuenta</th>
+		</tr>
+		<%
+		for(Cuenta c:listaCuentas)
+		{%>
+		<tr>
+			<td><%=c.getNroCuenta() %></td>
+			<td><%=c.getTipoCuenta().getTipoCuenta() %></td>
+		</tr>
+		<%}%>
+		</table>
+			<label for="TC">Elige un tipo de cuenta:</label>
+ 
+ <form method="get" action="ServletCuenta">
 <select name="TC">
-  <option value="CA">Caja de Ahorro</option>
-  <option value="CC">Cuenta Corriente</option>
+  <option value="1">Caja de Ahorro</option>
+  <option value="2">Cuenta Corriente</option>
 </select>
-<input type="submit" value="Agregar" name="btnAgregar">
+ <input type="hidden" name="dni" value="<%=dni%>">
+<input type="submit" value="submit" name="btnAgregar">
+</form>
+		<%  	
+	}
+	else{%>
+	
+		<script>
+		alert("No existe el Cliente Solicitado");
+		</script>
+		
+		<%}%>
+		
 		 </div>
 </body>
 </html>

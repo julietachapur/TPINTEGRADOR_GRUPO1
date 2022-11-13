@@ -30,7 +30,6 @@
 <th>tipo de Cuenta</th>
 <th>Saldo</th>
 <th>Estado</th>
-
 </tr>
 <tr>
 <td>001</td>
@@ -43,6 +42,5 @@
 <td><input type="button" value="Baja"></td>
 </tr>
 </table>
-
 </body>
 </html>

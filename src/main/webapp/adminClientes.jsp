@@ -16,8 +16,8 @@
 <h1>Administrar Cuentas</h1>
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
-			<a href="altaCliente.jsp"> Alta nuevo Cliente </a>
-			<a href="modifCliente.jsp" > Modificar/Eliminar Cliente </a>
+			<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getTxtDni"> Alta nuevo Cliente </a> 
+			<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId" > Modificar - Eliminar Cliente </a>
 		</div>
 </div>
 

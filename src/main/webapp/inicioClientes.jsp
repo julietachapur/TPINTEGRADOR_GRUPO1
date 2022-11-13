@@ -1,5 +1,7 @@
+<%@page import="entidad.Usuario" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,16 +12,35 @@
 	</style>
 	<title>Inicio - Cliente</title>
 </head>
-<body>
+<body onLoad="bienvenida();">
 	<a href="login.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
 	<div class="menu">
 	<h1>Panel Cliente</h1>
 	<span>Seleccione la opción deseada: </span>
 			<div class="opcionesMenu">
-				<a href=gestionarCuentas.jsp> Gestionar cuentas </a>
-				<a href=# > Información personal </a>
-			  	<a href=#> Informes </a>
+				<a href="gestionarCuentas.jsp"> Seleccionar Cuentas </a>  
+				<a href="clienteInforPersonal.jsp"> Información personal </a>
+			  	<a href="informes.jsp"> Informes </a>
 			</div>
 	</div>
+	
+	<script>
+		<%
+		 	if(session.getAttribute("Usuario")!=null){	
+		 		Usuario usuario = new Usuario();
+		 		usuario = (Usuario)session.getAttribute("Usuario");
+		%>
+	
+			function bienvenida(){alert("Bienvenido <%=usuario.getcliente().getNombre()%> <%=usuario.getcliente().getApellido()%>");}
+		<%
+			}
+		 	else {
+		 %>
+		 //alert("INICIE SESION PARA CONTINUAR.");
+		 <%
+		 	response.sendRedirect("/Index.jsp");
+		 	}
+		%>
+	</script>
 </body>
 </html>
