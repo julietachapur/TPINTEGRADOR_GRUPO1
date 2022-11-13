@@ -2,22 +2,23 @@ package servlets;
 import java.io.IOException;
 
 import entidad.Usuario;
+import negocioImpl.UsuarioNegocioImpl;
 
-/*
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-*/
 
+/*
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import negocioImpl.UsuarioNegocioImpl;
+*/
 
 
 /**
@@ -59,7 +60,7 @@ public class ServletUsuario extends HttpServlet {
 				rd.forward(request, response);
 			}
 			else {
-				rd = request.getRequestDispatcher("/Index.jsp");
+				rd = request.getRequestDispatcher("/index.jsp");
 				request.setAttribute("SesionFallida", true);
 				rd.forward(request, response);
 			}	

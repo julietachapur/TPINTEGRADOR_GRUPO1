@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import entidad.Usuario;
-import negocio.usuarioNegocio;
-import negocioImpl.usuarioNegocioImpl;
+import negocio.UsuarioNegocio;
+import negocioImpl.UsuarioNegocioImpl;
 
 /**
  * Servlet implementation class usuarioServlet
@@ -62,8 +62,8 @@ public class usuarioServlet extends HttpServlet {
 		Usuario usuarioE = new Usuario( usuarioD, DNI, clave);
 		
 		/*Instancio la clase usuarioNegocio y utilizo su contructor para guardar la entidad usuario*/
-		usuarioNegocio usuario = new usuarioNegocioImpl();
-		if(usuario.iniciarSesion(usuarioE)) 
+		UsuarioNegocio usuario = new UsuarioNegocioImpl();
+		if(usuario.IniciarSesion(usuarioE)) 
 			{
 			
 			}
