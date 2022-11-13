@@ -1,5 +1,7 @@
+<%@page import="entidad.Usuario" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+ <%@page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +24,16 @@
 		    <a href=reportes.jsp> Informes </a>
 		</div>
 </div>
-
+<script>
+		<%
+		 	if(session.getAttribute("Usuario")!=null){	
+		 		Usuario usuario = new Usuario();
+		 		usuario = (Usuario)session.getAttribute("Usuario");
+			}
+		 	else {
+		 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/Index.jsp");
+		 	}
+		%>
+</script>
 </body>
 </html>

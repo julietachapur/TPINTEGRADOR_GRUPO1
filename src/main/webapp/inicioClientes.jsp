@@ -35,10 +35,7 @@
 		<%
 			}
 		 	else {
-		 %>
-		 //alert("INICIE SESION PARA CONTINUAR.");
-		 <%
-		 	response.sendRedirect("/Index.jsp");
+		 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/Index.jsp");
 		 	}
 		%>
 	</script>

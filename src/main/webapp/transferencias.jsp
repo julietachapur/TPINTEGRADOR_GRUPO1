@@ -1,5 +1,7 @@
+<%@page import="entidad.Usuario" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page session="true"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,20 +15,45 @@
 <body>
 <a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1 style="margin:auto;text-align:center;margin-bottom:30px;">Transferencias</h1>
-<form class="form">
+
+<%
+	if(session.getAttribute("Usuario")!=null){	
+		Usuario usuario = new Usuario();
+		usuario = (Usuario)session.getAttribute("Usuario");	
+	}
+	else {
+	%>
+	<script>
+		alert("Permiso denegado. Inicie sesion para continuar")
+	</script>
+	<%
+ 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/Index.jsp");
+	}
+%>
+
+
+<form class="form" method="post" action="ServletTransferencia">
     <fieldset>
       <legend>Nueva transferencia</legend>
       <p class="inputForm">
-        <label for="txtCbu">CBU</label>
+      	<label >Cuenta origen</label>
+      
+      </p>      
+      <p class="inputForm">
+        <label for="txtCbu">CBU destino</label>
         <input id="txtCbu" type="text"required name="txtCbu" placeholder="CBU..">
+        <select>
+        	
+        	<option></option>
+        </select>
       </p>
       <p class="inputForm">
-        <label for="txtDNI">DNI</label>
+        <label for="txtDNI">DNI destino</label>
         <input id="txtDNI" type="text"required name="txtDNI" placeholder="DNI..">
       </p>
       <p class="inputForm">
-        <label for="nombres">Monto</label>
-        <input id="nombres" type="text"required name="txtNombre" placeholder="$..">
+        <label for="txtMonto">Monto a transferir</label>
+        <input id="txtMontoi" type="text"required name="txtMonto" placeholder="$00,00">
       </p>
       <p class="button">
         <input id="btnRealizarTransferencia" type="submit" value="Transferir" required name="btnRealizarTransferencia">
