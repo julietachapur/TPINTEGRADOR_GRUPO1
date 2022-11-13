@@ -1,29 +1,21 @@
 package negocioImpl;
+
 import entidad.Usuario;
-import negocio.usuarioNegocio;
+import negocio.UsuarioNegocio;
+import daoImpl.UsuarioDaoImpl;
 
-public class usuarioNegocioImpl implements usuarioNegocio {
-	@Override
-	public Boolean iniciarSesion(Usuario usuario) {
+public class UsuarioNegocioImpl implements UsuarioNegocio {
 
+	public Boolean IniciarSesion(Usuario usuario) {
 		
-		return true;
+		/*Instancio la clase responsable de contectarse con la BD*/
+		UsuarioDaoImpl usuDao = new UsuarioDaoImpl();
+		
+		/*Si encontro el registro en la BD entonces declaro una session*/
+		if (usuDao.IniciarSesion(usuario)) {
+			return true;
+		}
+		
+		return false;
 	}
-	
-	@Override
-	public Boolean validarSesion(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Boolean cerrarSesion(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Boolean getUsuarioActivo(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }
