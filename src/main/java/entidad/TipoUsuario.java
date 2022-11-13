@@ -11,7 +11,7 @@ public class TipoUsuario {
 	public TipoUsuario(int codTipo, String tipoUsuario, boolean estado) {
 		this.codTipo = codTipo;
 		this.tipoUsuario = tipoUsuario;
-		this.estado = estado;
+		this.estado = estado; 
 	}
 
 	public int getCodTipo() {

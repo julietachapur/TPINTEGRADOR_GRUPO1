@@ -22,17 +22,29 @@
 <div class="menu">
 <img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
 <h2>Bienvenido a el Banco LABIV</h2>
- <form action="inicioClientes.jsp">
-		 <label for="labelUsuario">Usuario:</label><br>
+ <form action="ServletUsuario" method="post">
+		 <label for="txtUsuario">Usuario:</label><br>
 		 <input type="text" name="txtUsuario" required><br><br>
-		 <label for="labelContraseña">Contraseña:</label><br>
-		 <input type="text" name="txtContraseña" required><br><br>
-		 <input type="submit" value="Iniciar" name="btnIniciar">
+		 <label for="txtDNI">DNI:</label><br>
+		 <input type="text" name="txtDNI" required><br><br>
+		 <label for="txtClave">Contraseña:</label><br>
+		 <input type="text" name="txtClave" required><br><br>
+		 <input type="submit" value="Iniciar" name="btnIniciarSesion">
 	 </form>
 	
 	 <div class="opcionesMenu">
 	 			<a href=CrearCuenta.jsp>No sos Usuario aun?,Crea uno!</a>
 	  </div>
 	    </div>
+	    
+	    <%
+	    if (request.getAttribute("SesionFallida") != null){
+	    	%>
+	    	<script>
+	    	alert("Usuario o contraseña no valida, intente nuevamente.");
+	    	</script>
+	    	<%
+	    }
+	    %>
 </body>
 </html>

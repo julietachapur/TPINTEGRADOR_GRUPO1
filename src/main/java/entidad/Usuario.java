@@ -3,19 +3,32 @@ package entidad;
 public class Usuario {
 	
 	private String usuario;
-	private Cliente dni;
+	private Cliente cliente;
 	private TipoUsuario tipoUsuario;
 	private String contraseña;
 	private boolean estado;
 
-	public Usuario() { }
+	public Usuario() { 
+		this.cliente = new Cliente();
+		this.tipoUsuario = new TipoUsuario();
+	}
 
-	public Usuario(String usuario, Cliente dni, TipoUsuario tipoUsuario, String contraseña, boolean estado) {
+	public Usuario(String usuario, Cliente cliente, TipoUsuario tipoUsuario, String contraseña, boolean estado) {
+		this.cliente = new Cliente();
+		this.tipoUsuario = new TipoUsuario();
 		this.usuario = usuario;
-		this.dni = dni;
+		this.cliente = cliente;
 		this.tipoUsuario = tipoUsuario;
 		this.contraseña = contraseña;
 		this.estado = estado;
+	}
+	
+	public Usuario(String usuario, String dni, String contraseña) {
+		this.cliente = new Cliente();
+		this.tipoUsuario = new TipoUsuario();
+		this.usuario = usuario;
+		this.cliente.setDni(dni);
+		this.contraseña = contraseña;
 	}
 
 	public String getUsuario() {
@@ -26,12 +39,20 @@ public class Usuario {
 		this.usuario = usuario;
 	}
 
-	public Cliente getDni() {
-		return dni;
+	public Cliente getcliente() {
+		return cliente;
+	}
+	
+	public String getDni() {
+		return this.cliente.getDni();
+	}
+	
+	public void setDNI(String dni) {
+		this.cliente.setDni(dni);
 	}
 
-	public void setDni(Cliente dni) {
-		this.dni = dni;
+	public void setcliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public TipoUsuario getTipoUsuario() {
@@ -39,7 +60,7 @@ public class Usuario {
 	}
 
 	public void setTipoUsuario(TipoUsuario tipoUsuario) {
-		this.tipoUsuario = tipoUsuario;
+		this.tipoUsuario =  tipoUsuario;
 	}
 
 	public String getContraseña() {
@@ -60,7 +81,7 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [usuario=" + usuario + ", dni=" + dni + ", tipoUsuario=" + tipoUsuario + ", contraseña="
+		return "Usuario [usuario=" + usuario + ", cliente=" + cliente.toString() + ", tipoUsuario=" + tipoUsuario + ", contraseña="
 				+ contraseña + ", estado=" + estado + "]";
 	}
 	
