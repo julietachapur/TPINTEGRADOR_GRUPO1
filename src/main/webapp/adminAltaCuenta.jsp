@@ -19,8 +19,8 @@
 <% 
 	ArrayList<Cuenta> listaCuentas= null;
 	String dni=null;
-	String res=null;
-	
+	String resString=null;
+	Boolean resBoolean=false;
 	if(request.getAttribute("Cuentas")!=null)
 	{
 		listaCuentas = (ArrayList<Cuenta>) request.getAttribute("Cuentas");
@@ -29,9 +29,17 @@
 	{
 		dni =  request.getAttribute("dni").toString();
 	}
-	if(request.getAttribute("resultado")!=null)
+	if(request.getAttribute("resString")!=null)
 	{
-		res =  request.getAttribute("resultado").toString();
+		resString =  request.getAttribute("resString").toString();
+	}
+	if(request.getAttribute("resBoolean")!=null)
+	{
+		resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
+	}
+	else
+	{
+		resBoolean = false;
 	}
  %>
  
@@ -40,26 +48,29 @@
  
 <div class="menu">
 	<h2>Alta de Cuenta</h2>
+	<%
+		if(!resBoolean && resString!= null){%>
+	<br>
+	 <h2 style="color:red;"><%=resString%></h2>
+	<%}%>
+		 
 	 <form method="get" action="ServletCuenta">
 		 <label for="labeldni">Buscar DNI:</label><br>
 		 <input type="text" name="txtdni" required>
 		 <input type="submit" value="Buscar" name="btnBuscar">
 	 </form>
-	
+	 
+
+
 	<script>
 		<%
-		 	if(res!=null){	
-		 		if(!res.equals("go") || !res.equals("ne"))
-		 			{%>
-		 			
-					function resultado(){alert("<%=res%>");}
-					
-					<%}
-				else
-					{%>
-					function resultado(){alert("No existe el cliente seleecionado");}
-				<%}
-		 	}%>
+		 	if(resString!= null && resBoolean!= null){	
+		 		if(!resString.equals("go"))
+		 		{
+		 			%>
+					function resultado(){alert("<%=resString%>");}
+				<%}}
+		 	%>
 		
 		
 		
@@ -69,8 +80,8 @@
 		
 	</script>
 	<%	
-	if(listaCuentas != null && res != null)
-		if(!res.equals("ne"))
+	if(listaCuentas != null && resBoolean!= null && resBoolean)
+		
 	{%>
 		<table >
 		<thead>
