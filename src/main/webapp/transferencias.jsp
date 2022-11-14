@@ -1,7 +1,11 @@
 <%@page import="entidad.Usuario" %>
+<%@page import="negocioImpl.CuentaNegocioImpl" %>
+<%@page import="entidad.Cuenta" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page session="true"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,37 +19,44 @@
 <body>
 <a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1 style="margin:auto;text-align:center;margin-bottom:30px;">Transferencias</h1>
-
 <%
-	if(session.getAttribute("Usuario")!=null){	
+	ArrayList<Cuenta> cuentasList = null;
+	if(session.getAttribute("Usuario")!=null && request.getParameter("cuenta")!=null){	
 		Usuario usuario = new Usuario();
 		usuario = (Usuario)session.getAttribute("Usuario");	
+		//CuentaNegocioImpl cuentas = new CuentaNegocioImpl();
+		//cuentasList = (ArrayList<Cuenta>)cuentas.readForClient(usuario.getcliente().getDni());
+		//if (cuentasList.isEmpty())
+			
 	}
 	else {
-	%>
-	<script>
-		alert("Permiso denegado. Inicie sesion para continuar")
-	</script>
-	<%
+		%>
+		<script>
+			alert("Inicie sesion para continuar");
+		</script>
+		<%
  	response.sendRedirect("/TPINTEGRADOR_GRUPO1/Index.jsp");
 	}
 %>
-
-
 <form class="form" method="post" action="ServletTransferencia">
     <fieldset>
       <legend>Nueva transferencia</legend>
       <p class="inputForm">
       	<label >Cuenta origen</label>
-      
+ 		<select id="select-cuentas">	
+        	<option value="0">Seleccione una cuenta</option>
+        	<%for(Cuenta c: cuentasList){%>
+        	<option value="<%=c.getNroCuenta()%>-<%=c.getSaldo()%>"><%=c.getCbu()%></option>
+        	<%}%>
+        </select>
+      </p>
+      <p class="inputForm">
+      	<label>Importe disponible</label>
+      	<input readonly type="text" id="ImporteDisponible" value="$0">
       </p>      
       <p class="inputForm">
         <label for="txtCbu">CBU destino</label>
         <input id="txtCbu" type="text"required name="txtCbu" placeholder="CBU..">
-        <select>
-        	
-        	<option></option>
-        </select>
       </p>
       <p class="inputForm">
         <label for="txtDNI">DNI destino</label>
@@ -59,7 +70,15 @@
         <input id="btnRealizarTransferencia" type="submit" value="Transferir" required name="btnRealizarTransferencia">
       </p>
     </fieldset>
-
+	<script>
+		var cuentas = document.getElementById("select-cuentas");
+		cuentas.addEventListener('click', mostrarImporte());
+		
+		function mostrarImporte(){
+			
+		}
+	
+	</script>
 </form>		
 </body>
 </html>

@@ -40,10 +40,6 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 	}
 
 
-
-
-
-
 	public boolean update(Cuenta cuenta) {
 
 		boolean estado=false;
@@ -53,6 +49,7 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		}
 		return estado;
 	}
+
 
 	public boolean delete(Cuenta persona_a_eliminar) {
 		boolean estado=false;
@@ -105,6 +102,12 @@ public class CuentaNegocioImpl implements CuentaNegocio {
            return false;
 }
 	}
+	
+	public Cuenta obtenerCuenta(String Dni) {
+		
+		
+		return new Cuenta();
+	}
 
 	public boolean verificarMaxCuentas(String dni) {
 		CuentaDao cDao = new CuentaDaoImpl();
@@ -115,4 +118,12 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		}
 		return false;
 	}
+	
+	public List<Cuenta> readForClient(String dni) {
+
+		List<Cuenta> lCuentas;
+		lCuentas = cDao.readForClient(dni);
+		return lCuentas;
+	}
+
 }

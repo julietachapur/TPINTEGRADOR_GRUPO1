@@ -1,5 +1,9 @@
 package negocio;
 
-public interface TransferenciaNegocio {
+import java.util.List;
 
+import entidad.Cuenta;
+
+public interface TransferenciaNegocio {
+	
 }

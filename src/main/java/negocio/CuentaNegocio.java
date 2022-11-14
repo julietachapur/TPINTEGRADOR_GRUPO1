@@ -21,4 +21,8 @@ public interface CuentaNegocio {
 	boolean verificarMaxCuentas(String dni);
 	
 	boolean verificarCliente(String dni);
+	
+	public List<Cuenta> readForClient(String dni); 
+	
+	public Cuenta obtenerCuenta(String Dni);
 }
