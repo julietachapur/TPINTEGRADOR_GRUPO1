@@ -1,5 +1,6 @@
 package daoImpl;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +17,8 @@ import entidad.Usuario;
 public class UsuarioDaoImpl implements UsuarioDao {
 	
 	private static final String QueryIniciarSesion = "select  c.nombre, c.apellido, c.cuil, c.sexo, c.nacionalidad, c.fecha_nac, c.direccion, c.correo_electronico, c.estado, tu.tipoUsuario, tu.codTipo from usuarios u  inner join clientes c on c.dni = u.dni  inner join tiposUsuarios tu on tu.CodTipo = u.tipoUsuario where u.usuario = ? and u.DNI = ? and	u.contraseña = ? and	u.estado = 1 and c.estado = 1 and tu.estado = 1";
-	
+	private static final String insert = "INSERT INTO Usuario(usuario, dni, tipoUsuario, contraseña) VALUES (?,?,?,?)";
+
 	public Boolean IniciarSesion(Usuario usuario) {
 		
 		PreparedStatement statement;
@@ -51,7 +53,38 @@ public class UsuarioDaoImpl implements UsuarioDao {
 			return false;
 		}
 
+	}
+	
+	public boolean insert(Usuario usuario_a_agregar) {
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isInsertExitoso = false;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();   //setInt setDouble
 		}
+
+		try {
+			statement = conexion.prepareStatement(insert);
+			statement.setString(1, usuario_a_agregar.getUsuario());
+			statement.setString(2, usuario_a_agregar.getDni());
+			statement.setInt(3, usuario_a_agregar.getTipoUsuario().getCodTipo());
+			statement.setString(4, usuario_a_agregar.getContraseña());
+
+			if (statement.executeUpdate() > 0) {
+				conexion.commit();
+				isInsertExitoso = true;
+			}
+		} catch (SQLException e) {
+
+			System.out.println("Error al intentar ingresar el registro de usuario");
+		}
+
+		return isInsertExitoso;
+	}
+
 	
 	public void cargarUsuario(ResultSet rs, Usuario usuario) throws SQLException {
 		

@@ -94,7 +94,7 @@ ALTER TABLE Usuarios ADD FOREIGN KEY (dni) REFERENCES Clientes(dni);
 
 create table Cuentas
 (
-nroCuenta INT NOT NULL,
+nroCuenta INT NOT NULL AUTO_INCREMENT ,
 CBU BIGINT NOT NULL,
 dni VARCHAR(10),
 fecha_creacion date NOT NULL,
@@ -105,6 +105,7 @@ primary key (nroCuenta, CBU),
 foreign key (dni) references Clientes(dni) 
 );
 
+ALTER TABLE Cuentas AUTO_INCREMENT = 5230;
 ALTER TABLE Cuentas ADD FOREIGN KEY (tipoCuenta) REFERENCES TiposCuentas(codTipo);
 
 create table Movimientos
@@ -2822,15 +2823,15 @@ INSERT INTO TiposCuentas (tipoCuenta) VALUES ('Caja de Ahorro');
 INSERT INTO TiposCuentas (tipoCuenta) VALUES ('Cuenta Corriente');
 
 
-INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (5838, 0290010058382, '12345678', '2022-05-01', 1, 15000);
-INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (5837, 0291110058381, '12345678', '2022-07-01', 1, 10000);
-INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (4918, 0290010049187, '14151617', '2020-04-01', 1, 150000);
-INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (4998, 0440010049985, '14151617', '2018-10-02', 1, 230000);
-INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (2587, 0295410025877, '14151617', '2007-12-15', 1, 150000);
-INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (9513, 0290010095134, '91011123', '2020-04-01', 1, 18000);
+INSERT INTO Cuentas (CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (0290010058382, '12345678', '2022-05-01', 1, 15000);
+INSERT INTO Cuentas (CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (0291110058381, '12345678', '2022-07-01', 1, 10000);
+INSERT INTO Cuentas (CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (0290010049187, '14151617', '2020-04-01', 1, 150000);
+INSERT INTO Cuentas (CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (0440010049985, '14151617', '2018-10-02', 1, 230000);
+INSERT INTO Cuentas (CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (0295410025877, '14151617', '2007-12-15', 1, 150000);
+INSERT INTO Cuentas (CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (0290010095134, '91011123', '2020-04-01', 1, 18000);
 
 
-INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (4918, '2022-05-01', 1000, 4, 1000, '');
-INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (4918, '2022-05-07', 2000, 4, 3000, '');
-INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (4918, '2021-01-01', 5000, 3, 7000, '');
-INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (4918, '2022-05-01', 1500, 4, 5000, '');
+INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (9520, '2022-05-01', 1000, 4, 1000, '');
+INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (9520, '2022-05-07', 2000, 4, 3000, '');
+INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (9521, '2021-01-01', 5000, 3, 7000, '');
+INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (9521, '2022-05-01', 1500, 4, 5000, '');

@@ -21,6 +21,8 @@
 	sexo.add("M");
 	sexo.add("X");
 	ArrayList<Pais> listaPaises = null;
+	String dni = null;
+	
 	if(request.getAttribute("nacionalidad") != null)
 	{
 		listaPaises = (ArrayList<Pais>) request.getAttribute("nacionalidad");
@@ -33,7 +35,10 @@
 	}
 	
 	boolean agregado = false;
-	if( request.getAttribute("agregado") != null) agregado = (boolean)request.getAttribute("agregado");
+	if( request.getAttribute("agregado") != null) {
+		agregado = (boolean)request.getAttribute("agregado");
+		dni = (String) request.getAttribute("dni");
+	}
 	
 	
  %>
@@ -113,7 +118,7 @@
         <input id="email" type="email" required name="txtEmail">
       </p>
       <p class="button">
-        <input id="btnRegistrar" type="submit" value="Registrar" required name="btnAltaCliente">
+        <input id="btnRegistrar" type="submit" value="Registrar" name="btnAltaCliente">
       </p>
     </fieldset>
 
@@ -122,7 +127,7 @@
 </div>
   <%	}%>
 <div style="display:flex; flex-direction: column; align-items: center;">
-<% if( agregado == true) { %>	
+<% if( agregado == false) { %>	
 	<div>
 		<p style="font-size: 1.5rem;">Cliente agregado con éxito <p>
 	</div>
@@ -131,6 +136,12 @@
 		<%=request.getAttribute("resultado")%>
 	<%}%>
 	</div>
+	<form method="get" action="ServletUsuario">
+	  <p class="button">
+        <input id="btnRegistrar" type="submit" value="Alta Usuario Home Banking" name="btnAltaUsuario">
+        <input type="hidden" name="getDni" value=<%= dni %> >
+      </p>
+	</form>
 <%} %>
 </div>
 
