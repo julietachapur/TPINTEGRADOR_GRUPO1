@@ -17,6 +17,8 @@ public interface CuentaNegocio {
 	public List<Cuenta> readForClient(String dni);
 
 	public int readLast();
+	
+	public Cuenta readOne(int nroCuenta);
 
 	public boolean insert(String dni, int tc);
 

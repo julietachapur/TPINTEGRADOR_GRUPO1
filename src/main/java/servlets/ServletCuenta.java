@@ -110,7 +110,6 @@ public class ServletCuenta extends HttpServlet {
 	private void setearCurrentCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		RequestDispatcher rd;
-		//boolean cuentaSeleccionada = false;
 		int nroCuenta = Integer.parseInt(request.getParameter("cuentaSeleccionada"));
 		request.getSession().setAttribute("cuentaSeleccionada", nroCuenta);
 		rd = request.getRequestDispatcher("/gestionarCuentas.jsp");

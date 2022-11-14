@@ -136,6 +136,11 @@ table th {
     display:flex;
     text-align: center;
     border-radius:10px;
+    justify-content: center
+}
+
+.Cuenta-Tipo label{
+  align-self: center;
 }
 
 .Cuenta-Detalle{
@@ -243,19 +248,13 @@ table th {
    border-spacing: 0;
 }
 
+
 .tablaMovimientos {
    margin-top: 1rem;
    width: 70vw;
    border: 1px solid #000;
 }
 
-.tablaMovimientos th, .tablaMovimientos td {
-   width: 25%;
-   text-align: left;
-   vertical-align: top;
-   border: 1px solid #000;
-   border-spacing: 0;
-}
 
 .logged {
  text-align: right;

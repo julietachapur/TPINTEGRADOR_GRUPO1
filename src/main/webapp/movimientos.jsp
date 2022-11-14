@@ -1,5 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Cuenta" %>
+<%@page import="entidad.Movimiento" %>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.math.BigDecimal"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,29 +17,27 @@
 
 <% 
 
-	//BigDecimal currentCuenta = 0;
-	/*Usuario usuario = null;
-	if(request.getSession().getAttribute("Usuario") != null) {
-		usuario = (Usuario) request.getSession().getAttribute("Usuario");
-	}
+	BigDecimal currentSaldo = new BigDecimal(0);
+	ArrayList<Movimiento> listaMovimientos = null;
+	int currentCuenta = 0;
+	Cuenta cta = null;
+	int tipoCta = 0;
+	String nombreCta = null;
 	
-	ArrayList<Cuenta> listaCuentas = null;
 	if(request.getSession().getAttribute("cuentas") != null)
 	{
-		listaCuentas = (ArrayList<Cuenta>) request.getSession().getAttribute("cuentas");
-		currentCuenta = listaCuentas.get(0).getNroCuenta();
-	}*/
-	
-	/*if( request.getAttribute("cuentaSeleccionada") != null) 
-	{
 		currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
-	}*/
-	
-	/*if( request.getAttribute("saldo") != null) 
-	{
-		currentCuenta = (BigDecimal) request.getSession().getAttribute("saldo");
+		cta = (Cuenta) request.getAttribute("cuenta");
+		tipoCta = cta.getTipoCuenta().getCodTipo();
+		nombreCta = cta.getTipoCuenta().getTipoCuenta();
 	}
-		*/
+	
+	if( request.getAttribute("saldo") != null) 
+	{
+		currentSaldo = (BigDecimal) request.getAttribute("saldo");
+		listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("movimientos");
+	}
+		
 		
  %> 
  
@@ -46,39 +47,42 @@
 	
 	<section class="Cuenta">
 		<div class="Cuenta-Tipo">
+		<%  if(tipoCta == 1) {	%>
 			<label id="lblCuentaTipo">CA$</label>
+		<%	} else { %>
+				<label id="lblCuentaTipo">CC$</label>
+		<%	} %>
 		</div>
 		<div class="Cuenta-Detalle">
-			<label id="lblDisponibleCuenta">$95.454,77</label>
-			<label id="lblDetalleCuenta">Caja Ahorro pesos 4020981-3 420-20</label>
+			<label id="lblDisponibleCuenta">$<%= currentSaldo %></label>
+			<label id="lblDetalleCuenta"><%= nombreCta %> - Cuenta Nro: <%= currentCuenta %></label>
 		</div>
 	</section>
 	<section class="tabla-movimientos">
 	<table >
+		<thead>
 		<tr>
 			<th>Fecha</th>
-			<th>Descripcion</th>
+			<th>Importe</th>
 			<th>Tipo de movimiento</th>
-			<th>Monto</th>
+			<th>Saldo</th>
+			<th>Detalle</th>
 		</tr>
+		</thead>
+    	<tbody>
+		
+		<%  if(listaMovimientos != null)
+			for(Movimiento mov : listaMovimientos) 
+		{	%>
 		<tr>
-			<td>25/06/2022</td>
-			<td>Cuota 3</td>
-			<td>Pago de cuota</td>
-			<td>$1558</td>
+			<td><%= mov.getFecha() %> </td>
+			<td><%= mov.getImporte() %></td>
+			<td><%= mov.getTipoMovimiento().getTipoMovimiento() %></td>
+			<td><%= mov.getSaldo() %></td>
+			<td><%= mov.getDetalle()%></td>
 		</tr>
-		<tr>
-			<td>26/06/2022</td>
-			<td>Compra Moto</td>
-			<td>Transferencia</td>
-			<td>$1558</td>
-		</tr>
-		<tr>
-			<td>28/06/2022</td>
-			<td>Pago de haberes</td>
-			<td>Transferencia</td>
-			<td>$1558</td>
-		</tr>
+	<% }  %>
+		</tbody>
 	</table>
 	<div class="botones">
 		<button>Anterior</button>

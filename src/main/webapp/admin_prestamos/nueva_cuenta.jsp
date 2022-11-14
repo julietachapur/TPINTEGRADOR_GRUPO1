@@ -10,9 +10,9 @@
 <h2></h2>
 <div style="float:right">
 Usuario Loggeado<br>
-<a href="Index.jsp"> Inicio </a><br>
-<a href="Index.jsp"> Hacete Cliente </a><br>
-<a href="Index.jsp"> Clientes </a><br>
+<a href="index.jsp"> Inicio </a><br>
+<a href="index.jsp"> Hacete Cliente </a><br>
+<a href="index.jsp"> Clientes </a><br>
 </div>
 
 
