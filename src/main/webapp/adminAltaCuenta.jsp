@@ -1,5 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entidad.Cuenta" %>
+<%@page import="entidad.TipoCuenta" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -18,12 +19,17 @@
 
 <% 
 	ArrayList<Cuenta> listaCuentas= null;
+	ArrayList<TipoCuenta> listaTC= null;
 	String dni=null;
 	String resString=null;
 	Boolean resBoolean=false;
 	if(request.getAttribute("Cuentas")!=null)
 	{
 		listaCuentas = (ArrayList<Cuenta>) request.getAttribute("Cuentas");
+	}
+	if(request.getAttribute("listaTC")!=null)
+	{
+		listaTC = (ArrayList<TipoCuenta>) request.getAttribute("listaTC");
 	}
 	if(request.getAttribute("dni")!=null)
 	{
@@ -36,10 +42,6 @@
 	if(request.getAttribute("resBoolean")!=null)
 	{
 		resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
-	}
-	else
-	{
-		resBoolean = false;
 	}
  %>
  
@@ -91,14 +93,20 @@
 		   	</thead>
 		<tr>
 		    <th>Numero de cuenta</th>
+		    <th>CBU</th>
+		    <th>Fecha Creación</th>
 		    <th>Tipo de cuenta</th>
+		     <th>Saldo</th>
 		</tr>
 		<%
 		for(Cuenta c:listaCuentas)
 		{%>
 		<tr>
 			<td><%=c.getNroCuenta() %></td>
+			<td><%=c.getCbu() %></td>
+			<td><%=c.getFecha_creacion() %></td>
 			<td><%=c.getTipoCuenta().getTipoCuenta() %></td>
+			<td>$<%=c.getSaldo() %></td>
 		</tr>
 		<%}%>
 		</table>

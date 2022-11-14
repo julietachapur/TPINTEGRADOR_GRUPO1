@@ -39,7 +39,7 @@ public class ServletCuenta extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if (request.getParameter("btnBuscar") != null) {
-			cargarDesplegables(request, response);
+			cargarBusquedaDeCuentas(request, response);
 		}
 
 
@@ -59,7 +59,7 @@ public class ServletCuenta extends HttpServlet {
 	}
 
 
-	private void cargarDesplegables(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void cargarBusquedaDeCuentas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
 		
 		CuentaNegocio neg = new CuentaNegocioImpl();
