@@ -127,7 +127,7 @@
 </div>
   <%	}%>
 <div style="display:flex; flex-direction: column; align-items: center;">
-<% if( agregado == false) { %>	
+<% if( agregado == true) { %>	
 	<div>
 		<p style="font-size: 1.5rem;">Cliente agregado con éxito <p>
 	</div>

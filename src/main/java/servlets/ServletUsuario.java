@@ -168,6 +168,7 @@ public class ServletUsuario extends HttpServlet {
 						System.out.println(us); 
 						request.setAttribute("agregado", agregado);
 						mensaje = "Usuario registrado con éxito";
+						request.setAttribute("usuario", us);
 						request.setAttribute("mensaje", mensaje);
 
 					}
@@ -181,11 +182,11 @@ public class ServletUsuario extends HttpServlet {
 				request.setAttribute("mensaje", mensaje);
 				request.setAttribute("agregado", agregado);
 				request.setAttribute("usuario", us);
-				rd = request.getRequestDispatcher("altaUsuario.jsp");
 				cargarDesplegables(dni, request, response);
-				rd.forward(request, response);
 			}
-
+			
+			rd = request.getRequestDispatcher("altaUsuario.jsp");
+			rd.forward(request, response);
 			
 		}
 

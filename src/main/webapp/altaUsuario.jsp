@@ -69,7 +69,7 @@
         <label for="usuario">Usuario</label>
         <input id="usuario" type="text"required name="txtUsuario">
       </p>
-      <% } else { %>
+      <% } else if(us != null && agregado == false) { %>
       <p class="inputForm">
         <label for="dni">DNI</label>
         <input id="dni" type="text" value=<%= dni %> disabled > <input type="hidden" name="txtDNI" value=<%= dni %> >
@@ -111,7 +111,7 @@
 </div>
   <%	}%>
 <div style="display:flex; flex-direction: column; align-items: center;">
-<% if( agregado == false ) { %>
+<% if( us != null ) { %>
 	<div>
 	<% if(request.getAttribute("mensaje") != null) {%>
 		<p style="font-size: 1.5rem;"> <%=mensaje%> </p>

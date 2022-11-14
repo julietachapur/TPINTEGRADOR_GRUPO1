@@ -9,7 +9,7 @@ public interface UsuarioDao {
 	
 	public boolean insert(Usuario usuario);
 
-/*	public boolean logicalDeletion(Usuario usuario_a_eliminar); // Baja lógica
+	public boolean logicalDeletion(Usuario usuario_a_eliminar); // Baja lógica
 
 	public boolean update(Usuario usuario_a_modificar);
 
@@ -17,7 +17,7 @@ public interface UsuarioDao {
 	
 	public List<Usuario> readAll();
 
-	public String readLast();*/
+//	public String readLast();
 
 
 }

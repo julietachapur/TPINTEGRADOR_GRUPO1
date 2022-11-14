@@ -2,10 +2,11 @@ package negocioImpl;
 
 import entidad.Usuario;
 import negocio.UsuarioNegocio;
-import dao.ClienteDao;
 import dao.UsuarioDao;
-import daoImpl.ClienteDaoImpl;
 import daoImpl.UsuarioDaoImpl;
+
+import java.util.List;
+
 
 public class UsuarioNegocioImpl implements UsuarioNegocio {
 	
@@ -27,5 +28,42 @@ public class UsuarioNegocioImpl implements UsuarioNegocio {
 		estado = uDao.insert(usuario);
 		return estado;
 	}
+	
+	public boolean update(Usuario usuario) {
+
+		boolean estado = false;
+		estado = uDao.update(usuario);
+		
+		return estado;
+	}
+
+	public boolean logicalDeletion(Usuario usuario_a_eliminar) {
+		boolean estado = false;
+		try {
+			if (usuario_a_eliminar.getDni() != null) {
+				estado = uDao.logicalDeletion(usuario_a_eliminar);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return estado;
+	}
+
+
+	public List<Usuario> readAll() {
+
+		List<Usuario> lUsuarios;
+		lUsuarios = uDao.readAll();
+		return lUsuarios;
+	}
+	
+	public Usuario readOne(String dni) {
+		
+		Usuario usuario = new Usuario();
+		usuario = uDao.readOne(dni);
+		
+		return usuario;
+	}
+
 
 }
