@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="entidad.Usuario" %>
-<%@page import="entidad.Cliente" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@page session="true"%>
 <!DOCTYPE html>
 <html>
@@ -12,14 +12,14 @@
 	</style>
 	<title>Inicio - Cliente</title>
 </head>
-<body onLoad="bienvenida();"> 
-	<a href="index.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
+<body onLoad="bienvenida();">
+	<a href="login.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
 	<div class="menu">
 	<h1>Panel Cliente</h1>
-	<span>Seleccione la opciï¿½n deseada: </span>
+	<span>Seleccione la opción deseada: </span>
 			<div class="opcionesMenu">
-				<a href="gestionarCuentas.jsp"> Cuentas </a>  
-				<a href="clienteInforPersonal.jsp"> Informaciï¿½n personal </a>
+				<a href="gestionarCuentas.jsp"> Seleccionar Cuentas </a>  
+				<a href="clienteInforPersonal.jsp"> Información personal </a>
 			  	<a href="informes.jsp"> Informes </a>
 			</div>
 	</div>
@@ -35,7 +35,10 @@
 		<%
 			}
 		 	else {
-		 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/Index.jsp");
+		 %>
+		 //alert("INICIE SESION PARA CONTINUAR.");
+		 <%
+		 	response.sendRedirect("/index.jsp");
 		 	}
 		%>
 	</script>

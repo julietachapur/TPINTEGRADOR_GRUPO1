@@ -20,65 +20,75 @@
 <a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1 style="margin:auto;text-align:center;margin-bottom:30px;">Transferencias</h1>
 <%
-	ArrayList<Cuenta> cuentasList = null;
-	if(session.getAttribute("Usuario")!=null && request.getParameter("cuenta")!=null){	
+	Cuenta cuenta = new Cuenta();
+	int currentCuenta;
+	if(session.getAttribute("Usuario")!=null && request.getParameter("getCuenta")!=null && request.getSession().getAttribute("cuentaSeleccionada")!=null){	
 		Usuario usuario = new Usuario();
 		usuario = (Usuario)session.getAttribute("Usuario");	
-		//CuentaNegocioImpl cuentas = new CuentaNegocioImpl();
-		//cuentasList = (ArrayList<Cuenta>)cuentas.readForClient(usuario.getcliente().getDni());
-		//if (cuentasList.isEmpty())
-			
+		CuentaNegocioImpl cuentas = new CuentaNegocioImpl();
+		currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
+		cuenta = cuentas.readOne(currentCuenta);
+		
 	}
 	else {
-		%>
-		<script>
-			alert("Inicie sesion para continuar");
-		</script>
-		<%
- 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/Index.jsp");
+	%>
+	<script>
+		alert("Permiso denegado. Inicie sesion para continuar")
+	</script>
+	<%
+ 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/index.jsp");
 	}
 %>
-<form class="form" method="post" action="ServletTransferencia">
+<form class="form" method="post">
     <fieldset>
       <legend>Nueva transferencia</legend>
       <p class="inputForm">
       	<label >Cuenta origen</label>
- 		<select id="select-cuentas">	
-        	<option value="0">Seleccione una cuenta</option>
-        	<%for(Cuenta c: cuentasList){%>
-        	<option value="<%=c.getNroCuenta()%>-<%=c.getSaldo()%>"><%=c.getCbu()%></option>
-        	<%}%>
-        </select>
-      </p>
+      	<input readonly value="<%=cuenta.getCbu()%>" type="text">
+      	<input hidden value="<%=cuenta.getNroCuenta()%>" type="text" name="ctaOrigen">
+      </p>    
       <p class="inputForm">
-      	<label>Importe disponible</label>
-      	<input readonly type="text" id="ImporteDisponible" value="$0">
-      </p>      
+        <label for="txtImporteDisponible">Importe disponible: </label>
+        <input id="txtImporteDisponible" type="text" value="$<%=cuenta.getSaldo()%>" name="txtImporteDisponible" readonly>
+      </p>  
       <p class="inputForm">
-        <label for="txtCbu">CBU destino</label>
+        <label for="txtCbuDestino">CBU destino:</label>
         <input id="txtCbu" type="text"required name="txtCbu" placeholder="CBU..">
       </p>
       <p class="inputForm">
-        <label for="txtDNI">DNI destino</label>
+        <label for="txtDNI">DNI destino:</label>
         <input id="txtDNI" type="text"required name="txtDNI" placeholder="DNI..">
       </p>
       <p class="inputForm">
-        <label for="txtMonto">Monto a transferir</label>
-        <input id="txtMontoi" type="text"required name="txtMonto" placeholder="$00,00">
+        <label for="txtMonto">Monto: </label>
+        <input id="txtMonto" type="text"required name="txtMonto"  placeholder="$00,00">
       </p>
       <p class="button">
-        <input id="btnRealizarTransferencia" type="submit" value="Transferir" required name="btnRealizarTransferencia">
+        <button id="btnRealizarTransferencia" name="btnRealizarTransferencia" onclick="confirmar();">Transferir</button>
       </p>
     </fieldset>
-	<script>
-		var cuentas = document.getElementById("select-cuentas");
-		cuentas.addEventListener('click', mostrarImporte());
-		
-		function mostrarImporte(){
-			
+</form>	
+<script>
+
+	function confirmar(){
+		var monto = document.getElementById('txtMonto');
+		var dni = document.getElementById('txtDNI');
+		var cbu = document.getElementById('txtCbu');
+		if (monto.value == "" || dni.value =="" || cbu.value ==""){
+			alert("Llene los campos");
 		}
-	
-	</script>
-</form>		
+		else if(isNaN(monto.value)|| isNaN(dni.value) || isNaN(cbu.value)){
+			alert("Los datos ingresados no estan en el formato correcto.");
+		}
+		else if (<%=cuenta.getSaldo()%><monto.value){
+			alert("El saldo de la cuenta es insuficiente para realizar la transferencia");
+		}
+		else if (confirm("Presione aceptar para confirmar la transferencia..")){
+			document.forms[0].action = "ServletTransferencia";
+			document.forms[0].submit();
+		}
+	}
+
+</script>	
 </body>
 </html>

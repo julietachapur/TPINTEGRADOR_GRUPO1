@@ -13,14 +13,11 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ceci/Desktop/GitHub/Cuatri2/TPINTEGRADOR_GRUPO1/mysql-connector-j-8.0.31.jar">
+	<classpathentry kind="lib" path="C:/Users/Adm/TPINTEGRADOR_GRUPO1/mysql-connector-java-8.0.30.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Adm/TPINTEGRADOR_GRUPO1/javax.servlet-api-3.1.0.jar"/>
-	<classpathentry kind="lib" path="json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 10.0/lib/annotations-api.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 10.0/lib/catalina.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 10.0/lib/catalina-ant.jar"/>

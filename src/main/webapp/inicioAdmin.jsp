@@ -31,7 +31,7 @@
 		 		usuario = (Usuario)session.getAttribute("Usuario");
 			}
 		 	else {
-		 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/Index.jsp");
+		 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/index.jsp");
 		 	}
 		%>
 </script>

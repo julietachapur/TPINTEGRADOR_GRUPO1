@@ -117,12 +117,6 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 }
 	}
 	
-	public Cuenta obtenerCuenta(String Dni) {
-		
-		
-		return new Cuenta();
-	}
-
 	public boolean verificarMaxCuentas(String dni) {
 		CuentaDao cDao = new CuentaDaoImpl();
 		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) cDao.readForClient(dni);
