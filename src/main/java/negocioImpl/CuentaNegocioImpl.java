@@ -45,6 +45,11 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		return lCuentas_x_usuario; 
 	}
 
+	public Cuenta readOne(int nroCta){
+		Cuenta cta = new Cuenta();
+		cta = cDao.readOne(nroCta);
+		return cta; 
+	}
 
 
 
@@ -120,4 +125,6 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		}
 		return false;
 	}
+
+
 }

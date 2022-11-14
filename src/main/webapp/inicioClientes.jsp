@@ -38,7 +38,7 @@
 		 %>
 		 //alert("INICIE SESION PARA CONTINUAR.");
 		 <%
-		 	response.sendRedirect("/Index.jsp");
+		 	response.sendRedirect("/index.jsp");
 		 	}
 		%>
 	</script>
