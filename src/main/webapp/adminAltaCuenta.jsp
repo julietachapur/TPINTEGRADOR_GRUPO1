@@ -12,7 +12,7 @@
 </style>
 <title>Alta Cuenta - Admin</title>
 </head>
-<body>
+<body onLoad="resultado();">
 <div class="logged">loggeado</div>
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 
@@ -20,6 +20,7 @@
 	ArrayList<Cuenta> listaCuentas= null;
 	String dni=null;
 	String res=null;
+	
 	if(request.getAttribute("Cuentas")!=null)
 	{
 		listaCuentas = (ArrayList<Cuenta>) request.getAttribute("Cuentas");
@@ -33,6 +34,10 @@
 		res =  request.getAttribute("resultado").toString();
 	}
  %>
+ 
+ 
+
+ 
 <div class="menu">
 	<h2>Alta de Cuenta</h2>
 	 <form method="get" action="ServletCuenta">
@@ -40,15 +45,32 @@
 		 <input type="text" name="txtdni" required>
 		 <input type="submit" value="Buscar" name="btnBuscar">
 	 </form>
-	<% 
-	if(res!=null)
-{%>
-<script>
-alert("<%=res%>");
-</script>
-	<%}
-	if(listaCuentas != null)
-	if(!listaCuentas.isEmpty())
+	
+	<script>
+		<%
+		 	if(res!=null){	
+		 		if(!res.equals("go") || !res.equals("ne"))
+		 			{%>
+		 			
+					function resultado(){alert("<%=res%>");}
+					
+					<%}
+				else
+					{%>
+					function resultado(){alert("No existe el cliente seleecionado");}
+				<%}
+		 	}%>
+		
+		
+		
+		
+		
+		
+		
+	</script>
+	<%	
+	if(listaCuentas != null && res != null)
+		if(!res.equals("ne"))
 	{%>
 		<table >
 		<thead>
@@ -81,14 +103,8 @@ alert("<%=res%>");
 </form>
 		<%  	
 	}
-	else{%>
-	
-		<script>
-		alert("No existe el Cliente Solicitado");
-		</script>
-		
-		<%}%>
-		
+		%>
+
 		 </div>
 </body>
 </html>

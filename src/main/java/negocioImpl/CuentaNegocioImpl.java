@@ -109,7 +109,7 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		ClienteDao clienteDao = new ClienteDaoImpl();
 		try										
 		{
-		return !clienteDao.readOne(dni).equals(dni);
+		return clienteDao.readOne(dni).getDni().equals(dni);
 		}
 		catch(Exception e) {
            return false;

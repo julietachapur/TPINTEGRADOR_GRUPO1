@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,11 +46,6 @@ public class ServletCuenta extends HttpServlet {
 		if (request.getParameter("btnAgregar") != null) {
 			registrarCuenta(request, response);
 		}		
-		
-		
-		if (request.getParameter("btnSeleccionar") != null) {
-			setearCurrentCuenta(request, response);
-		}
 
 	}
 
@@ -64,12 +60,33 @@ public class ServletCuenta extends HttpServlet {
 
 
 	private void cargarDesplegables(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CuentaDao p = new CuentaDaoImpl();
+	
+		
+		CuentaNegocio neg = new CuentaNegocioImpl();
 		////String dni = request.getParameter("txtdni");
+		String resultado = null;
 		String dni = request.getParameter("txtdni");
-		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) p.readForClient(dni);
+		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) neg.readForClient(dni);
+		if(neg.verificarCliente(dni))
+		{
+			if(lCuenta == null)
+			{
+				PrintWriter out = response.getWriter();
+				out.println();
+				
+				resultado="ne";
+			}
+			if(lCuenta.isEmpty())
+				resultado="El cliente no tiene cuentas asociadas";
+			else
+				resultado="go";
+		}
+		else
+			resultado="ne";
+			
 		request.setAttribute("Cuentas", lCuenta);
 		request.setAttribute("dni", dni);
+		request.setAttribute("resultado", resultado);
 		RequestDispatcher rd = request.getRequestDispatcher("/adminAltaCuenta.jsp");
 		rd.forward(request, response);
 	}
@@ -83,6 +100,7 @@ public class ServletCuenta extends HttpServlet {
 		CuentaNegocio neg = new CuentaNegocioImpl();
 		String resultado="";
 		if(neg.verificarCliente(dni))
+		{
 			if(!neg.verificarMaxCuentas(dni))
 			{
 			 agregado = neg.insert(dni,tc);
@@ -98,6 +116,7 @@ public class ServletCuenta extends HttpServlet {
 			}
 			else
 				resultado="El cliente  tiene mas de 3 cuentas a su nombre";
+		}
 		else
 			resultado="El cliente no existe";
 			
