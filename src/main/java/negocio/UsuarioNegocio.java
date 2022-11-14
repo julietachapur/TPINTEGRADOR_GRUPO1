@@ -12,7 +12,7 @@ public interface UsuarioNegocio {
 	
 	public boolean logicalDeletion(Usuario usuario_a_eliminar); // Baja lógica
 
-	public boolean update(Usuario usuario_a_modificar);
+
 
 	public Usuario readOne(String dni);
 	
