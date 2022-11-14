@@ -44,6 +44,11 @@ public class ServletCuenta extends HttpServlet {
 
 		if (request.getParameter("btnAgregar") != null) {
 			registrarCuenta(request, response);
+		}		
+		
+		
+		if (request.getParameter("btnSeleccionar") != null) {
+			setearCurrentCuenta(request, response);
 		}
 
 	}
@@ -71,7 +76,6 @@ public class ServletCuenta extends HttpServlet {
 
 	private void registrarCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-	
 		RequestDispatcher rd;
 		boolean agregado = false;
 		int tc = Integer.parseInt(request.getParameter("TC"));
@@ -102,5 +106,17 @@ public class ServletCuenta extends HttpServlet {
 			rd.forward(request, response);
 		}
 			
-		}
+	
+	private void setearCurrentCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		RequestDispatcher rd;
+		int nroCuenta = Integer.parseInt(request.getParameter("cuentaSeleccionada"));
+		request.getSession().setAttribute("cuentaSeleccionada", nroCuenta);
+		rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
+		rd.forward(request, response);
+	
+	}
+
+
+}
 		

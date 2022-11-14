@@ -1,23 +1,31 @@
 package servlets;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import entidad.Cliente;
 import entidad.Usuario;
+import entidad.Cuenta;
+import negocio.ClienteNegocio;
+import negocioImpl.ClienteNegocioImpl;
+import negocioImpl.UsuarioNegocioImpl;
+import negocioImpl.CuentaNegocioImpl;
+import negocio.CuentaNegocio;
 
-/*
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-*/
 
+/*
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import negocioImpl.UsuarioNegocioImpl;
+*/
 
 
 /**
@@ -59,7 +67,7 @@ public class ServletUsuario extends HttpServlet {
 				rd.forward(request, response);
 			}
 			else {
-				rd = request.getRequestDispatcher("/Index.jsp");
+				rd = request.getRequestDispatcher("/index.jsp");
 				request.setAttribute("SesionFallida", true);
 				rd.forward(request, response);
 			}	
@@ -86,11 +94,21 @@ public class ServletUsuario extends HttpServlet {
 		
 		if (usuNeg.IniciarSesion(usuario)) {
 			request.getSession().setAttribute("Usuario", usuario);
+			cuentasUsuario(request, usuario);
 			return true; 
 		}	
 		else 
 			return false;
 		
+		}
+	
+		private void cuentasUsuario(HttpServletRequest request, Usuario usuario) {
+			CuentaNegocio cuenta = new CuentaNegocioImpl(); 
+			ArrayList<Cuenta> cta = (ArrayList<Cuenta>) cuenta.readForClient(usuario.getDni());	
+			
+			request.getSession().setAttribute("cuentas", cta);
+	        //System.out.println(request.getSession().getAttribute("cuentas")); 
+
 		}
 	
 }

@@ -13,8 +13,12 @@ public interface CuentaNegocio {
 	public boolean update(Cuenta cuenta_a_modificar);
 
 	public List<Cuenta> readAll();
+	
+	public List<Cuenta> readForClient(String dni);
 
 	public int readLast();
+	
+	public Cuenta readOne(int nroCuenta);
 
 	public boolean insert(String dni, int tc);
 

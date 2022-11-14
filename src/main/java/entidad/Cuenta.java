@@ -1,12 +1,13 @@
 package entidad;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 
 public class Cuenta {
 	
-	private int nroCuenta;  // ¿BigInteger?
-	private int cbu;  
+	private int nroCuenta;  
+	private Long cbu;  
 	private Cliente dni;
 	private Date fecha_creacion; 
 	private TipoCuenta tipoCuenta;
@@ -15,7 +16,7 @@ public class Cuenta {
 
 	public Cuenta() { }
 
-	public Cuenta(int nroCuenta, int cbu, Cliente dni, Date fecha_creacion, TipoCuenta tipoCuenta, BigDecimal saldo,
+	public Cuenta(int nroCuenta, Long cbu, Cliente dni, Date fecha_creacion, TipoCuenta tipoCuenta, BigDecimal saldo,
 			boolean estado) {
 		this.nroCuenta = nroCuenta;
 		this.cbu = cbu;
@@ -34,11 +35,11 @@ public class Cuenta {
 		this.nroCuenta = nroCuenta;
 	}
 
-	public int getCbu() {
+	public Long getCbu() {
 		return cbu;
 	}
 
-	public void setCbu(int cbu) {
+	public void setCbu(Long cbu) {
 		this.cbu = cbu;
 	}
 

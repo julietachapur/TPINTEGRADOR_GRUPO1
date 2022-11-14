@@ -64,7 +64,7 @@
 	%>
       <p class="inputForm">
         <label for="dni">DNI</label>
-        <input id="dni" type="text" required name="txtDNI" value=<%= cl.getDni() %> >
+        <input id="dni" type="text" value=<%= cl.getDni() %> disabled > <input type="hidden" name="txtDNI" value=<%= cl.getDni() %> >
       </p>
       <p class="inputForm">
         <label for="nombres">Nombre</label>
