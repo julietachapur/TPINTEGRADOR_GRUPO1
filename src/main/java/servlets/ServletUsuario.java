@@ -104,10 +104,11 @@ public class ServletUsuario extends HttpServlet {
 	
 		private void cuentasUsuario(HttpServletRequest request, Usuario usuario) {
 			CuentaNegocio cuenta = new CuentaNegocioImpl(); 
-			ArrayList<Cuenta> cta = (ArrayList<Cuenta>) cuenta.readForClient(usuario.getDni());	
+			ArrayList<Cuenta> cta = (ArrayList<Cuenta>) cuenta.readForClient(usuario.getDni());		
+			int nroCuenta = cta.get(0).getNroCuenta();
 			
+			request.getSession().setAttribute("cuentaSeleccionada", nroCuenta);
 			request.getSession().setAttribute("cuentas", cta);
-	        //System.out.println(request.getSession().getAttribute("cuentas")); 
 
 		}
 	
