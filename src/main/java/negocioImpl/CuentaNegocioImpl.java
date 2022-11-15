@@ -70,7 +70,6 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		{
 			if( cuenta.getNroCuenta()  > 0 )
 			{
-				cuenta.setEstado(false);
 				estado=cDao.delete(cuenta);
 			}
 		}

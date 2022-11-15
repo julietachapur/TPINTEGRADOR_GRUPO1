@@ -55,10 +55,19 @@
 <div class="menu">
 	<h2>Baja de Cuenta</h2>
 	<%
-		if(!resBoolean && resString!= null){%>
+		if(resString!= null && !resString.equals("go"))
+		{
+		if(!resBoolean){%>
 	<br>
 	 <h2 style="color:red;"><%=resString%></h2>
-	<%}%>
+	<%}
+		else
+		{%>
+			<br>
+	 	<h2 style="color:green;"><%=resString%></h2>
+		<%}
+		}
+	%>
 		 
 	 <form method="get" action="ServletCuenta">
 		 <label for="labeldni">Buscar DNI:</label><br>
@@ -114,6 +123,6 @@
 		<%}}%>
 		</table>
  </form>
-	 
+	 </div>
 </body>
 </html>

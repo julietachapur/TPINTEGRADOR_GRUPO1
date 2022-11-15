@@ -22,7 +22,7 @@ import entidad.Cliente;
 
 public class CuentaDaoImpl implements CuentaDao{
 	private static final String insert = "{CALL agregarCuenta(?,?,?)}";
-	private static final String logicalDeletion = "UPDATE Cuentas set estado = 0 Where nroCuenta = ?";
+	private static final String logicalDeletion = "UPDATE Cuentas set estado = false Where nroCuenta = ?";
 	private static final String readall = "SELECT * FROM Cuentas";
 	private static final String readlast = "SELECT * FROM Cuentas ORDER by nroCuenta DESC LIMIT 1";
 	private static final String readOne = "SELECT * FROM Cuentas Where nroCuenta = ?";
@@ -71,7 +71,7 @@ public class CuentaDaoImpl implements CuentaDao{
 		}
 		try {
 			statement = conexion.prepareStatement(logicalDeletion);
-			statement.setBoolean(1, cuenta_a_eliminar.isEstado());
+			statement.setInt(1, cuenta_a_eliminar.getNroCuenta());
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isLogicalDeletionExitoso = true;

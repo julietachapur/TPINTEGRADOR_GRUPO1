@@ -181,7 +181,7 @@ public class ServletCuenta extends HttpServlet {
 		if (borrado) 
 			resString="Cuenta dada de baja Satisfactoriamente";
 		else
-					resString="Cuenta "+neg.readOne(nroCuenta).getNroCuenta()+" no pudo ser dada de baja satisfactoriamente";
+			resString="Cuenta "+neg.readOne(nroCuenta).getNroCuenta()+" no pudo ser dada de baja satisfactoriamente";
 				
 				request.setAttribute("resString", resString);
 				request.setAttribute("resBoolean", borrado);
