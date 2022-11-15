@@ -13,6 +13,8 @@ public interface ClienteNegocio {
 	public boolean update(Cliente cliente_a_modificar);
 	
 	public List<Cliente> readAll();
+	
+	public Cliente readOne(String dni);
 
 	public String readLast();
 }

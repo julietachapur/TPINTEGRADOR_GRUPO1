@@ -48,6 +48,14 @@ public class ClienteNegocioImpl implements ClienteNegocio {
 		lClientes = cDao.readAll();
 		return lClientes;
 	}
+	
+	
+	public Cliente readOne(String dni) {
+
+		Cliente cliente;
+		cliente = cDao.readOne(dni);
+		return cliente;
+	}
 
 
 	public String readLast() {
