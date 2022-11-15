@@ -26,5 +26,7 @@ public interface CuentaNegocio {
 	
 	boolean verificarCliente(String dni);
 	
+	public Cuenta readOneCbu(String cbu);
+	
 	
 }

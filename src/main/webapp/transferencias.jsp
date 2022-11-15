@@ -22,13 +22,13 @@
 <%
 	Cuenta cuenta = new Cuenta();
 	int currentCuenta;
-	if(session.getAttribute("Usuario")!=null && request.getParameter("getCuenta")!=null && request.getSession().getAttribute("cuentaSeleccionada")!=null){	
+	CuentaNegocioImpl cuentas = new CuentaNegocioImpl();
+	
+	if(session.getAttribute("Usuario")!=null && request.getParameter("getCuenta")!=null){	
 		Usuario usuario = new Usuario();
 		usuario = (Usuario)session.getAttribute("Usuario");	
-		CuentaNegocioImpl cuentas = new CuentaNegocioImpl();
-		currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
+		currentCuenta = Integer.parseInt(request.getParameter("getCuenta"));
 		cuenta = cuentas.readOne(currentCuenta);
-		
 	}
 	else {
 	%>
@@ -45,7 +45,7 @@
       <p class="inputForm">
       	<label >Cuenta origen</label>
       	<input readonly value="<%=cuenta.getCbu()%>" type="text">
-      	<input hidden value="<%=cuenta.getNroCuenta()%>" type="text" name="ctaOrigen">
+      	<input hidden value="<%=cuenta.getNroCuenta()%>" type="text" id="txtCtaOrigen" name="txtCtaOrigen">
       </p>    
       <p class="inputForm">
         <label for="txtImporteDisponible">Importe disponible: </label>
@@ -63,13 +63,16 @@
         <label for="txtMonto">Monto: </label>
         <input id="txtMonto" type="text"required name="txtMonto"  placeholder="$00,00">
       </p>
+      <p class="inputForm">
+        <label for="txtDetalle">Detalle: </label>
+        <input id="txtDetalle" type="text" name="txtDetalle"  placeholder="..">
+      </p>
       <p class="button">
-        <button id="btnRealizarTransferencia" name="btnRealizarTransferencia" onclick="confirmar();">Transferir</button>
+        <button id="btnRealizarTransferencia" name="btnRealizarTransferencia" onclick="confirmar();" value="1">Transferir</button>
       </p>
     </fieldset>
 </form>	
 <script>
-
 	function confirmar(){
 		var monto = document.getElementById('txtMonto');
 		var dni = document.getElementById('txtDNI');
@@ -83,12 +86,14 @@
 		else if (<%=cuenta.getSaldo()%><monto.value){
 			alert("El saldo de la cuenta es insuficiente para realizar la transferencia");
 		}
+		else if(monto.value<500){
+			alert("El monto minimo de transferencia es de $500");
+		}
 		else if (confirm("Presione aceptar para confirmar la transferencia..")){
 			document.forms[0].action = "ServletTransferencia";
 			document.forms[0].submit();
 		}
 	}
-
 </script>	
 </body>
 </html>

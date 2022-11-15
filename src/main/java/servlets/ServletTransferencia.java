@@ -2,12 +2,8 @@ package servlets;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Date;
 
-import daoImpl.CuentaDaoImpl;
-import daoImpl.MovimientoDaoImpl;
 import entidad.Cuenta;
-import entidad.Movimiento;
 import entidad.TipoMovimiento;
 
 /*
@@ -24,7 +20,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import negocioImpl.UsuarioNegocioImpl;
+
+import negocioImpl.CuentaNegocioImpl;
+import negocioImpl.TransferenciaNegocioImpl;
 
 
 /**
@@ -47,73 +45,72 @@ public class ServletTransferencia extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if (request.getAttribute("btnRealizarTransferencia")!=null) {
-			realizarTransferencia(request,response);
-		}
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		if (request.getParameter("btnRealizarTransferencia")!=null) {
+			try {
+				realizarTransferencia(request,response);
+				RequestDispatcher rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
+				rd.forward(request, response);
+			}
+			catch(IOException e) {
+				request.setAttribute("errorBD", true);
+				RequestDispatcher rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
+				rd.forward(request, response);
+			}
+		}
+		
+		
 	}
 	
 	public void realizarTransferencia(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String ctaOrigen = request.getParameter("ctaOrigen");
+		/*Verifico que exista el CBU de destino*/
+		String cbuDestino = request.getParameter("txtCbu");
+		Cuenta cueDestino = new Cuenta();
+		CuentaNegocioImpl cuentaDaoD = new CuentaNegocioImpl();
+		cueDestino =cuentaDaoD.readOneCbu(cbuDestino);
+		if(cueDestino.getCbu()== null) {
+			request.setAttribute("CBUInexistente", true);
+			return ;
+		}
+		
+		/*Levanto los datos*/
+		String ctaOrigen = request.getParameter("txtCtaOrigen");
 		String DNI = request.getParameter("txtDNI");
-		String cbuDestino = request.getParameter("txtCbuDestino");
 		String importe = request.getParameter("txtMonto");
-		BigDecimal saldo;
+		String detalle = request.getParameter("txtDetalle");
+		BigDecimal saldoOrigen;
+		BigDecimal SaldoDestino;
+        
+		/*Levanto la cuenta de origen*/
+		Cuenta cueOrigen = new Cuenta();
+		cueOrigen =cuentaDaoD.readOne(Integer.parseInt(ctaOrigen));
 		
-		/*Valido todo ya que los datos se pueden alterar desde el front,
-		 * tambien debo verificar que esa cuenta le pertenezca al usuario
-		 * iniciado en la session*/
-		try {
-			Double.parseDouble(importe);
-			Integer.parseInt(DNI);
-			Integer.parseInt(cbuDestino);
-			Integer.parseInt(ctaOrigen);
-		}
-		catch(NumberFormatException e) {
-			request.setAttribute("errorFormato", true);
-			RequestDispatcher rd = request.getRequestDispatcher("/TPINTEGRADOR_GRUPO1/gestionarCuentas.jsp");
-			rd.forward(request, response);
-			
-		}
 		
-		/*Cuenta destino - Conseguir Nro Cuenta mediante DNI - y etc etc..*/
-		CuentaDaoImpl cuentaDaoD = new CuentaDaoImpl();
-		Cuenta cueD = new Cuenta();
-		cueD =cuentaDaoD.readOne(Integer.parseInt(ctaOrigen));
-		Date fecha = null;
-		TipoMovimiento Tmov= new TipoMovimiento(4,"Transferencia",true);
+		/*Calculo los nuevos saldos de las cuentas*/
 		BigDecimal importeBig = new BigDecimal(importe);
-		saldo = cue.getSaldo().subtract(importeBig);
-		
+		SaldoDestino = cueDestino.getSaldo().add(importeBig);
+		saldoOrigen = cueOrigen.getSaldo().subtract(importeBig);
 		
 		/*Cuenta origen*/
-		CuentaDaoImpl cuentaDao = new CuentaDaoImpl();
-		Cuenta cue = new Cuenta();
-		cue =cuentaDao.readOne(Integer.parseInt(ctaOrigen));
-		Date fecha = null;
 		TipoMovimiento Tmov= new TipoMovimiento(4,"Transferencia",true);
-		BigDecimal importeBig = new BigDecimal(importe);
-		saldo = cue.getSaldo().subtract(importeBig);
 		
-		/*Movimiento cuenta de origen*/
-		Movimiento mov = new Movimiento(cue, fecha, saldo, Tmov, saldo, "Transferencia" );
-		MovimientoDaoImpl movimiento = new MovimientoDaoImpl();
-		movimiento.insert(mov);
+		TransferenciaNegocioImpl Transferencia = new TransferenciaNegocioImpl();
+		if (Transferencia.DoTransfer(cueOrigen, cueDestino, importeBig, Tmov, detalle))
+			request.setAttribute("Transferencia", true);
+	
+		else 
+			request.setAttribute("Transferencia", false);
+		return;
+			
 		
-		/*Movimiento cuenta de destino*/
-		
-		
-		
-		
-		
-
 	}
 
 }

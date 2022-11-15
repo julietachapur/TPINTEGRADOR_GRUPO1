@@ -50,7 +50,12 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		cta = cDao.readOne(nroCta);
 		return cta; 
 	}
-
+	
+	public Cuenta readOneCbu(String cbu){
+		Cuenta cta = new Cuenta();
+		cta = cDao.readOneCbu(cbu);
+		return cta; 
+	}
 
 
 
