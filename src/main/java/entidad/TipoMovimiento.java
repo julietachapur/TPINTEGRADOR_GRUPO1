@@ -6,7 +6,9 @@ public class TipoMovimiento {
 	private String tipoMovimiento;
 	private boolean estado;
 
-	public TipoMovimiento() {	}
+	public TipoMovimiento() {
+		this.estado=true;
+	}
 
 	public TipoMovimiento(int codTipo, String tipoMovimiento, boolean estado) {
 		this.codTipo = codTipo;

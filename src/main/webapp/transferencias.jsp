@@ -1,5 +1,11 @@
+<%@page import="entidad.Usuario" %>
+<%@page import="negocioImpl.CuentaNegocioImpl" %>
+<%@page import="entidad.Cuenta" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page session="true"%>
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,26 +19,81 @@
 <body>
 <a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1 style="margin:auto;text-align:center;margin-bottom:30px;">Transferencias</h1>
-<form class="form">
+<%
+	Cuenta cuenta = new Cuenta();
+	int currentCuenta;
+	CuentaNegocioImpl cuentas = new CuentaNegocioImpl();
+	
+	if(session.getAttribute("Usuario")!=null && request.getParameter("getCuenta")!=null){	
+		Usuario usuario = new Usuario();
+		usuario = (Usuario)session.getAttribute("Usuario");	
+		currentCuenta = Integer.parseInt(request.getParameter("getCuenta"));
+		cuenta = cuentas.readOne(currentCuenta);
+	}
+	else {
+	%>
+	<script>
+		alert("Permiso denegado. Inicie sesion para continuar")
+	</script>
+	<%
+ 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/index.jsp");
+	}
+%>
+<form class="form" method="post">
     <fieldset>
       <legend>Nueva transferencia</legend>
       <p class="inputForm">
-        <label for="txtCbu">CBU</label>
+      	<label >Cuenta origen</label>
+      	<input readonly value="<%=cuenta.getCbu()%>" type="text">
+      	<input hidden value="<%=cuenta.getNroCuenta()%>" type="text" id="txtCtaOrigen" name="txtCtaOrigen">
+      </p>    
+      <p class="inputForm">
+        <label for="txtImporteDisponible">Importe disponible: </label>
+        <input id="txtImporteDisponible" type="text" value="$<%=cuenta.getSaldo()%>" name="txtImporteDisponible" readonly>
+      </p>  
+      <p class="inputForm">
+        <label for="txtCbuDestino">CBU destino:</label>
         <input id="txtCbu" type="text"required name="txtCbu" placeholder="CBU..">
       </p>
       <p class="inputForm">
-        <label for="txtDNI">DNI</label>
+        <label for="txtDNI">DNI destino:</label>
         <input id="txtDNI" type="text"required name="txtDNI" placeholder="DNI..">
       </p>
       <p class="inputForm">
-        <label for="nombres">Monto</label>
-        <input id="nombres" type="text"required name="txtNombre" placeholder="$..">
+        <label for="txtMonto">Monto: </label>
+        <input id="txtMonto" type="text"required name="txtMonto"  placeholder="$00,00">
+      </p>
+      <p class="inputForm">
+        <label for="txtDetalle">Detalle: </label>
+        <input id="txtDetalle" type="text" name="txtDetalle"  placeholder="..">
       </p>
       <p class="button">
-        <input id="btnRealizarTransferencia" type="submit" value="Transferir" required name="btnRealizarTransferencia">
+        <button id="btnRealizarTransferencia" name="btnRealizarTransferencia" onclick="confirmar();" value="1">Transferir</button>
       </p>
     </fieldset>
-
-</form>		
+</form>	
+<script>
+	function confirmar(){
+		var monto = document.getElementById('txtMonto');
+		var dni = document.getElementById('txtDNI');
+		var cbu = document.getElementById('txtCbu');
+		if (monto.value == "" || dni.value =="" || cbu.value ==""){
+			alert("Llene los campos");
+		}
+		else if(isNaN(monto.value)|| isNaN(dni.value) || isNaN(cbu.value)){
+			alert("Los datos ingresados no estan en el formato correcto.");
+		}
+		else if (<%=cuenta.getSaldo()%><monto.value){
+			alert("El saldo de la cuenta es insuficiente para realizar la transferencia");
+		}
+		else if(monto.value<500){
+			alert("El monto minimo de transferencia es de $500");
+		}
+		else if (confirm("Presione aceptar para confirmar la transferencia..")){
+			document.forms[0].action = "ServletTransferencia";
+			document.forms[0].submit();
+		}
+	}
+</script>	
 </body>
 </html>

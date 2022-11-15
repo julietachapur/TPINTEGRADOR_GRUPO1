@@ -26,6 +26,7 @@ public class CuentaDaoImpl implements CuentaDao{
 	private static final String readall = "SELECT * FROM Cuentas";
 	private static final String readlast = "SELECT * FROM Cuentas ORDER by nroCuenta DESC LIMIT 1";
 	private static final String readOne = "SELECT * FROM Cuentas Where nroCuenta = ?";
+	private static final String readOneCbu = "SELECT * FROM Cuentas Where CBU = ?";
 	private static final String readForClient = "SELECT * FROM Cuentas Where dni = ?";
 	private static final String update = "UPDATE Cuentas set saldo = ?, CBU = ?, dni = ?, tipoCuenta = ? Where nroCuenta = ?";
 
@@ -123,7 +124,7 @@ public class CuentaDaoImpl implements CuentaDao{
 				cuenta = getCuenta(resultSet);
 			}
 		} catch (SQLException e) {
-			System.out.print("Error al Querer   el registro(SQL ERROR)");
+			System.out.print("Error de base de datos (SQL ERROR )");
 		}
 		return cuenta.getNroCuenta();
 	}
@@ -147,12 +148,37 @@ public class CuentaDaoImpl implements CuentaDao{
 				cuenta = getCuenta(resultSet);
 			}
 		} catch (SQLException e) {
-			System.out.print("Error al Querer   el registro(SQL ERROR)");
+			System.out.print("Error de base de datos (SQL ERROR )");
 		}
 
 		return cuenta;
 	}
 
+	public Cuenta readOneCbu(String cbu) {
+		PreparedStatement statement;
+		ResultSet resultSet; // Guarda el resultado de la query
+		Cuenta cuenta = new Cuenta();
+		Conexion conexion = Conexion.getConexion();
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(readOneCbu);
+			statement.setString(1, cbu);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				cuenta = getCuenta(resultSet);
+			}
+		} catch (SQLException e) {
+			System.out.print("Error de base de datos (SQL ERROR)");
+		}
+
+		return cuenta;
+	}
+	
 	public List<Cuenta> readForClient(String dni) {
 		PreparedStatement statement;
 		ResultSet resultSet; 

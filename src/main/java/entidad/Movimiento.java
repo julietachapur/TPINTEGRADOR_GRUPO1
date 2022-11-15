@@ -30,6 +30,17 @@ public class Movimiento {
 		this.detalle = detalle;
 	}
 	
+	public Movimiento( Cuenta nroCuenta, Date fecha, BigDecimal importe,
+			TipoMovimiento tipoMovimiento, BigDecimal saldo, String detalle) {
+		super();
+		this.nroCuenta = nroCuenta;
+		this.fecha = fecha;
+		this.importe = importe;
+		this.tipoMovimiento = tipoMovimiento;
+		this.saldo = saldo;
+		this.detalle = detalle;
+	}
+	
 	
 	public int getCodMovimiento() {
 		return codMovimiento;

@@ -1,4 +1,4 @@
-/*drop schema bdBanco*/
+drop schema bdBanco;
 
 create schema bdBanco;
 use bdBanco;
@@ -94,7 +94,7 @@ ALTER TABLE Usuarios ADD FOREIGN KEY (dni) REFERENCES Clientes(dni);
 
 create table Cuentas
 (
-nroCuenta INT NOT NULL AUTO_INCREMENT ,
+nroCuenta INT NOT NULL,
 CBU BIGINT NOT NULL,
 dni VARCHAR(10),
 fecha_creacion date NOT NULL,
@@ -105,7 +105,6 @@ primary key (nroCuenta, CBU),
 foreign key (dni) references Clientes(dni) 
 );
 
-ALTER TABLE Cuentas AUTO_INCREMENT = 5230;
 ALTER TABLE Cuentas ADD FOREIGN KEY (tipoCuenta) REFERENCES TiposCuentas(codTipo);
 
 create table Movimientos
@@ -2822,38 +2821,34 @@ INSERT INTO TiposMovimientos (tipoMovimiento) VALUES ('Transferencia');
 INSERT INTO TiposCuentas (tipoCuenta) VALUES ('Caja de Ahorro');
 INSERT INTO TiposCuentas (tipoCuenta) VALUES ('Cuenta Corriente');
 
+
+INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (5838, 0290010058382, '12345678', '2022-05-01', 1, 15000);
+INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (5837, 0291110058381, '12345678', '2022-07-01', 1, 10000);
+INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (4918, 0290010049187, '14151617', '2020-04-01', 1, 150000);
+INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (4998, 0440010049985, '14151617', '2018-10-02', 1, 230000);
+INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (2587, 0295410025877, '14151617', '2007-12-15', 1, 150000);
+INSERT INTO Cuentas (nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo) Values (9513, 0290010095134, '91011123', '2020-04-01', 1, 18000);
+
 insert into Cuentas(nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo)
-select	concat(52,substring(c.dni,7,2)) as nroCuenta,
-		concat(0290010058, substring(c.dni,6,3)) as CBU, 
+select	concat(52,substring(c.dni,7,8)) as nroCuenta,
+		concat(0290010058, substring(c.dni,6,8)) as CBU, 
         c.dni as dni,
-        substring(DATE_SUB(now(), interval cast(substring(c.dni,6,3) as decimal) day),1,10) as fecha_creacion,
+        substring(DATE_sub(now(), interval cast(substring(c.dni,6,8) as decimal) day),1,10) as fecha_creacion,
         1 as tipoCuenta,
-        cast(substring(concat(0290010058, substring(c.dni,6,8)),9,5) as decimal) as saldo
+        cast(substring(concat(0290010058, substring(c.dni,6,8)),9,13) as decimal) as saldo
 from clientes c
 union all
-select	concat(52,substring(c.dni,5,2)) as nroCuenta,
-		concat(0290010486, substring(c.dni,5,3)) as CBU, 
+select	concat(52,substring(c.dni,5,7)) as nroCuenta,
+		concat(0290010486, substring(c.dni,5,7)) as CBU, 
         c.dni as dni,
-       substring(DATE_SUB(now(), interval cast(substring(c.dni,6,3)*2.4 as decimal) day),1,10) as fecha_creacion,
+       substring(DATE_SUB(now(), interval cast(substring(c.dni,6,8)*2.4 as decimal) day),1,10) as fecha_creacion,
         1 as tipoCuenta,
-        cast(substring(concat(0290010486, substring(c.dni,6,3)),9,5)*4.6 as decimal) as saldo
+        cast(substring(concat(0290010486, substring(c.dni,6,8)),9,13) as decimal) as saldo
 from clientes c
 ;
 
 
-INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) 
-select 		c.nroCuenta,
-			DATE_ADD(c.fecha_creacion, interval cast(substring(c.dni,6,2) as decimal) day) as fecha,
-            FLOOR(RAND()*(5000-200)+201) as importe,
-            FLOOR(RAND()*(4)+1) as tipoMovimiento,
-            FLOOR(RAND()*(25000-200)+201) as saldo,
-            null as detalle
-from Cuentas c
-union all
-select 		c.nroCuenta,
-			DATE_ADD(c.fecha_creacion, interval FLOOR(RAND()*(365)+1) day) as fecha,
-            FLOOR(RAND()*(8000-200)+201) as importe,
-            FLOOR(RAND()*(4)+1) as tipoMovimiento,
-            FLOOR(RAND()*(25000-200)+201) as saldo,
-            null as detalle
-from Cuentas c;
+INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (4918, '2022-05-01', 1000, 4, 1000, '');
+INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (4918, '2022-05-07', 2000, 4, 3000, '');
+INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (4918, '2021-01-01', 5000, 3, 7000, '');
+INSERT INTO movimientos ( nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle ) Values (4918, '2022-05-01', 1500, 4, 5000, '');
