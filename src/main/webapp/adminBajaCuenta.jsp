@@ -10,7 +10,7 @@
 </style>
 <title>Baja Cuenta - Admin</title>
 </head>
-<body>
+<body >
 <div class="logged">loggeado</div>
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 <div class="menu">

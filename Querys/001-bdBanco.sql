@@ -94,7 +94,7 @@ ALTER TABLE Usuarios ADD FOREIGN KEY (dni) REFERENCES Clientes(dni);
 
 create table Cuentas
 (
-nroCuenta INT NOT NULL,
+nroCuenta INT NOT NULL AUTO_INCREMENT ,
 CBU BIGINT NOT NULL,
 dni VARCHAR(10),
 fecha_creacion date NOT NULL,
@@ -105,6 +105,7 @@ primary key (nroCuenta, CBU),
 foreign key (dni) references Clientes(dni) 
 );
 
+ALTER TABLE Cuentas AUTO_INCREMENT = 5230;
 ALTER TABLE Cuentas ADD FOREIGN KEY (tipoCuenta) REFERENCES TiposCuentas(codTipo);
 
 create table Movimientos
@@ -2821,7 +2822,6 @@ INSERT INTO TiposMovimientos (tipoMovimiento) VALUES ('Transferencia');
 INSERT INTO TiposCuentas (tipoCuenta) VALUES ('Caja de Ahorro');
 INSERT INTO TiposCuentas (tipoCuenta) VALUES ('Cuenta Corriente');
 
-
 insert into Cuentas(nroCuenta, CBU, dni, fecha_creacion, tipoCuenta, saldo)
 select	concat(52,substring(c.dni,7,2)) as nroCuenta,
 		concat(0290010058, substring(c.dni,6,3)) as CBU, 
@@ -2857,4 +2857,3 @@ select 		c.nroCuenta,
             FLOOR(RAND()*(25000-200)+201) as saldo,
             null as detalle
 from Cuentas c;
-

@@ -5,11 +5,21 @@ import java.util.ArrayList;
 import entidad.Cliente;
 import entidad.Usuario;
 import entidad.Cuenta;
+import entidad.Localidad;
+import entidad.Pais;
+import entidad.TipoUsuario;
 import negocio.ClienteNegocio;
 import negocioImpl.ClienteNegocioImpl;
 import negocioImpl.UsuarioNegocioImpl;
 import negocioImpl.CuentaNegocioImpl;
+import negocioImpl.LocalidadNegocioImpl;
+import negocioImpl.PaisNegocioImpl;
+import negocioImpl.TipoUsuarioNegocioImpl;
 import negocio.CuentaNegocio;
+import negocio.LocalidadNegocio;
+import negocio.PaisNegocio;
+import negocio.TipoUsuarioNegocio;
+import negocio.UsuarioNegocio;
 
 /*
 import javax.servlet.RequestDispatcher;
@@ -47,8 +57,16 @@ public class ServletUsuario extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		if (request.getParameter("getDni") != null && request.getParameter("btnAltaUsuario") != null) {
+			String dni = request.getParameter("getDni");
+			cargarDesplegables(dni, request, response);
+		}
+		
+		if(request.getParameter("btnAltaUs") != null ) {
+			registrarUsuario(request, response);
+		}
+
 	}
 
 	/**
@@ -105,12 +123,73 @@ public class ServletUsuario extends HttpServlet {
 	
 		private void cuentasUsuario(HttpServletRequest request, Usuario usuario) {
 			CuentaNegocio cuenta = new CuentaNegocioImpl(); 
-			ArrayList<Cuenta> cta = (ArrayList<Cuenta>) cuenta.readForClient(usuario.getDni());	
+			ArrayList<Cuenta> cta = (ArrayList<Cuenta>) cuenta.readForClient(usuario.getDni());		
+			int nroCuenta = cta.get(0).getNroCuenta();
 			
+			request.getSession().setAttribute("cuentaSeleccionada", nroCuenta);
 			request.getSession().setAttribute("cuentas", cta);
-	        //System.out.println(request.getSession().getAttribute("cuentas")); 
 
 		}
 	
+		
+		private void cargarDesplegables(String dni, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			TipoUsuarioNegocio usNeg = new TipoUsuarioNegocioImpl(); 
+			ArrayList<TipoUsuario> lTiposUs = (ArrayList<TipoUsuario>) usNeg.readAll();
+			request.setAttribute("tiposUsuarios", lTiposUs);
+			request.setAttribute("dni", dni);
+				
+			RequestDispatcher rd = request.getRequestDispatcher("/altaUsuario.jsp");
+			rd.forward(request, response);
+			
+		}
+		
+		private void registrarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			RequestDispatcher rd;
+			String mensaje = null;
+			boolean agregado = false;
+			
+			String contrasenia = request.getParameter("txtContrasenia");
+			String contrasenia2 = request.getParameter("txtContrasenia2");
+			int tipoUsuario = Integer.parseInt(request.getParameter("tipo"));
+			String usuario = request.getParameter("txtUsuario");
+			String dni = request.getParameter("txtDNI");
+
+				Cliente cl = new Cliente();
+				TipoUsuario tipo = new TipoUsuario();
+				cl.setDni(dni);
+				tipo.setCodTipo(tipoUsuario);
+				
+				Usuario us = new Usuario(usuario, cl, tipo, contrasenia, true);
+				
+			if(contrasenia.equals(contrasenia2)){												
+				try {
+					UsuarioNegocio usNeg = new UsuarioNegocioImpl(); 							
+					agregado = usNeg.insert(us);
+					if (agregado) {
+						System.out.println(us); 
+						request.setAttribute("agregado", agregado);
+						mensaje = "Usuario registrado con éxito";
+						request.setAttribute("usuario", us);
+						request.setAttribute("mensaje", mensaje);
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+			} else {
+				mensaje = "Las contraseñas no coinciden";
+				request.setAttribute("mensaje", mensaje);
+				request.setAttribute("agregado", agregado);
+				request.setAttribute("usuario", us);
+				cargarDesplegables(dni, request, response);
+			}
+			
+			rd = request.getRequestDispatcher("altaUsuario.jsp");
+			rd.forward(request, response);
+			
+		}
+
 }
 

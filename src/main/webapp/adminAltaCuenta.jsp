@@ -1,5 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entidad.Cuenta" %>
+<%@page import="entidad.TipoCuenta" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -12,43 +13,77 @@
 </style>
 <title>Alta Cuenta - Admin</title>
 </head>
-<body>
+<body onLoad="resultado();">
 <div class="logged">loggeado</div>
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 
 <% 
 	ArrayList<Cuenta> listaCuentas= null;
+	ArrayList<TipoCuenta> listaTC= null;
 	String dni=null;
-	String res=null;
+	String resString=null;
+	Boolean resBoolean=false;
 	if(request.getAttribute("Cuentas")!=null)
 	{
 		listaCuentas = (ArrayList<Cuenta>) request.getAttribute("Cuentas");
+	}
+	if(request.getAttribute("listaTC")!=null)
+	{
+		listaTC = (ArrayList<TipoCuenta>) request.getAttribute("listaTC");
 	}
 	if(request.getAttribute("dni")!=null)
 	{
 		dni =  request.getAttribute("dni").toString();
 	}
-	if(request.getAttribute("resultado")!=null)
+	if(request.getAttribute("resString")!=null)
 	{
-		res =  request.getAttribute("resultado").toString();
+		resString =  request.getAttribute("resString").toString();
+	}
+	if(request.getAttribute("resBoolean")!=null)
+	{
+		resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
 	}
  %>
+ 
+ 
+
+ 
 <div class="menu">
 	<h2>Alta de Cuenta</h2>
+	<%
+		if(!resBoolean && resString!= null){%>
+	<br>
+	 <h2 style="color:red;"><%=resString%></h2>
+	<%}%>
+		 
 	 <form method="get" action="ServletCuenta">
 		 <label for="labeldni">Buscar DNI:</label><br>
 		 <input type="text" name="txtdni" required>
 		 <input type="submit" value="Buscar" name="btnBuscar">
 	 </form>
-	<% 
-	if(res!=null)
-{%>
-<script>
-alert("<%=res%>");
-</script>
-	<%}
-	if(listaCuentas != null)
-	if(!listaCuentas.isEmpty())
+	 
+
+
+	<script>
+		<%
+		 	if(resString!= null && resBoolean!= null){	
+		 		if(!resString.equals("go"))
+		 		{
+		 			%>
+					function resultado(){alert("<%=resString%>");}
+				<%}}
+		 	%>
+		
+		
+		
+		
+		
+		
+		
+	</script>
+	<%	
+	if(listaCuentas != null && resBoolean!= null && resBoolean)
+		
 	{%>
 		<table >
 		<thead>
@@ -58,14 +93,20 @@ alert("<%=res%>");
 		   	</thead>
 		<tr>
 		    <th>Numero de cuenta</th>
+		    <th>CBU</th>
+		    <th>Fecha Creación</th>
 		    <th>Tipo de cuenta</th>
+		     <th>Saldo</th>
 		</tr>
 		<%
 		for(Cuenta c:listaCuentas)
 		{%>
 		<tr>
 			<td><%=c.getNroCuenta() %></td>
+			<td><%=c.getCbu() %></td>
+			<td><%=c.getFecha_creacion() %></td>
 			<td><%=c.getTipoCuenta().getTipoCuenta() %></td>
+			<td>$<%=c.getSaldo() %></td>
 		</tr>
 		<%}%>
 		</table>
@@ -81,14 +122,8 @@ alert("<%=res%>");
 </form>
 		<%  	
 	}
-	else{%>
-	
-		<script>
-		alert("No existe el Cliente Solicitado");
-		</script>
-		
-		<%}%>
-		
+		%>
+
 		 </div>
 </body>
 </html>

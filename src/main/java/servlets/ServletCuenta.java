@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,18 +50,13 @@ public class ServletCuenta extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if (request.getParameter("btnBuscar") != null) {
-			cargarDesplegables(request, response);
+			cargarBusquedaDeCuentas(request, response);
 		}
 
 
 		if (request.getParameter("btnAgregar") != null) {
 			registrarCuenta(request, response);
 		}		
-		
-		
-		if (request.getParameter("btnSeleccionar") != null) {
-			setearCurrentCuenta(request, response);
-		}
 
 	}
 
@@ -74,13 +70,43 @@ public class ServletCuenta extends HttpServlet {
 	}
 
 
-	private void cargarDesplegables(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CuentaDao p = new CuentaDaoImpl();
+	private void cargarBusquedaDeCuentas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+		
+		CuentaNegocio neg = new CuentaNegocioImpl();
 		////String dni = request.getParameter("txtdni");
-		String dni = request.getParameter("txtdni");
-		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) p.readForClient(dni);
+		String resString = null;
+		Boolean resBoolean = false;
+		String dni = request.getParameter("txtdni").toString().trim();
+		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) neg.readForClient(dni);
+		if(neg.verificarCliente(dni))
+		{
+			if(lCuenta == null)
+			{
+				resString="El cliente no tiene cuentas asociadas";
+				resBoolean =false;
+			}
+			if(lCuenta.isEmpty())
+			{
+				resString="El cliente no tiene cuentas asociadas";
+				resBoolean=true;
+			}
+			else
+			{
+				resString="go";
+				resBoolean =true;			
+			}
+		}
+		else
+		{
+			resString="El cliente no existe";
+			resBoolean =false;
+		}
+			
 		request.setAttribute("Cuentas", lCuenta);
 		request.setAttribute("dni", dni);
+		request.setAttribute("resString", resString);
+		request.setAttribute("resBoolean", resBoolean);
 		RequestDispatcher rd = request.getRequestDispatcher("/adminAltaCuenta.jsp");
 		rd.forward(request, response);
 	}
@@ -92,27 +118,30 @@ public class ServletCuenta extends HttpServlet {
 		int tc = Integer.parseInt(request.getParameter("TC"));
 		String dni = request.getParameter("dni");
 		CuentaNegocio neg = new CuentaNegocioImpl();
-		String resultado="";
+		String resString="";
 		if(neg.verificarCliente(dni))
+		{
 			if(!neg.verificarMaxCuentas(dni))
 			{
 			 agregado = neg.insert(dni,tc);
 
 				if (agregado) {
 
-					resultado="Cuenta agregada Satisfactoriamente";
+					resString="Cuenta agregada Satisfactoriamente";
 				}
 				else
 				{
-					resultado="Cuenta no pudo ser agregada satisfactoriamente";
+					resString="Cuenta no pudo ser agregada satisfactoriamente";
 				}
 			}
 			else
-				resultado="El cliente  tiene mas de 3 cuentas a su nombre";
+				resString="El cliente con DNI: "+dni+" tiene mas de 3 cuentas a su nombre";
+		}
 		else
-			resultado="El cliente no existe";
+			resString="El cliente no existe";
 			
-			request.setAttribute("resultado", resultado);
+			request.setAttribute("resString", resString);
+			request.setAttribute("resBoolean", agregado);
 			rd = request.getRequestDispatcher("/adminAltaCuenta.jsp");
 			rd.forward(request, response);
 		}

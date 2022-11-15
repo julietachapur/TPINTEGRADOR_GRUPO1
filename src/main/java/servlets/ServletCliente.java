@@ -58,7 +58,7 @@ public class ServletCliente extends HttpServlet {
 		}
 		
 		if (request.getParameter("btnAltaCliente") != null) {
-				registrarCliente(request, response);
+			registrarCliente(request, response);
 		}
 		
 		if (request.getParameter("getId") != null || request.getParameter("btnFiltrar") != null || request.getParameter("btnLimpiar") != null ) {
@@ -193,8 +193,8 @@ public class ServletCliente extends HttpServlet {
 			java.sql.Date fNac = new java.sql.Date(fecha.getTime());  // acá se hace el parseo a Date sql
 	        
 	        Cliente cliente = new Cliente(dni, nombre, apellido, cuil, sexo, nacionalidad, fNac, direccion, localidad, provincia, pais, email, true);
-			ClienteNegocio clienteDao = new ClienteNegocioImpl(); 
-			agregado = clienteDao.insert(cliente);
+			ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
+			agregado = clienteNeg.insert(cliente);
 			if (agregado) {
 		        System.out.println(cliente); 
 				request.setAttribute("agregado", agregado);
@@ -204,6 +204,8 @@ public class ServletCliente extends HttpServlet {
 				resultado+="<br><br>Fecha de Nacimiento: "+fNac+"<br><br>Domicilio: "+direccion+", "+localidad.getLocalidad()+", "+localidad.getProvincia().getProvincia()+", "+localidad.getPais().getPais();
 				resultado+="<br><br>Email: "+email;
 				request.setAttribute("resultado", resultado);
+				
+				request.setAttribute("dni", dni);
 
 				rd = request.getRequestDispatcher("/altaCliente.jsp");
 				rd.forward(request, response);
@@ -257,6 +259,8 @@ public class ServletCliente extends HttpServlet {
 				resultado+="<br><br>Domicilio: "+direccion+", "+localidad.getLocalidad()+", "+localidad.getProvincia().getProvincia()+", "+localidad.getPais().getPais();
 				resultado+="<br><br>Email: "+email;
 				request.setAttribute("resultado", resultado);
+
+				request.setAttribute("dni", dni);
 
 				rd = request.getRequestDispatcher("/modifClienteForm.jsp");
 				rd.forward(request, response);
