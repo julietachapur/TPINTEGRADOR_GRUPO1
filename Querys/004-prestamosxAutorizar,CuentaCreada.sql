@@ -21,7 +21,7 @@ in importe_pedido DECIMAL(20,6),
 in cantidad_cuotas INT
 )
 begin
-     insert into prestamos_x_autorizar(`nroCuenta`, `fecha_creacion`, `importe_pedido`, `cantidad_cuotas`) values (nroCuenta, current_date(),importe_pedido,cantidad_cuotas);
+     insert into prestamos_x_autorizar(`nroCuenta`, `fecha_creacion`, `importe_pedido`, `cantidad_cuotas`, `estado`) values (nroCuenta, current_date(),importe_pedido,cantidad_cuotas,'1');
  end //
    delimiter //;
    
