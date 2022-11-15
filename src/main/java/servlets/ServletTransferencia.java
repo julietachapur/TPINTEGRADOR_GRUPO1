@@ -56,15 +56,13 @@ public class ServletTransferencia extends HttpServlet {
 		// TODO Auto-generated method stub
 		if (request.getParameter("btnRealizarTransferencia")!=null) {
 			try {
-				realizarTransferencia(request,response);
-				RequestDispatcher rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
-				rd.forward(request, response);
+				realizarTransferencia(request,response);	
 			}
 			catch(IOException e) {
 				request.setAttribute("errorBD", true);
-				RequestDispatcher rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
-				rd.forward(request, response);
 			}
+			RequestDispatcher rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
+			rd.forward(request, response);
 		}
 		
 		
