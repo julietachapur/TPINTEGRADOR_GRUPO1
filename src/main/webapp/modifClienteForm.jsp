@@ -16,18 +16,21 @@
 <body>
 
 <% 
-
+	String dni = null;
+	Cliente cl = null;
+	
 	ArrayList<String> sexo = new ArrayList<String>();
 	sexo.add("F");
 	sexo.add("M");
 	sexo.add("X");
 	
-	ArrayList<Cliente> listaCliente = null;
-	if(request.getAttribute("cliente") != null)
-	{
-		listaCliente = (ArrayList<Cliente>) request.getAttribute("cliente");
+	if(request.getAttribute("dni") != null) {
+		dni = (String) request.getAttribute("dni");
 	}
-
+	
+	if(request.getAttribute("cliente") != null) {
+		cl = (Cliente) request.getAttribute("cliente");
+	}
 
 	ArrayList<Pais> listaPaises = null;
 	if(request.getAttribute("nacionalidad") != null)
@@ -51,32 +54,28 @@
 <a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId"> <span class="fa fa-home"></span> Volver</a>
 <div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
 <h1>Modificar cliente</h1>
-  <% if(listaCliente!=null )	{ %>
+  <% if(cl != null )	{ %>
 
 <div class="ABM">
 <form class="form " method="get" action="ServletCliente">
     <fieldset>
     
       <legend>Modificar cliente</legend>
-   <%
-
-		for(Cliente cl:listaCliente){
-	%>
       <p class="inputForm">
         <label for="dni">DNI</label>
-        <input id="dni" type="text" value=<%= cl.getDni() %> disabled > <input type="hidden" name="txtDNI" value=<%= cl.getDni() %> >
+        <input id="dni" type="text" value="<%=cl.getDni()%>" disabled > <input type="hidden" name="txtDNI" value="<%=cl.getDni()%>" maxlength=10 >
       </p>
       <p class="inputForm">
         <label for="nombres">Nombre</label>
-        <input id="nombres" type="text"required name="txtNombre" value=<%= cl.getNombre() %>>
+        <input id="nombres" type="text"required name="txtNombre" value="<%=cl.getNombre()%>" maxlength=50>
       </p>
       <p class="inputForm">
         <label for="apellidos">Apellido</label>
-        <input id="apellidos" type="text" required name="txtApellido" value=<%= cl.getApellido() %>>
+        <input id="apellidos" type="text" required name="txtApellido" value="<%=cl.getApellido()%>" maxlength=50 >
       </p>      
       <p class="inputForm">
         <label for="cuil">CUIL</label>
-        <input id="cuil" type="text" required name="txtCuil" value=<%= cl.getCuil() %> >
+        <input id="cuil" type="text" required name="txtCuil" value="<%=cl.getCuil()%>" maxlength=13>
       </p>
       <p class="inputForm">
         <label for="sexo">Sexo</label>
@@ -87,9 +86,9 @@
 				{
 					if(!s.equals(cl.getSexo())){
 			%>
-				<option value=<%= s %> > <%= s %></option>
+				<option value="<%= s %>" > <%= s %></option>
 			<%	} else { %>
-				<option value=<%= s %> selected> <%= s %></option>
+				<option value="<%= s %>" selected> <%= s %></option>
 			<%	} } %>
         </select>
       </p>
@@ -110,11 +109,11 @@
       </p>
       <p class="inputForm">
         <label for="fecha_nac">Fecha de nacimiento</label>
-        <input id="fecha_nac" type="date" required name="txtFecha_nac" value=<%= cl.getFecha_nac() %>>
+        <input id="fecha_nac" type="date" required name="txtFecha_nac" value="<%= cl.getFecha_nac() %>" >
       </p>     
       <p class="inputForm">
         <label for="direccion">Dirección</label>
-        <input id="direccion" type="text" required name="txtDireccion" value=<%= cl.getDireccion() %>>
+        <input id="direccion" type="text" required name="txtDireccion" value="<%= cl.getDireccion() %>" maxlength=200>
       </p>
       <p class="inputForm">
         <label for="localidad">Localidad</label> 
@@ -133,9 +132,8 @@
       </p>
       <p class="inputForm">
         <label for="email">E-mail</label>
-        <input id="email" type="email" required name="txtEmail" value=<%= cl.getCorreo_electronico() %>>
+        <input id="email" type="email" required name="txtEmail" value="<%= cl.getCorreo_electronico() %>" maxlength=200>
       </p>
-    <%	}%>
       <p class="button">
         <input id="btnRegistrar" type="submit" value="Modificar" required name="btnModificarBD">
       </p>
@@ -159,6 +157,14 @@
 	<%}%>
 	</div>
 <%} %>
+</div>
+<div>
+	<form method="get" action="ServletUsuario">
+	  <p class="button">
+        <input id="btnRegistrar" type="submit" value="Alta / Modificación Usuario Home Banking" name="btnModifUsuario">
+        <input type="hidden" name="dni" value=<%= dni %> >
+      </p>
+	</form>
 </div>
 
 </div>

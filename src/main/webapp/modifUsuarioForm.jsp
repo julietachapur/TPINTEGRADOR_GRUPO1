@@ -10,7 +10,7 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Alta Usuario - Admin</title>
+<title>Modificar Usuario - Admin</title>
 </head>
 <body>
 
@@ -18,59 +18,40 @@
 	ArrayList<TipoUsuario> listaTipos = null;
 	String dni = null;
 	String mensaje = "";
+	Usuario us = null;
+	boolean modificado = false;
 	
 	if(request.getAttribute("tiposUsuarios") != null)
 	{
 		listaTipos = (ArrayList<TipoUsuario>) request.getAttribute("tiposUsuarios");
-		dni = (String) request.getAttribute("dni");
+	}
+	
 
+	if(request.getAttribute("dni") != null) {
+		dni = (String) request.getAttribute("dni");
+		us = (Usuario)request.getAttribute("usuario");
 	}
 
-	Usuario us = null;
-	boolean agregado = false;
-	if( request.getAttribute("agregado") != null) {
-		agregado = (boolean)request.getAttribute("agregado");
+	if( request.getAttribute("modificado") != null) {
+		modificado = (boolean)request.getAttribute("modificado");
 		mensaje = (String)request.getAttribute("mensaje");
 		us = (Usuario)request.getAttribute("usuario");
 	}
-	
-	
 	
  %>
  
  
 <a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId"> <span class="fa fa-home"></span> Volver</a>
 <div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
-<h1>Alta nuevo Usuario</h1>
-  <%  if( agregado == false)	{ %>
-<span>Por favor complete todos los datos </span>
-<div class="ABM">
+<h1>Modificar Usuario</h1>
 
+<% 	if(modificado == false) { %> 
+
+<div class="ABM">
 <form class="form " method="get" action="ServletUsuario">
     <fieldset>
-      <legend>Nuevo usuario</legend>
-<% 	if(us == null) { %> 
-	<p class="inputForm">
-        <label for="dni">DNI</label>
-        <input id="dni" type="text" value="<%= dni %>" disabled > <input type="hidden" name="txtDNI" value="<%= dni %>" >
-      </p>
-      <p class="inputForm">
-        <label for="tipo">Tipo Usuario</label>
-        <select id="tipo" name="tipo" required>
-         <%
-		 	if(listaTipos!=null)
-				for(TipoUsuario t:listaTipos){
-			%>
-				<option value="<%= t.getCodTipo() %>" > <%= t.getTipoUsuario() %></option>
-			<%	} %>
-        </select>
-      </p>
-      <p class="inputForm">
-        <label for="usuario">Usuario</label>
-        <input id="usuario" type="text"required name="txtUsuario" maxlength=20>
-      </p>
-      <% } else if(us != null && agregado == false) { %>
-      <p class="inputForm">
+      <legend>Modificar usuario</legend>
+	  <p class="inputForm">
         <label for="dni">DNI</label>
         <input id="dni" type="text" value="<%= dni %>" disabled > <input type="hidden" name="txtDNI" value="<%= dni %>" >
       </p>
@@ -90,9 +71,9 @@
       </p>
       <p class="inputForm">
         <label for="usuario">Usuario</label>
-        <input id="usuario" type="text"required name="txtUsuario" value="<%= us.getUsuario() %>" maxlength=20>
+        <input disabled type="text" name="txtUsuario" value="<%= us.getUsuario() %>"> <input id="usuario" type="hidden" name="txtUsuario" value="<%= us.getUsuario() %>">
+        
       </p>
-      <% }  %>
       <p class="inputForm">
         <label for="contrasenia">contraseña</label>
         <input id="contrasenia" type="password" required name="txtContrasenia" maxlength=10>
@@ -102,29 +83,22 @@
         <input id="contrasenia2" type="password" required name="txtContrasenia2" maxlength=10>
       </p>
       <p class="button">
-        <input id="btnRegistrar" type="submit" value="Registrar" name="btnAltaUs">
+        <input id="btnRegistrar" type="submit" value="Modificar" name="btnModifUs">
       </p>
     </fieldset>
 
 </form>		
 
 </div>
-  <%	}%>
+<%	}%>
+
+  
 <div style="display:flex; flex-direction: column; align-items: center;">
-<% if( us != null ) { %>
 	<div>
-	<% if(request.getAttribute("mensaje") != null) { %>
+	<% if(request.getAttribute("mensaje") != "") {%>
 		<p style="font-size: 1.5rem;"> <%=mensaje%> </p>
 	<%}%>
 	</div>
-	<%} %>
 </div>
-<%-- 	<form method="get" action="ServletCuenta">
-	  <p class="button">
-        <input id="btnRegistrar" type="submit" value="Agregar Cuenta" name="btnAltaCuenta">
-        <input type="hidden" name="getDni" value=<%= dni %> >
-      </p>
-	</form> --%>
-
 </body>
 </html>

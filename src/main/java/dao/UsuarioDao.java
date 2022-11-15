@@ -9,7 +9,7 @@ public interface UsuarioDao {
 	
 	public boolean insert(Usuario usuario);
 
-	public boolean logicalDeletion(Usuario usuario_a_eliminar); // Baja lógica
+	public boolean logicalDeletion(String dni); // Baja lógica
 
 	public boolean update(Usuario usuario_a_modificar);
 

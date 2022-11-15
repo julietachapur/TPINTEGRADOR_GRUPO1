@@ -37,11 +37,11 @@ public class UsuarioNegocioImpl implements UsuarioNegocio {
 		return estado;
 	}
 
-	public boolean logicalDeletion(Usuario usuario_a_eliminar) {
+	public boolean logicalDeletion(String dni) {
 		boolean estado = false;
 		try {
-			if (usuario_a_eliminar.getDni() != null) {
-				estado = uDao.logicalDeletion(usuario_a_eliminar);
+			if (dni != null) {
+				estado = uDao.logicalDeletion(dni);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
