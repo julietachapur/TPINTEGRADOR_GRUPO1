@@ -63,7 +63,7 @@
 	<div class="opcionesMenu">
 			<a href="/TPINTEGRADOR_GRUPO1/ServletMovimientos?getCuenta="><input type="hidden" name="cta" value="<%=currentCuenta%>">Movimientos</a> 
 			<a href="/TPINTEGRADOR_GRUPO1/transferencias.jsp?getCuenta=<%=currentCuenta%>" >Transferencias</a>
-		  	<a href=solicitarPrestamo.jsp>Solicitar prestamo</a>
+		  	<a href="/TPINTEGRADOR_GRUPO1/solicitarPrstamo.jsp?getCuenta=<%=listaCuentas%>">Solicitar prestamo</a>
 		  	<a href=pagarPrestamo.jsp>Pagar prestamos</a>
 		</div>
 </div>
