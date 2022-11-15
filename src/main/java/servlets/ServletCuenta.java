@@ -17,7 +17,9 @@ import dao.CuentaDao;
 import daoImpl.CuentaDaoImpl;
 import entidad.Cuenta;
 import negocio.CuentaNegocio;
+import negocio.TipoCuentaNegocio;
 import negocioImpl.CuentaNegocioImpl;
+import negocioImpl.TipoCuentaImpl;
 
 /**
  * Servlet implementation class ServletCliente
@@ -39,9 +41,11 @@ public class ServletCuenta extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if (request.getParameter("btnBuscar") != null) {
-			cargarBusquedaDeCuentas(request, response);
+			cargarBusquedaDeCuentas(request, response,0);
 		}
-
+		if (request.getParameter("btnBuscarBaja") != null) {
+			cargarBusquedaDeCuentas(request, response,1);
+		}
 
 		if (request.getParameter("btnAgregar") != null) {
 			registrarCuenta(request, response);
@@ -59,15 +63,17 @@ public class ServletCuenta extends HttpServlet {
 	}
 
 
-	private void cargarBusquedaDeCuentas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void cargarBusquedaDeCuentas(HttpServletRequest request, HttpServletResponse response, int i) throws ServletException, IOException {
 	
 		
 		CuentaNegocio neg = new CuentaNegocioImpl();
+		TipoCuentaNegocio negTC = new TipoCuentaImpl();
 		////String dni = request.getParameter("txtdni");
 		String resString = null;
 		Boolean resBoolean = false;
 		String dni = request.getParameter("txtdni").toString().trim();
 		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) neg.readForClient(dni);
+		RequestDispatcher rd;
 		if(neg.verificarCliente(dni))
 		{
 			if(lCuenta == null)
@@ -96,7 +102,21 @@ public class ServletCuenta extends HttpServlet {
 		request.setAttribute("dni", dni);
 		request.setAttribute("resString", resString);
 		request.setAttribute("resBoolean", resBoolean);
-		RequestDispatcher rd = request.getRequestDispatcher("/adminAltaCuenta.jsp");
+		request.setAttribute("listaTC", negTC.readAll());
+		
+	switch(i)
+	{
+	case 0:
+		 rd = request.getRequestDispatcher("/adminAltaCuenta.jsp");
+		 break;
+	case 1:
+		 rd = request.getRequestDispatcher("/adminBajaCuenta.jsp");
+		 break;
+	default:
+		 rd = request.getRequestDispatcher("/index.jsp");
+		 break;
+	}
+		
 		rd.forward(request, response);
 	}
 
