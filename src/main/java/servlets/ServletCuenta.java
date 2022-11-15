@@ -28,7 +28,9 @@ import dao.CuentaDao;
 import daoImpl.CuentaDaoImpl;
 import entidad.Cuenta;
 import negocio.CuentaNegocio;
+import negocio.TipoCuentaNegocio;
 import negocioImpl.CuentaNegocioImpl;
+import negocioImpl.TipoCuentaImpl;
 
 /**
  * Servlet implementation class ServletCliente
@@ -50,13 +52,18 @@ public class ServletCuenta extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if (request.getParameter("btnBuscar") != null) {
-			cargarBusquedaDeCuentas(request, response);
+			cargarBusquedaDeCuentas(request, response,0);
 		}
-
+		if (request.getParameter("btnBuscarBaja") != null) {
+			cargarBusquedaDeCuentas(request, response,1);
+		}
 
 		if (request.getParameter("btnAgregar") != null) {
 			registrarCuenta(request, response);
-		}		
+		}
+		if (request.getParameter("btnBaja") != null) {
+			BajaCurrentCuenta(request, response);
+		}	
 
 	}
 
@@ -70,15 +77,17 @@ public class ServletCuenta extends HttpServlet {
 	}
 
 
-	private void cargarBusquedaDeCuentas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void cargarBusquedaDeCuentas(HttpServletRequest request, HttpServletResponse response, int i) throws ServletException, IOException {
 	
 		
 		CuentaNegocio neg = new CuentaNegocioImpl();
+		TipoCuentaNegocio negTC = new TipoCuentaImpl();
 		////String dni = request.getParameter("txtdni");
 		String resString = null;
 		Boolean resBoolean = false;
 		String dni = request.getParameter("txtdni").toString().trim();
 		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) neg.readForClient(dni);
+		RequestDispatcher rd;
 		if(neg.verificarCliente(dni))
 		{
 			if(lCuenta == null)
@@ -107,18 +116,34 @@ public class ServletCuenta extends HttpServlet {
 		request.setAttribute("dni", dni);
 		request.setAttribute("resString", resString);
 		request.setAttribute("resBoolean", resBoolean);
-		RequestDispatcher rd = request.getRequestDispatcher("/adminAltaCuenta.jsp");
+		request.setAttribute("listaTC", negTC.readAll());
+		
+	switch(i)
+	{
+	case 0:
+		 rd = request.getRequestDispatcher("/adminAltaCuenta.jsp");
+		 break;
+	case 1:
+		 rd = request.getRequestDispatcher("/adminBajaCuenta.jsp");
+		 break;
+	default:
+		 rd = request.getRequestDispatcher("/index.jsp");
+		 break;
+	}
+		
 		rd.forward(request, response);
 	}
 
 	private void registrarCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher rd;
-		boolean agregado = false;
+		
 		int tc = Integer.parseInt(request.getParameter("TC"));
 		String dni = request.getParameter("dni");
 		CuentaNegocio neg = new CuentaNegocioImpl();
+		boolean agregado = false;
 		String resString="";
+		
 		if(neg.verificarCliente(dni))
 		{
 			if(!neg.verificarMaxCuentas(dni))
@@ -156,7 +181,24 @@ public class ServletCuenta extends HttpServlet {
 		rd.forward(request, response);
 	
 	}
-
+	private void BajaCurrentCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		RequestDispatcher rd;
+		int nroCuenta = Integer.parseInt(request.getParameter("cuenta"));
+		CuentaNegocio neg = new CuentaNegocioImpl();
+		boolean borrado = false;
+		String resString="";
+		borrado = neg.delete(neg.readOne(nroCuenta));
+		if (borrado) 
+			resString="Cuenta dada de baja Satisfactoriamente";
+		else
+			resString="Cuenta "+neg.readOne(nroCuenta).getNroCuenta()+" no pudo ser dada de baja satisfactoriamente";
+				
+				request.setAttribute("resString", resString);
+				request.setAttribute("resBoolean", borrado);
+		rd = request.getRequestDispatcher("/adminBajaCuenta.jsp");
+		rd.forward(request, response);
+	}
 
 }
 		

@@ -68,15 +68,14 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		}
 		return estado;
 	}
+	public boolean delete(Cuenta cuenta) {
 
-
-	public boolean delete(Cuenta persona_a_eliminar) {
 		boolean estado=false;
 		try
 		{
-			if( persona_a_eliminar.getNroCuenta()  > 0 )
+			if( cuenta.getNroCuenta()  > 0 )
 			{
-				estado=cDao.delete(persona_a_eliminar);
+				estado=cDao.delete(cuenta);
 			}
 		}
 		catch(Exception e) {
@@ -121,7 +120,6 @@ public class CuentaNegocioImpl implements CuentaNegocio {
            return false;
 }
 	}
-	
 	public boolean verificarMaxCuentas(String dni) {
 		CuentaDao cDao = new CuentaDaoImpl();
 		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) cDao.readForClient(dni);

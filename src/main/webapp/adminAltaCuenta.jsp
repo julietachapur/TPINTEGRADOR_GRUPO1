@@ -73,16 +73,12 @@
 					function resultado(){alert("<%=resString%>");}
 				<%}}
 		 	%>
-		
-		
-		
-		
-		
-		
-		
 	</script>
+	
+	
+	
 	<%	
-	if(listaCuentas != null && resBoolean!= null && resBoolean)
+	if(listaCuentas != null && resBoolean!= null && resBoolean )
 		
 	{%>
 		<table >
@@ -97,6 +93,7 @@
 		    <th>Fecha Creación</th>
 		    <th>Tipo de cuenta</th>
 		     <th>Saldo</th>
+		     <th>Baja</th>
 		</tr>
 		<%
 		for(Cuenta c:listaCuentas)
@@ -107,22 +104,33 @@
 			<td><%=c.getFecha_creacion() %></td>
 			<td><%=c.getTipoCuenta().getTipoCuenta() %></td>
 			<td>$<%=c.getSaldo() %></td>
+			<td><input type="button" value="Baja"></td>
 		</tr>
-		<%}%>
+		<%}}%>
 		</table>
-			<label for="TC">Elige un tipo de cuenta:</label>
+<%if(listaTC!=null){ %>
+
+<label for="TC">Elige un tipo de cuenta:</label>
  
  <form method="get" action="ServletCuenta">
 <select name="TC">
-  <option value="1">Caja de Ahorro</option>
-  <option value="2">Cuenta Corriente</option>
+<%
+
+
+		for(TipoCuenta c:listaTC)
+		{%>
+  <option value="<%=c.getCodTipo() %>"><%=c.getTipoCuenta()%> </option>
+  <%}%>
 </select>
  <input type="hidden" name="dni" value="<%=dni%>">
 <input type="submit" value="submit" name="btnAgregar">
 </form>
-		<%  	
-	}
-		%>
+		<%}
+		else
+		{%>
+			<br>
+			 <h3 style="color:red;"> <No disponible></h3>
+		<%}%>
 
 		 </div>
 </body>
