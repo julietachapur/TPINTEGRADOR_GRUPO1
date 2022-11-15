@@ -1,3 +1,7 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="entidad.Cuenta" %>
+<%@page import="entidad.TipoCuenta" %>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -13,34 +17,112 @@
 <body >
 <div class="logged">loggeado</div>
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
+
+<% 
+	ArrayList<Cuenta> listaCuentas= null;
+	ArrayList<TipoCuenta> listaTC= null;
+	String dni=null;
+	String resString=null;
+	Boolean resBoolean=false;
+	if(request.getAttribute("Cuentas")!=null)
+	{
+		listaCuentas = (ArrayList<Cuenta>) request.getAttribute("Cuentas");
+	}
+	if(request.getAttribute("listaTC")!=null)
+	{
+		listaTC = (ArrayList<TipoCuenta>) request.getAttribute("listaTC");
+	}
+	if(request.getAttribute("dni")!=null)
+	{
+		dni =  request.getAttribute("dni").toString();
+	}
+	if(request.getAttribute("resString")!=null)
+	{
+		resString =  request.getAttribute("resString").toString();
+	}
+	if(request.getAttribute("resBoolean")!=null)
+	{
+		resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
+	}
+ %>
+ 
+ 
+
+
+
+
+
 <div class="menu">
 	<h2>Baja de Cuenta</h2>
-	 <form>
+	<%
+		if(resString!= null && !resString.equals("go"))
+		{
+		if(!resBoolean){%>
+	<br>
+	 <h2 style="color:red;"><%=resString%></h2>
+	<%}
+		else
+		{%>
+			<br>
+	 	<h2 style="color:green;"><%=resString%></h2>
+		<%}
+		}
+	%>
+		 
+	 <form method="get" action="ServletCuenta">
 		 <label for="labeldni">Buscar DNI:</label><br>
 		 <input type="text" name="txtdni" required>
-		 <input type="submit" value="Buscar" name="btnBuscar">
+		 <input type="submit" value="Buscar" name="btnBuscarBaja">
 	 </form>
 	 
-	 <table border="1">
-<tr>	
-<th>Nro Cuenta</th>
-<th>CBU</th>
-<th>DNI</th>
-<th>fecha de creacion</th>
-<th>tipo de Cuenta</th>
-<th>Saldo</th>
-<th>Estado</th>
-</tr>
-<tr>
-<td>001</td>
-<td>11111111</td>
-<td>56809576</td>
-<td>5/11/2022</td>
-<td>1</td>
-<td>1000000</td>
-<td>Activo</td>
-<td><input type="button" value="Baja"></td>
-</tr>
-</table>
+	 	<script>
+		<%
+		 	if(resString!= null && resBoolean!= null){	
+		 		if(!resString.equals("go"))
+		 		{
+		 			%>
+					function resultado(){alert("<%=resString%>");}
+				<%}}
+		 	%>
+		
+			
+			</script>
+			
+<form method="get" action="ServletCuenta">
+	 <%	
+	if(listaCuentas != null && resBoolean!= null && resBoolean )
+		
+	{%>
+	
+		<table >
+		<thead>
+		<tr>
+			<td colspan="6">Cuentas disponibles para el DNI <%=dni%></td>
+		</tr>
+		   	</thead>
+		<tr>
+		    <th>Numero de cuenta</th>
+		    <th>CBU</th>
+		    <th>Fecha Creación</th>
+		    <th>Tipo de cuenta</th>
+		     <th>Saldo</th>
+		     <th colspan="2">Estado</th>
+		</tr>
+		<%
+		for(Cuenta c:listaCuentas)
+		{%>
+		<tr>
+			<td><%=c.getNroCuenta() %></td>
+			<td><%=c.getCbu() %></td>
+			<td><%=c.getFecha_creacion() %></td>
+			<td><%=c.getTipoCuenta().getTipoCuenta() %></td>
+			<td>$<%=c.getSaldo() %></td>
+			<td><input type="hidden" name="cuenta" value="<%=c.getNroCuenta() %>"></td>
+			<td> <input type="submit" value="Buscar" name="btnBaja"></td>
+		</tr>
+		<%}}%>
+		</table>
+ </form>
+	 </div>
 </body>
 </html>

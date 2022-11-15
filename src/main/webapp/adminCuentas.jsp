@@ -21,7 +21,7 @@
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
 			<a href="adminAltaCuenta.jsp"> Alta nuevo Cuentas </a>
-			<a href=# > Modificar/Eliminar Cuentas </a>
+			<a href="adminBajaCuenta.jsp" > Dar de Baja Cuentas </a>
 		</div>
 </div>
 
