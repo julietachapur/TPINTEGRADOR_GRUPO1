@@ -144,6 +144,7 @@ public class ServletCliente extends HttpServlet {
 		Cliente cl = clienteNeg.readOne(clienteSeleccionado);					        
 	    
 		request.setAttribute("cliente", cl);
+		request.setAttribute("dni", clienteSeleccionado);
 		RequestDispatcher rd = request.getRequestDispatcher("/modifClienteForm.jsp");
 		
 		cargarDesplegablesModif(request, response);
@@ -299,7 +300,7 @@ public class ServletCliente extends HttpServlet {
 	        UsuarioNegocio usNeg = new UsuarioNegocioImpl();
 	        Boolean eliminadoUs = usNeg.logicalDeletion(dni);
 	        
-			if (eliminado && eliminadoUs) {
+			if (eliminado) {
 		        System.out.println("cliente eliminado"); 
 				request.setAttribute("eliminado", eliminado);
 			

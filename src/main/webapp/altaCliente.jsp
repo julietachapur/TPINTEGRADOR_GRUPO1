@@ -139,7 +139,7 @@
 	<form method="get" action="ServletUsuario">
 	  <p class="button">
         <input id="btnRegistrar" type="submit" value="Alta Usuario Home Banking" name="btnAltaUsuario">
-        <input type="hidden" name="getDni" value=<%= dni %> >
+        <input type="hidden" name="dni" value=<%= dni %> >
       </p>
 	</form>
 <%} %>

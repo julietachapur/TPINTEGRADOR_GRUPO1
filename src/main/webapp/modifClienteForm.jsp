@@ -16,13 +16,18 @@
 <body>
 
 <% 
-
+	String dni = null;
+	Cliente cl = null;
+	
 	ArrayList<String> sexo = new ArrayList<String>();
 	sexo.add("F");
 	sexo.add("M");
 	sexo.add("X");
 	
-	Cliente cl = null;
+	if(request.getAttribute("dni") != null) {
+		dni = (String) request.getAttribute("dni");
+	}
+	
 	if(request.getAttribute("cliente") != null) {
 		cl = (Cliente) request.getAttribute("cliente");
 	}
@@ -152,6 +157,14 @@
 	<%}%>
 	</div>
 <%} %>
+</div>
+<div>
+	<form method="get" action="ServletUsuario">
+	  <p class="button">
+        <input id="btnRegistrar" type="submit" value="Alta / Modificación Usuario Home Banking" name="btnModifUsuario">
+        <input type="hidden" name="dni" value=<%= dni %> >
+      </p>
+	</form>
 </div>
 
 </div>
