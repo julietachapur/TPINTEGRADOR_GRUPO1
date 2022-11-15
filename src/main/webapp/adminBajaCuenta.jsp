@@ -78,17 +78,17 @@
 		
 			
 			</script>
-	 
-	 
-	 
+			
+<form method="get" action="ServletCuenta">
 	 <%	
 	if(listaCuentas != null && resBoolean!= null && resBoolean )
 		
 	{%>
+	
 		<table >
 		<thead>
 		<tr>
-			<td colspan="2">Cuentas disponibles para el DNI <%=dni%></td>
+			<td colspan="6">Cuentas disponibles para el DNI <%=dni%></td>
 		</tr>
 		   	</thead>
 		<tr>
@@ -108,38 +108,12 @@
 			<td><%=c.getFecha_creacion() %></td>
 			<td><%=c.getTipoCuenta().getTipoCuenta() %></td>
 			<td>$<%=c.getSaldo() %></td>
-			<td><input type="button" value="Baja"></td>
+			<td><input type="hidden" name="cuenta" value="<%=c.getNroCuenta() %>"></td>
+			<td> <input type="submit" value="Buscar" name="btnBaja"></td>
 		</tr>
 		<%}}%>
 		</table>
+ </form>
 	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 <table border="1">
-<tr>	
-<th>Nro Cuenta</th>
-<th>CBU</th>
-<th>DNI</th>
-<th>fecha de creacion</th>
-<th>tipo de Cuenta</th>
-<th>Saldo</th>
-
-</tr>
-<tr>
-<td>001</td>
-<td>11111111</td>
-<td>56809576</td>
-<td>5/11/2022</td>
-<td>1</td>
-<td>1000000</td>
-<td>Activo</td>
-
-</tr>
-</table>
 </body>
 </html>

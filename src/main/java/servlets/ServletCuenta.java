@@ -49,7 +49,10 @@ public class ServletCuenta extends HttpServlet {
 
 		if (request.getParameter("btnAgregar") != null) {
 			registrarCuenta(request, response);
-		}		
+		}
+		if (request.getParameter("btnBaja") != null) {
+			BajaCurrentCuenta(request, response);
+		}	
 
 	}
 
@@ -123,11 +126,13 @@ public class ServletCuenta extends HttpServlet {
 	private void registrarCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		RequestDispatcher rd;
-		boolean agregado = false;
+		
 		int tc = Integer.parseInt(request.getParameter("TC"));
 		String dni = request.getParameter("dni");
 		CuentaNegocio neg = new CuentaNegocioImpl();
+		boolean agregado = false;
 		String resString="";
+		
 		if(neg.verificarCliente(dni))
 		{
 			if(!neg.verificarMaxCuentas(dni))
@@ -165,7 +170,24 @@ public class ServletCuenta extends HttpServlet {
 		rd.forward(request, response);
 	
 	}
-
+	private void BajaCurrentCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		RequestDispatcher rd;
+		int nroCuenta = Integer.parseInt(request.getParameter("cuenta"));
+		CuentaNegocio neg = new CuentaNegocioImpl();
+		boolean borrado = false;
+		String resString="";
+		borrado = neg.delete(neg.readOne(nroCuenta));
+		if (borrado) 
+			resString="Cuenta dada de baja Satisfactoriamente";
+		else
+					resString="Cuenta "+neg.readOne(nroCuenta).getNroCuenta()+" no pudo ser dada de baja satisfactoriamente";
+				
+				request.setAttribute("resString", resString);
+				request.setAttribute("resBoolean", borrado);
+		rd = request.getRequestDispatcher("/adminBajaCuenta.jsp");
+		rd.forward(request, response);
+	}
 
 }
 		
