@@ -50,7 +50,12 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		cta = cDao.readOne(nroCta);
 		return cta; 
 	}
-
+	
+	public Cuenta readOneCbu(String cbu){
+		Cuenta cta = new Cuenta();
+		cta = cDao.readOneCbu(cbu);
+		return cta; 
+	}
 
 
 
@@ -63,6 +68,7 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		}
 		return estado;
 	}
+
 
 	public boolean delete(Cuenta persona_a_eliminar) {
 		boolean estado=false;
@@ -115,7 +121,7 @@ public class CuentaNegocioImpl implements CuentaNegocio {
            return false;
 }
 	}
-
+	
 	public boolean verificarMaxCuentas(String dni) {
 		CuentaDao cDao = new CuentaDaoImpl();
 		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) cDao.readForClient(dni);
@@ -125,6 +131,5 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		}
 		return false;
 	}
-
 
 }

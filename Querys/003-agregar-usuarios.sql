@@ -3,7 +3,7 @@ insert into usuarios(usuario, dni, tipoUsuario, contraseña, estado)
 			dni, 
             2 as tipoUsuario,
             'clave' as clave, 
-            true as estadp
+            true as estado
 	from clientes
 	union all
     select concat(nombre,'Adm') as usuario, 

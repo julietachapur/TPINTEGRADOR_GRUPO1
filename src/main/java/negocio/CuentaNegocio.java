@@ -25,4 +25,8 @@ public interface CuentaNegocio {
 	boolean verificarMaxCuentas(String dni);
 	
 	boolean verificarCliente(String dni);
+	
+	public Cuenta readOneCbu(String cbu);
+	
+	
 }

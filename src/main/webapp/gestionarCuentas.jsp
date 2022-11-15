@@ -28,7 +28,7 @@
 		currentCuenta = listaCuentas.get(0).getNroCuenta();
 	}
 	
-	if( request.getSession().getAttribute("cuentaSeleccionada") != null) 
+	if(request.getSession().getAttribute("cuentaSeleccionada") != null) 
 	{
 		currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
 	}
@@ -61,8 +61,8 @@
 
 <div class="menu">
 	<div class="opcionesMenu">
-			<a href="/TPINTEGRADOR_GRUPO1/ServletMovimientos?getCuenta"><input type="hidden" name="cta" value="<%=currentCuenta%>">Movimientos</a> 
-			<a href=transferencias.jsp >Transferencias</a>
+			<a href="/TPINTEGRADOR_GRUPO1/ServletMovimientos?getCuenta="><input type="hidden" name="cta" value="<%=currentCuenta%>">Movimientos</a> 
+			<a href="/TPINTEGRADOR_GRUPO1/transferencias.jsp?getCuenta=<%=currentCuenta%>" >Transferencias</a>
 		  	<a href=solicitarPrestamo.jsp>Solicitar prestamo</a>
 		  	<a href=pagarPrestamo.jsp>Pagar prestamos</a>
 		</div>

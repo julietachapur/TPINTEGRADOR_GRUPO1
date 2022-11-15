@@ -16,7 +16,9 @@ public interface  CuentaDao {
 
 	public List<Cuenta> readForClient(String dni);
 
-	public Cuenta readOne(int codCuenta);
+	public Cuenta readOneCbu(String cbu);
+	
+	public Cuenta readOne(int nroCuenta);
 
 	public int readLast();
 
