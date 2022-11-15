@@ -55,5 +55,13 @@ public class ClienteNegocioImpl implements ClienteNegocio {
 		return cDao.readLast();
 	}
 
+	public Cliente readOne(String dni) {
+		Cliente cliente;
+		System.out.print(cDao.readOne(dni));
+		cliente = cDao.readOne(dni);
+		return cliente;
+	}
+
+
 
 }
