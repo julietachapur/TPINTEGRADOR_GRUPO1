@@ -68,9 +68,10 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		Prestamo p = new Prestamo();
 		PrestamosxAutorizarNegocio pdxaNeg = new PrestamosxAutorizarNegocioImpl();
 		PrestamoxAutorizar pxa = new PrestamoxAutorizar();
-		pxa.setNroCuenta(Integer.parseInt(request.getParameter("pagoPrestamos")));
+		pxa.setNroCuenta(Integer.parseInt(request.getParameter("getCuenta")));
 		p.setCantidad_cuotas(Integer.parseInt(request.getParameter("txtCuotas")));
 		p.setImporte_pedido(new BigDecimal(request.getParameter("txtMonto")));
+		pxa.setPrestamo(p);
 		boolean solicitado = false;
 		solicitado = pdxaNeg.insert(pxa);
 
@@ -78,10 +79,10 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 			resString="Solicitud agregada Satisfactoriamente";
 		else
 			resString="Solicitud no pudo ser agregada Satisfactoriamente";
-		
+		request.setAttribute("getCuenta", pxa.getNroCuenta());
 		request.setAttribute("resString", resString);
 		request.setAttribute("resBoolean", solicitado);
-		rd = request.getRequestDispatcher("/pagarPrestamo.jsp");
+		rd = request.getRequestDispatcher("/solicitarPrestamo.jsp");
 		rd.forward(request, response);
 	}
 

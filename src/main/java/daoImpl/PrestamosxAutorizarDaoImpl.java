@@ -49,7 +49,6 @@ public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao{
 		}
 
 		return isInsertExitoso;
-	
 	}
 	@Override
 	public boolean logicalDeletion(PrestamoxAutorizar prestamo) {

@@ -1,5 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entidad.Cuenta" %>
+<%@page import="entidad.Usuario" %>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -14,36 +15,52 @@
 </style>
 </head>
 <body>
-
 <% 
-	ArrayList<Cuenta> listaCuentas= null;
-	String resString=null;
-	Boolean resBoolean=false;
-	if(request.getAttribute("getCuenta")!=null)
+
+
+
+
+///Verificacion  de usuario conectado
+Usuario usuario = null;
+if(request.getSession().getAttribute("Usuario") != null) {
+	usuario = (Usuario) request.getSession().getAttribute("Usuario");
+}
+else
+{
+    response.setStatus(response.SC_MOVED_TEMPORARILY);
+    response.setHeader("Location", "index.jsp"); 	
+}
+///terminacion de Verificacion  de usuario conectado
+
+
+///comprobacion de cuenta
+int currentCuenta = 0;
+if(request.getSession().getAttribute("cuentaSeleccionada") != null) 
 	{
-		listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");
+	currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
 	}
-	
-	if(request.getAttribute("resString")!=null)
+///terminacion de comprobacion de cuenta
+
+
+///Resultados para cuando vuelve la pagina con response
+String resString=null;
+Boolean resBoolean=false;
+if(request.getAttribute("resString")!=null)
 	{
 		resString =  request.getAttribute("resString").toString();
 	}
-	if(request.getAttribute("resBoolean")!=null)
+if(request.getAttribute("resBoolean")!=null)
 	{
-		resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
+	resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
 	}
+/////Terminacion de resultados
  %>
- 
-
-
-
-
-
-
-
 <a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
-<h1 style="margin:auto;text-align:center;margin-bottom:30px;">Solicitar nuevo prestamo</h1>
 
+
+<form class="form" method="get" action="ServletPrestamosxAutorizar">
+
+<h1 style="margin:auto;text-align:center;margin-bottom:30px;">Solicitar nuevo prestamo</h1>
 <%
 		if(resString!= null && !resString.equals("go"))
 		{
@@ -59,9 +76,9 @@
 		}
 	%>
 	
-<form class="form">
+
     <fieldset>
-      <legend>Solicitud de prestamo</legend>
+      <legend>Solicitud de prestamo para cuenta <%=currentCuenta%></legend>
       <p class="inputForm">
         <label for="txtMonto">Monto solicitado</label>
         <input id="txtMonto" type="text"required name="txtMonto" placeholder="$..">
@@ -70,11 +87,9 @@
         <label for="txtCuotas">Cant. De cuotas</label>
         <input id="txtCuotas" type="text"required name="txtCuotas" placeholder="">
       </p>
-      <p class="inputForm">
-      </p>
+      <input type="hidden" name="getCuenta" value="<%=currentCuenta%>">
       <p class="buton">
-        <input id="btnRealizarSolicitudPrestamo" type="submit" value="Solicitar Prestamo" required name="btnRealizarSolicitudPrestamo">
-      </p>
+		<input id="btnRealizarSolicitudPrestamo" type="submit" value="Solicitar Prestamo" required name="btnRealizarSolicitudPrestamo">      </p>
     </fieldset>
 </form>		
 </body>
