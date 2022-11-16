@@ -58,27 +58,39 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		
 	}
 	
-	public void btnRealizarSolicitudPrestamo(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
+	public void btnRealizarSolicitudPrestamo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
 		RequestDispatcher rd;
 		String resString="";
 		Prestamo p = new Prestamo();
 		PrestamosxAutorizarNegocio pdxaNeg = new PrestamosxAutorizarNegocioImpl();
+		boolean solicitado = false;
 		PrestamoxAutorizar pxa = new PrestamoxAutorizar();
-		pxa.setNroCuenta(Integer.parseInt(request.getParameter("pagoPrestamos")));
+		try
+		{
+		pxa.setNroCuenta(Integer.parseInt(request.getParameter("getCuenta")));
 		p.setCantidad_cuotas(Integer.parseInt(request.getParameter("txtCuotas")));
 		p.setImporte_pedido(new BigDecimal(request.getParameter("txtMonto")));
-		boolean solicitado = false;
+		
+		pxa.setPrestamo(p);
+		
 		solicitado = pdxaNeg.insert(pxa);
 
 		if(solicitado)
 			resString="Solicitud agregada Satisfactoriamente";
 		else
 			resString="Solicitud no pudo ser agregada Satisfactoriamente";
-		
-		request.setAttribute("resString", resString);
+		}
+		catch(Exception e)
+		{
+			resString="Solicitud no pudo ser agregada Satisfactoriamente";
+			request.setAttribute("cuentaSeleccionada",null);
+		}
+		request.setAttribute("cuentaSeleccionada", pxa.getNroCuenta());
 		request.setAttribute("resBoolean", solicitado);
-		rd = request.getRequestDispatcher("/pagarPrestamo.jsp");
+		request.setAttribute("resString", resString);
+		rd = request.getRequestDispatcher("/solicitarPrestamo.jsp");
 		rd.forward(request, response);
+		
 	}
 
 }
