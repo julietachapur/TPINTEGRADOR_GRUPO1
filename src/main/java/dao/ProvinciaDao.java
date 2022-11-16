@@ -17,4 +17,5 @@ public interface ProvinciaDao {
 	public Provincia readOne(int codProvincia);
 
 	public int readLast();
+	
 }

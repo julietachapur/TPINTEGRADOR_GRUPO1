@@ -1,5 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Prestamo" %>
+<%@page import="entidad.Cuenta" %>
+<%@page import="entidad.Cuota" %>
+<%@page import="java.util.ArrayList" %>
+<%-- <%@page import="jakarta.servlet.RequestDispatcher" %> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,43 +17,95 @@
 <body>
 <a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1 style="margin:auto;text-align:center;margin-bottom:30px;">Pagar prestamos</h1>
-	<div class="comboEleccionCuenta" style="margin-bottom:15px;">
+		<%
+		ArrayList<Prestamo> prestamoList = null;
+		ArrayList<Cuenta> cuentasList = null;
+		ArrayList<Cuota> cuotasList = null;
+		int pos= 0;
+		int nroCuenta = 0;
+		
+		/*Verifico si estoy recibiendo todos los parametros que necesito*/
+		if (request.getAttribute("Prestamos")!=null &&request.getAttribute("Cuotas")!=null && request.getSession().getAttribute("cuentas") != null && request.getAttribute("NroCuenta")!=null){
+			prestamoList = (ArrayList<Prestamo>) request.getAttribute("Prestamos");
+			cuotasList = (ArrayList<Cuota>) request.getAttribute("Cuotas");
+			nroCuenta = (int) request.getAttribute("NroCuenta");
+			cuentasList = (ArrayList<Cuenta>) request.getSession().getAttribute("cuentas");
+			for(int i=0;i<cuentasList.size();i++) { 
+	 			if(cuentasList.get(i).isEstado()){
+	 				if (cuentasList.get(i).getNroCuenta()==nroCuenta){
+	 					pos=i;
+	 					break;
+	 				}
+	 			}
+			}
+			
+		}
+		else{
+			request.setAttribute("ErrorSinParametro",true);
+			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+			dispatcher.forward(request,response);
+		}
+		//cuentasList.get(pos)
+		%>
 		<label>Seleccionar Prestamo</label>
-		<select class="select">
-			<option>12312412412412412</option>
-			<option>4685541124411425</option>
+		<section class="eleccion-prestamos">
+		<select class="select" id="select-prestamo">
+			<option value="-1">Seleccione un prestamo</option>
+		<% for(Prestamo p : prestamoList){%>
+			<option value="<%=p.getCodPrestamo()%>">Codigo: <%=p.getCodPrestamo()%> - Monto: $<%=p.getImporte_a_pagar()%></option>
+		
+		<%}%> 
 		</select>
-	</div>
-	<div class="comboEleccionCuenta" style="margin-bottom:20px;">
-		<label>Seleccionar cuota</label>
-		<select class="select">
-			<option>1/6</option>
-			<option>2/3</option>
-			<option>3/4</option>
-			<option>4/5</option>
-			<option>5/6</option>
-			<option>6/6</option>
-		</select>
-	</div>
+		<button id="btnPagar">Pagar</button>
+	</section>
 	
-	<section class="tabla-movimientos">
-	<table>
+	<section class="Cuenta">
+		<div class="Cuenta-Tipo">
+		<%  if(cuentasList.get(pos).getTipoCuenta().getCodTipo()== 1) {	%>
+			<label id="lblCuentaTipo">CA$</label>
+		<%	} else { %>
+				<label id="lblCuentaTipo">CC$</label>
+		<%	} %>
+		</div>
+		<div class="Cuenta-Detalle">
+			<label id="lblDisponibleCuenta">$<%=cuentasList.get(pos).getSaldo() %></label>
+			<label id="lblDetalleCuenta"><%=cuentasList.get(pos).getTipoCuenta().getTipoCuenta()%> - Cuenta Nro: <%= cuentasList.get(pos).getNroCuenta() %></label>
+		</div>
+	</section>
+	
+	
+	<section class="detalle-cuota">
+	<table id="tabla-cuotas">
 		<tr>
 			<th>Cuota</th>
 			<th>Importe</th>
+			<th>Fecha de pago</th>
+			<th>Fecha vencimiento</th>
 			<th>Estado</th>
-			<th>Fecha de Vto.</th>
 		</tr>
-		<tr>
-			<td>Cuota 3/6</td>
-			<td>$1558</td>
-			<td>Vencida</td>
-			<td>25/06/2022</td>
+		<% for(Cuota c : cuotasList){%>
+		<tr class="<%=c.getCodPrestamo()%>">
+			<td><%=c.getNroCuota()%></td>
+			<td><%=c.getImporte() %></td>
+			<td><%=c.getFecha_pago() %></td>
+			<td><%=c.getFecha_venc() %></td>
+			<td><%=c.getEstado()%></td>
+			<td><button onclick="cuotaSeleccionada(<%=c.getIdCuota()%>);">Seleccionar</button></td>
 		</tr>
+		<%}%> 
 	</table>
-	<div class="botones">
-		<button>Pagar</button>
-	</div>
 	</section>
+	
+	<script>
+	
+	function cuotaSeleccionada(idCuota){
+		alert("Selecciono la cuota con el ID " + idCuota + ", vamo a pagarla en el proximo episodio");
+	}
+	
+	var prestamoSeleccionado = document.getElementById("select-prestamo");
+	var btnPagar = document.getElementById("btnPagar");
+	var tabla = document.getElementById("tabla-cuotas");
+	
+	</script>
 </body>
 </html>

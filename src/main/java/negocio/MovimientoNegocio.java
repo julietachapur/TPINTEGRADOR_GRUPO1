@@ -13,6 +13,8 @@ public interface MovimientoNegocio {
 	
 	public ArrayList<Movimiento> readOneCta(int nroCuenta);
 	
+	public ArrayList<Movimiento> readXtipoMov(int tipoMovimiento);
+
 	public Movimiento readLast();
 
 }

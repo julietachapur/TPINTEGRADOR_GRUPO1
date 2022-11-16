@@ -75,18 +75,9 @@
         <input id="txtDate" type="date"required name="txtDate" placeholder="">
       </p>
       <p class="inputForm">
-        <label for="cuentaDestino">Cuenta destino</label>
-        <select id="cuentaDestino" name="cuentaDestino" required>
-        <%	
-	if(listaCuentas != null && resBoolean!= null && resBoolean )
-		for(Cuenta c:listaCuentas)
-		{%>
-        	<option value="<%=c.getNroCuenta()%> - "><%=c.getTipoCuenta() %> </option>
-        	  <%}%>
-        </select>
       </p>
       <p class="buton">
-        <input id="btnRealizarTransferencia" type="submit" value="Solicitar" required name="btnRealizarTransferencia">
+        <input id="btnRealizarTransferencia" type="submit" value="Solicitar Prestamo" required name="btnRealizarTransferencia">
       </p>
     </fieldset>
 </form>		

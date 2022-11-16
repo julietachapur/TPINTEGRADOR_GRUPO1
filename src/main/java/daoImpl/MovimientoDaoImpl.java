@@ -23,7 +23,8 @@ public class MovimientoDaoImpl implements MovimientoDao {
 	private static final String readall = "SELECT * FROM Movimientos";
 	private static final String readOneCta = "SELECT * FROM Movimientos Where nroCuenta = ? order by fecha DESC";
 	private static final String readlast = "SELECT * FROM Movimientos ORDER by fecha DESC LIMIT 1";
-
+	private static final String readXtipoMov = "SELECT * FROM Movimientos Where tipoMovimiento = ?";
+	
 	
 	public boolean insert(Movimiento movimiento_a_agregar) {
 		PreparedStatement statement;
@@ -148,6 +149,31 @@ public class MovimientoDaoImpl implements MovimientoDao {
 		
 	}
 	
+	public ArrayList<Movimiento> readXtipoMov(int tipoMovimiento) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		ArrayList<Movimiento> movList = new ArrayList<Movimiento>();
+		Conexion conexion = Conexion.getConexion();
 
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(readXtipoMov);
+			statement.setInt(1, tipoMovimiento);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				movList.add(getMovimiento(resultSet));
+			}
+		} catch (SQLException e) {
+			System.out.print("Error al querer leer los movimientos del registro(SQL ERROR)");
+		}
+
+		return movList;
+		
+	}
 
 }

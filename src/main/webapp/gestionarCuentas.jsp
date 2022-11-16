@@ -58,15 +58,13 @@
 	    <input id="btnSeleccionar" type="submit" value="Seleccionar" name="btnSeleccionar">
 </form>
 </div>
-
 <div class="menu">
 	<div class="opcionesMenu">
 			<a href="/TPINTEGRADOR_GRUPO1/ServletMovimientos?getCuenta="><input type="hidden" name="cta" value="<%=currentCuenta%>">Movimientos</a> 
 			<a href="/TPINTEGRADOR_GRUPO1/transferencias.jsp?getCuenta=<%=currentCuenta%>" >Transferencias</a>
-		  	<a href="/TPINTEGRADOR_GRUPO1/solicitarPrstamo.jsp?getCuenta="><input type="hidden" name="cta" value="<%=currentCuenta%>">Solicitar prestamo</a>
-		  	<a href=pagarPrestamo.jsp>Pagar prestamos</a>
+		  	<a href="/TPINTEGRADOR_GRUPO1/solicitarPrestamo.jsp?getCuenta="><input type="hidden" name="cta" value="<%=currentCuenta%>">Solicitar prestamo</a>
+		  	<a href="/TPINTEGRADOR_GRUPO1/ServletPrestamos?pagoPrestamos=<%=currentCuenta%>">Pagar prestamos</a>
 		</div>
 </div>
-
 </body>
 </html>

@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,8 +22,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 */
+
 import dao.CuentaDao;
 import daoImpl.CuentaDaoImpl;
 import entidad.Cuenta;
@@ -63,6 +64,10 @@ public class ServletCuenta extends HttpServlet {
 		if (request.getParameter("btnBaja") != null) {
 			BajaCurrentCuenta(request, response);
 		}	
+		
+		if (request.getParameter("btnSeleccionar")!=null) {
+			setearCurrentCuenta(request,response);
+		}
 
 	}
 

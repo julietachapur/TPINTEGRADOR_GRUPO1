@@ -19,40 +19,52 @@
 	{
 		listaTipoMovimientos = (ArrayList<TipoMovimiento>) request.getAttribute("tipoMovimiento");
 	}
-	
+	ArrayList<Movimiento> listaMovimientos = null;
+	if(request.getAttribute("listaMovimientos") != null)
+	{
+		listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("listaMovimientos");
+	}
  %>
 
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1> Reportes </h1>
-<form method = "post" action="SelvetMovimientos"> 
+<form method = "get" action="SelvetMovimientos"> 
     <fieldset>
 	<p class="inputForm">
 		 <label for="tipoMovimiento">Movimiento:</label>
-		 <select id="tipoMovimiento" name="movimiento">
+		 <select id="movimiento" name="movimiento">
+		 <option></option>
 			<%
 			if(listaTipoMovimientos!=null)
 				for(TipoMovimiento t:listaTipoMovimientos)
 				{
 				%>
-				<option value="<%=t.getCodTipo()%>" > <%=t.getTipoMovimiento()%></option>
-				<%	}%>
+				<option value="<%=t.getCodTipo()%>"> <%=t.getTipoMovimiento()%></option>
+			<%}%>
 		 </select>
 	 </p>
 	 <label for="labelDni">DNI:</label>
 	 <input type="text" name="txtDni" >
 	 <label for="labelFechaInicio">Fecha de inicio:</label>
-	 <input type="text" name="txtFechaInicio" >
+	 <input type="date" name="txtFechaInicio" >
 	 <label for="labelFechaInicio">Fecha de fin:</label>
-	 <input type="text" name="txtFechaFin" ><br><br>
+	 <input type="date" name="txtFechaFin" ><br><br>
 	 <input type="submit" value="Filtrar" name="btnFiltrar" style="width: 156px; ">
-    </fieldset>
+</fieldset>
+	 <table border="1">
+	 <tr> <th>Detalle</th>    <th>Fecha</th>   <th>Importe</th>   <th>Numero de cuenta</th> <th>Saldo</th></tr>
+	 <% 
+		if(listaMovimientos != null)
+		for(Movimiento mov:listaMovimientos)
+		{
+		%>
+		<tr> <th><%=mov.getDetalle()%></th>    <th><%=mov.getFecha()%></th>   <th><%=mov.getImporte()%></th>  <th><%=mov.getNroCuenta().getNroCuenta()%></th> <th><%=mov.getSaldo()%></th>
+		 </tr>
+		<%} %>
+	 </table>
 </form>
-<table border="1">
-<tr> <th>N Cuenta</th>    <th>Saldo</th>   <th>Monto</th> </tr>
-<tr> <th>valor1</th>    <th>valor2</th>   <th>valor3</th> </tr>
-</table>
 
-<form method = "get" action=""> 
+<form method = "get" action="SelvetMovimientos"> 
  <br><br>
  <label for="labelTransacciones">Cantidad de transacciones: </label><br><br>
  <input type="hidden" name="txtTransacciones" value= "transacciones">

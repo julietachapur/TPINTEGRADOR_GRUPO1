@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+
 public class Cuenta {
 	
 	private int nroCuenta;  
@@ -88,5 +89,5 @@ public class Cuenta {
 		return "Cuenta [nroCuenta=" + nroCuenta + ", cbu=" + cbu + ", dni=" + dni + ", fecha_creacion=" + fecha_creacion
 				+ ", tipoCuenta=" + tipoCuenta + ", saldo=" + saldo + ", estado=" + estado + "]";
 	}
-	
+
 }
