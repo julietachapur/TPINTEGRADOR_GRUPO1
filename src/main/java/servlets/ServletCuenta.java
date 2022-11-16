@@ -64,6 +64,10 @@ public class ServletCuenta extends HttpServlet {
 		if (request.getParameter("btnBaja") != null) {
 			BajaCurrentCuenta(request, response);
 		}	
+		
+		if (request.getParameter("btnSeleccionar")!=null) {
+			setearCurrentCuenta(request,response);
+		}
 
 	}
 

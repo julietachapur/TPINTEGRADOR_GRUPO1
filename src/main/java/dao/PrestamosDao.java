@@ -2,7 +2,7 @@ package dao;
 
 import java.util.List;
 
-
+import entidad.Cuota;
 import entidad.Prestamo;
 
 
@@ -21,4 +21,6 @@ public interface PrestamosDao {
 	public String readLast();
 
 	public List<Prestamo> readAllDni(String dni);
+	
+	public List<Cuota> getCuotas(int codPrestamo);
 }

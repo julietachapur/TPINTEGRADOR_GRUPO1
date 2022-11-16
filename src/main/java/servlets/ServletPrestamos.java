@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import entidad.Cuota;
 import entidad.Prestamo;
 import entidad.Usuario;
 import jakarta.servlet.RequestDispatcher;
@@ -41,7 +42,6 @@ public class ServletPrestamos extends HttpServlet {
 		// TODO Auto-generated method stub
 		if (request.getParameter("pagoPrestamos")!=null) {
 			obtenerPrestamos(request, response);
-			
 	
 		}
 		
@@ -57,8 +57,9 @@ public class ServletPrestamos extends HttpServlet {
 	
 	public void obtenerPrestamos(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException  {
 		Usuario usuario = new Usuario();
-		
+		int nroCuenta = Integer.parseInt(request.getParameter("pagoPrestamos"));
 		ArrayList<Prestamo> prestamosList = new ArrayList<Prestamo>();
+		ArrayList<Cuota> cuotaList = new ArrayList<Cuota>();
 		usuario = (Usuario)request.getSession().getAttribute("Usuario");
 		PrestamosNegocioImpl prestamos = new PrestamosNegocioImpl();
 		prestamosList=(ArrayList<Prestamo>) prestamos.readAllDni(usuario.getDni());	
@@ -68,13 +69,16 @@ public class ServletPrestamos extends HttpServlet {
 		/*Levanto solo los prestamos activos*/
 		while (it.hasNext()) {
 			Prestamo p = it.next();
-			if(p.getEstado()) 
+			if(p.getEstado()) {
 				prestamosActivos.add(p);
+				cuotaList.addAll((ArrayList<Cuota>)prestamos.getCuotas(p.getCodPrestamo()));
+			}
 		}
 		
-		if (prestamosActivos.size() != 0) {
+		if (prestamosActivos.size() != 0 && cuotaList.size()!=0) {
 			request.setAttribute("Prestamos", prestamosActivos);
-			
+			request.setAttribute("NroCuenta", nroCuenta);	
+			request.setAttribute("Cuotas", cuotaList);	
 		}
 		else {
 			request.setAttribute("SinPrestamos", true);
@@ -84,6 +88,5 @@ public class ServletPrestamos extends HttpServlet {
 		rd.forward(request, response);
 		
 	}
-	
 
 }

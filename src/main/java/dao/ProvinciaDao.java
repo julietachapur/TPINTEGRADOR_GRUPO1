@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 
+import entidad.Cuota;
 import entidad.Provincia;
 
 public interface ProvinciaDao {
@@ -17,4 +18,5 @@ public interface ProvinciaDao {
 	public Provincia readOne(int codProvincia);
 
 	public int readLast();
+	
 }
