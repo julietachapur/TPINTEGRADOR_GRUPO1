@@ -21,5 +21,4 @@ public class PrestamoxAutorizar {
 		this.nroCuenta = nroCuenta;
 	}
 	
-	
 }

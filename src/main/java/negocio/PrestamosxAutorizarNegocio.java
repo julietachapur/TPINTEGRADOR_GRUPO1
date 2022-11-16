@@ -1,10 +1,7 @@
-papackage negocio;
+package negocio;
 
 import java.util.List;
 
-import entidad.Cuota;
-import entidad.Localidad;
-import entidad.Prestamo;
 import entidad.PrestamoxAutorizar;
 
 public interface PrestamosxAutorizarNegocio {
@@ -18,4 +15,5 @@ public interface PrestamosxAutorizarNegocio {
 	public List<PrestamoxAutorizar> readAll();
 	
 	public PrestamoxAutorizar readOne(int nroCuenta);
+	
 }
