@@ -56,19 +56,19 @@
       <legend>Nuevo cliente</legend>
       <p class="inputForm">
         <label for="dni">DNI</label>
-        <input id="dni" type="text" required name="txtDNI" value= ${txtDni}>
+        <input id="dni" type="text" required maxlength=10 name="txtDNI" value= ${txtDni}>
       </p>
       <p class="inputForm">
         <label for="nombres">Nombre</label>
-        <input id="nombres" type="text"required name="txtNombre">
+        <input id="nombres" type="text" maxlength=50 required name="txtNombre">
       </p>
       <p class="inputForm">
         <label for="apellidos">Apellido</label>
-        <input id="apellidos" type="text" required name="txtApellido">
+        <input id="apellidos" type="text" maxlength=50 required name="txtApellido">
       </p>      
       <p class="inputForm">
         <label for="cuil">CUIL</label>
-        <input id="cuil" type="text" required name="txtCuil">
+        <input id="cuil" type="text" required name="txtCuil" maxlength=13>
       </p>
       <p class="inputForm">
         <label for="sexo">Sexo</label>
@@ -99,7 +99,7 @@
       </p>     
       <p class="inputForm">
         <label for="direccion">Dirección</label>
-        <input id="direccion" type="text" required name="txtDireccion">
+        <input id="direccion" type="text" required name="txtDireccion" maxlength=200>
       </p>
       <p class="inputForm">
         <label for="localidad">Localidad</label> 
@@ -115,7 +115,7 @@
       </p>
       <p class="inputForm">
         <label for="email">E-mail</label>
-        <input id="email" type="email" required name="txtEmail">
+        <input id="email" type="email" required name="txtEmail" maxlength=200>
       </p>
       <p class="button">
         <input id="btnRegistrar" type="submit" value="Registrar" name="btnAltaCliente">
@@ -139,7 +139,7 @@
 	<form method="get" action="ServletUsuario">
 	  <p class="button">
         <input id="btnRegistrar" type="submit" value="Alta Usuario Home Banking" name="btnAltaUsuario">
-        <input type="hidden" name="getDni" value=<%= dni %> >
+        <input type="hidden" name="dni" value=<%= dni %> >
       </p>
 	</form>
 <%} %>

@@ -18,12 +18,12 @@
 <h1>Panel Administrador</h1>
 <span>Seleccione la opción deseada: </span>
 
-		<!---<div class="opcionesMenu">
+		<div class="opcionesMenu">
 			<a href=adminClientes.jsp> Administrar Clientes </a>
 			<a href=adminCuentas.jsp > Administrar Cuentas </a>
 		  	<a href=adminPrestamos.jsp> Préstamos </a>
-		    <a href=reportes.jsp> Informes </a>
-		</div>--->
+		    <a href=/TPINTEGRADOR_GRUPO1/ServletMovimientos?getMovimientos> Informes </a>
+		</div>
 </div>
 <script>
 		<%
