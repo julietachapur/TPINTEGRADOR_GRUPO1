@@ -13,6 +13,15 @@ public class Prestamo {
 	private int plazo_pago;
 	private BigDecimal monto_mensual;
 	private int cantidad_cuotas;
+	private boolean estado;
+
+	public boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
 
 	public Prestamo() {	}
 
@@ -26,6 +35,18 @@ public class Prestamo {
 		this.plazo_pago = plazo_pago;
 		this.monto_mensual = monto_mensual;
 		this.cantidad_cuotas = cantidad_cuotas;
+	}
+	
+	public Prestamo(int codPrestamo, Date fecha, BigDecimal importe_a_pagar, BigDecimal importe_pedido,
+			int plazo_pago, BigDecimal monto_mensual, int cantidad_cuotas, boolean estado) {
+		this.codPrestamo = codPrestamo;
+		this.fecha = fecha;
+		this.importe_a_pagar = importe_a_pagar;
+		this.importe_pedido = importe_pedido;
+		this.plazo_pago = plazo_pago;
+		this.monto_mensual = monto_mensual;
+		this.cantidad_cuotas = cantidad_cuotas;
+		this.estado = estado;
 	}
 
 	public int getCodPrestamo() {

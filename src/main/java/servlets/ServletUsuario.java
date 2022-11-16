@@ -21,23 +21,21 @@ import negocio.PaisNegocio;
 import negocio.TipoUsuarioNegocio;
 import negocio.UsuarioNegocio;
 
-
+/*
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+*/
 
-/*
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-*/
 
 /**
  * Servlet implementation class ServletUsuario
@@ -58,13 +56,21 @@ public class ServletUsuario extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if (request.getParameter("getDni") != null && request.getParameter("btnAltaUsuario") != null) {
-			String dni = request.getParameter("getDni");
-			cargarDesplegables(dni, request, response);
+		if (request.getParameter("dni") != null && request.getParameter("btnAltaUsuario") != null) {
+			String dni = request.getParameter("dni");
+			cargarDesplegablesAlta(dni, request, response);
 		}
 		
 		if(request.getParameter("btnAltaUs") != null ) {
 			registrarUsuario(request, response);
+		}
+		
+		if(request.getParameter("btnModifUsuario") != null ) {
+			cargarUsuarioParaModif(request, response);
+		}
+		
+		if(request.getParameter("btnModifUs") != null ) {
+			modificarUsuario(request, response);
 		}
 
 	}
@@ -74,7 +80,7 @@ public class ServletUsuario extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		if (request.getParameter("btnIniciarSesion")!=null) {
+		if (request.getParameter("btnIniciarSesion") != null) {
 			Usuario usuario = new Usuario();
 			RequestDispatcher rd;
 			if(iniciarSesion(request, response, usuario)){
@@ -132,7 +138,7 @@ public class ServletUsuario extends HttpServlet {
 		}
 	
 		
-		private void cargarDesplegables(String dni, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		private void cargarDesplegablesAlta(String dni, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			TipoUsuarioNegocio usNeg = new TipoUsuarioNegocioImpl(); 
 			ArrayList<TipoUsuario> lTiposUs = (ArrayList<TipoUsuario>) usNeg.readAll();
 			request.setAttribute("tiposUsuarios", lTiposUs);
@@ -142,6 +148,33 @@ public class ServletUsuario extends HttpServlet {
 			rd.forward(request, response);
 			
 		}
+		
+		private void cargarDesplegablesModif(String dni, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			TipoUsuarioNegocio usNeg = new TipoUsuarioNegocioImpl(); 
+			ArrayList<TipoUsuario> lTiposUs = (ArrayList<TipoUsuario>) usNeg.readAll();
+			request.setAttribute("tiposUsuarios", lTiposUs);
+			request.setAttribute("dni", dni);
+				
+			RequestDispatcher rd = request.getRequestDispatcher("/modifUsuarioForm.jsp");
+			rd.forward(request, response);
+			
+		}
+		
+		private void cargarUsuarioParaModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+			UsuarioNegocio usNeg = new UsuarioNegocioImpl(); 
+		    String dni = request.getParameter("dni");	
+			Usuario us = usNeg.readOne(dni);	
+			String usuario = us.getUsuario();
+			request.setAttribute("usuario", us);
+		    
+			if (usuario != null) {
+				cargarDesplegablesModif(dni, request, response);
+			} else {
+				cargarDesplegablesAlta(dni, request, response);
+			}
+			
+		}
+		
 		
 		private void registrarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			RequestDispatcher rd;
@@ -154,12 +187,12 @@ public class ServletUsuario extends HttpServlet {
 			String usuario = request.getParameter("txtUsuario");
 			String dni = request.getParameter("txtDNI");
 
-				Cliente cl = new Cliente();
-				TipoUsuario tipo = new TipoUsuario();
-				cl.setDni(dni);
-				tipo.setCodTipo(tipoUsuario);
+			Cliente cl = new Cliente();
+			TipoUsuario tipo = new TipoUsuario();
+			cl.setDni(dni);
+			tipo.setCodTipo(tipoUsuario);
 				
-				Usuario us = new Usuario(usuario, cl, tipo, contrasenia, true);
+			Usuario us = new Usuario(usuario, cl, tipo, contrasenia, true);
 				
 			if(contrasenia.equals(contrasenia2)){												
 				try {
@@ -183,7 +216,7 @@ public class ServletUsuario extends HttpServlet {
 				request.setAttribute("mensaje", mensaje);
 				request.setAttribute("agregado", agregado);
 				request.setAttribute("usuario", us);
-				cargarDesplegables(dni, request, response);
+				cargarDesplegablesAlta(dni, request, response);
 			}
 			
 			rd = request.getRequestDispatcher("altaUsuario.jsp");
@@ -191,5 +224,54 @@ public class ServletUsuario extends HttpServlet {
 			
 		}
 
+		private void modificarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			RequestDispatcher rd;
+			String mensaje = null;
+			boolean modificado = false;
+			
+			String contrasenia = request.getParameter("txtContrasenia");
+			String contrasenia2 = request.getParameter("txtContrasenia2");
+			int tipoUsuario = Integer.parseInt(request.getParameter("tipo"));
+			String usuario = request.getParameter("txtUsuario");
+			String dni = request.getParameter("txtDNI");
+
+			Cliente cl = new Cliente();
+			TipoUsuario tipo = new TipoUsuario();
+			cl.setDni(dni);
+			tipo.setCodTipo(tipoUsuario);
+				
+			Usuario us = new Usuario(usuario, cl, tipo, contrasenia, true);
+				
+			if(contrasenia.equals(contrasenia2)){												
+				try {
+					UsuarioNegocio usNeg = new UsuarioNegocioImpl(); 							
+					modificado = usNeg.update(us);
+					if (modificado) {
+						System.out.println(us); 
+						request.setAttribute("modificado", modificado);
+						mensaje = "Usuario modificado con éxito";
+						request.setAttribute("usuario", us);
+						request.setAttribute("mensaje", mensaje);
+
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+			} else {
+				mensaje = "Las contraseñas no coinciden";
+				request.setAttribute("mensaje", mensaje);
+				request.setAttribute("modificado", modificado);
+				request.setAttribute("usuario", us);
+				cargarDesplegablesModif(dni, request, response);
+			}
+			
+			rd = request.getRequestDispatcher("modifUsuarioForm.jsp");
+			rd.forward(request, response);
+			
+		}
+
 }
+
 

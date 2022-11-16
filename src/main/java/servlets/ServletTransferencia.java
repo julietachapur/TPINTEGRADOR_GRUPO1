@@ -6,21 +6,22 @@ import java.math.BigDecimal;
 import entidad.Cuenta;
 import entidad.TipoMovimiento;
 
+/*
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+*/
 
-
-/*import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-*/
+
 import negocioImpl.CuentaNegocioImpl;
 import negocioImpl.TransferenciaNegocioImpl;
 
@@ -56,15 +57,13 @@ public class ServletTransferencia extends HttpServlet {
 		// TODO Auto-generated method stub
 		if (request.getParameter("btnRealizarTransferencia")!=null) {
 			try {
-				realizarTransferencia(request,response);
-				RequestDispatcher rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
-				rd.forward(request, response);
+				realizarTransferencia(request,response);	
 			}
 			catch(IOException e) {
 				request.setAttribute("errorBD", true);
-				RequestDispatcher rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
-				rd.forward(request, response);
 			}
+			RequestDispatcher rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
+			rd.forward(request, response);
 		}
 		
 		

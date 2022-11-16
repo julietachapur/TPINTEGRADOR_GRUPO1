@@ -10,9 +10,9 @@ public interface UsuarioNegocio {
 	
 	public boolean insert(Usuario usuario);
 	
-	public boolean logicalDeletion(Usuario usuario_a_eliminar); // Baja lógica
-
-
+	public boolean update(Usuario usuario);
+	
+	public boolean logicalDeletion(String dni); // Baja lógica
 
 	public Usuario readOne(String dni);
 	

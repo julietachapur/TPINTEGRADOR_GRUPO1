@@ -132,6 +132,7 @@ importe_pedido decimal NOT NULL,
 plazo_pago int NOT NULL,
 monto_mensual decimal NOT NULL,
 cantidad_cuotas int NOT NULL,
+estado BIT NOT NULL DEFAULT TRUE,
 foreign key (dni) references Clientes(dni)
 );
 
@@ -140,8 +141,10 @@ create table Cuotas_x_prestamo
 idCuota INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 codPrestamo int NOT NULL,
 nroCuota int NOT NULL,
-fecha date not null,
+fecha_venc date not null,
+fecha_pago date null,
 importe decimal not null,
+estado BIT NOT NULL DEFAULT TRUE,
 foreign key (codPrestamo) references Prestamos(codPrestamo)
 );
 
@@ -2857,3 +2860,46 @@ select 		c.nroCuenta,
             FLOOR(RAND()*(25000-200)+201) as saldo,
             null as detalle
 from Cuentas c;
+
+insert into prestamos(dni,fecha,importe_a_pagar,importe_pedido,plazo_pago,monto_mensual,cantidad_cuotas,estado)
+select 		c.dni,
+			CURDATE(),
+            250000,
+            150000,
+            12,
+            250000/12,
+            12,
+            true
+from 		clientes c
+union all
+select 		c.dni,
+			CURDATE(),
+            150000,
+            200000,
+            6,
+            200000/6,
+            6,
+            true
+from 		clientes c;
+
+
+INSERT INTO cuotas_x_prestamo(codPrestamo,nroCuota,fecha_venc,importe,estado)
+VALUES(4,1,'2022/08/10',20833,true);
+
+INSERT INTO cuotas_x_prestamo(codPrestamo,nroCuota,fecha_venc,importe,estado)
+VALUES(4,2,'2022/09/10',20833,true);
+
+INSERT INTO cuotas_x_prestamo(codPrestamo,nroCuota,fecha_venc,importe,estado)
+VALUES(4,3,'2022/10/10',20833,true);
+
+INSERT INTO cuotas_x_prestamo(codPrestamo,nroCuota,fecha_venc,importe,estado)
+VALUES(4,4,'2022/11/10',20833,true);
+
+INSERT INTO cuotas_x_prestamo(codPrestamo,nroCuota,fecha_venc,importe,estado)
+VALUES(4,5,'2022/12/10',20833,true);
+
+INSERT INTO cuotas_x_prestamo(codPrestamo,nroCuota,fecha_venc,importe,estado)
+VALUES(4,6,'2023/01/10',20833,true);
+
+INSERT INTO cuotas_x_prestamo(codPrestamo,nroCuota,fecha_venc,importe,estado)
+VALUES(4,1,'2023/02/10',20833,true);

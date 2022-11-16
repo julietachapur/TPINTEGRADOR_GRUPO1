@@ -25,10 +25,10 @@ public class UsuarioDaoImpl implements UsuarioDao {
 	
 	private static final String QueryIniciarSesion = "select  c.nombre, c.apellido, c.cuil, c.sexo, c.nacionalidad, c.fecha_nac, c.direccion, c.correo_electronico, c.estado, tu.tipoUsuario, tu.codTipo from usuarios u  inner join clientes c on c.dni = u.dni  inner join tiposUsuarios tu on tu.CodTipo = u.tipoUsuario where u.usuario = ? and u.DNI = ? and	u.contraseña = ? and	u.estado = 1 and c.estado = 1 and tu.estado = 1";
 	private static final String insert = "INSERT INTO Usuarios (usuario, dni, tipoUsuario, contraseña) VALUES (?,?,?,?)";
-	private static final String logicalDeletion = "UPDATE Usuarios set estado = 0 Where usuario = ? and dni = ?";
+	private static final String logicalDeletion = "UPDATE Usuarios set estado = 0 Where dni = ?";
 	private static final String readall = "SELECT * FROM Usuarios";
-	private static final String update = "UPDATE Usuarios set tipoUsuario = ?,contraseña = ? Where usuario = ? and dni = ?";
-	private static final String readOne = "SELECT * FROM Usuarios Where and dni = ?"; 
+	private static final String update = "UPDATE Usuarios set tipoUsuario = ?, contraseña = ? Where usuario = ? and dni = ?";
+	private static final String readOne = "SELECT * FROM Usuarios Where dni = ?"; 
 
 
 	public Boolean IniciarSesion(Usuario usuario) {
@@ -127,8 +127,8 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		return isUpdateExitoso;
 	}
 	
-	public boolean logicalDeletion(Usuario usuario_a_eliminar) {
-		System.out.println(usuario_a_eliminar.toString());
+	public boolean logicalDeletion(String dni) {
+		System.out.println(dni.toString());
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isLogicalDeletionExitoso = false;
@@ -142,8 +142,7 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		
 		try {
 			statement = conexion.prepareStatement(logicalDeletion);
-			statement.setString(1, usuario_a_eliminar.getUsuario());
-			statement.setString(2, usuario_a_eliminar.getDni());
+			statement.setString(1, dni);
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
 				isLogicalDeletionExitoso = true;

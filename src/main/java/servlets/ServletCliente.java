@@ -5,22 +5,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-
+/*
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+*/
 
-
-/*import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-*/
+
 
 import entidad.Cliente;
 import entidad.Localidad;
@@ -29,9 +29,11 @@ import entidad.Provincia;
 import negocio.ClienteNegocio;
 import negocio.LocalidadNegocio;
 import negocio.PaisNegocio;
+import negocio.UsuarioNegocio;
 import negocioImpl.ClienteNegocioImpl;
 import negocioImpl.LocalidadNegocioImpl;
 import negocioImpl.PaisNegocioImpl;
+import negocioImpl.UsuarioNegocioImpl;
 
 
 /**
@@ -54,7 +56,7 @@ public class ServletCliente extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if (request.getParameter("getTxtDni") != null) {
-			cargarDesplegables(request, response);
+			cargarDesplegablesAlta(request, response);
 		}
 		
 		if (request.getParameter("btnAltaCliente") != null) {
@@ -75,6 +77,10 @@ public class ServletCliente extends HttpServlet {
 		}		
 		
 		if (request.getParameter("btnEliminar") != null) {
+			cargarClienteBaja(request, response);
+		}
+		
+		if (request.getParameter("btnBajaUsuario") != null) {
 			eliminarCliente(request, response);
 		}
 		
@@ -91,7 +97,7 @@ public class ServletCliente extends HttpServlet {
 	}
 	
 	
-	private void cargarDesplegables(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void cargarDesplegablesAlta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PaisNegocio p = new PaisNegocioImpl(); 
 		ArrayList<Pais> lPais = (ArrayList<Pais>) p.readAll();
 		request.setAttribute("nacionalidad", lPais);
@@ -99,18 +105,23 @@ public class ServletCliente extends HttpServlet {
 		LocalidadNegocio l = new LocalidadNegocioImpl(); 
 		ArrayList<Localidad> lLoc = (ArrayList<Localidad>) l.readAll();
 		request.setAttribute("localidad", lLoc);
+			
+		RequestDispatcher rd = request.getRequestDispatcher("/altaCliente.jsp");
+		rd.forward(request, response);
 		
-		if(request.getParameter("btnModificar") != null){
+	}
+	
+	private void cargarDesplegablesModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PaisNegocio p = new PaisNegocioImpl(); 
+		ArrayList<Pais> lPais = (ArrayList<Pais>) p.readAll();
+		request.setAttribute("nacionalidad", lPais);
+		
+		LocalidadNegocio l = new LocalidadNegocioImpl(); 
+		ArrayList<Localidad> lLoc = (ArrayList<Localidad>) l.readAll();
+		request.setAttribute("localidad", lLoc);
 			
-			RequestDispatcher rd = request.getRequestDispatcher("/modifClienteForm.jsp");
-			rd.forward(request, response);
-			
-		} else {
-			
-			RequestDispatcher rd = request.getRequestDispatcher("/altaCliente.jsp");
-			rd.forward(request, response);
-			
-		}
+		RequestDispatcher rd = request.getRequestDispatcher("/modifClienteForm.jsp");
+		rd.forward(request, response);
 		
 	}
 	
@@ -137,23 +148,35 @@ public class ServletCliente extends HttpServlet {
 	}
 	
 	private void cargarClienteParaModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-		ClienteNegocio cliente = new ClienteNegocioImpl(); 
-		ArrayList<Cliente> cl = (ArrayList<Cliente>) cliente.readAll();					        
+		ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
 	    String clienteSeleccionado = request.getParameter("dni");	
+		Cliente cl = clienteNeg.readOne(clienteSeleccionado);					        
 	    
-		ListIterator<Cliente> it = cl.listIterator();
-		while (it.hasNext()) {
-			Cliente cList = it.next();
-			if(!cList.getDni().equals(clienteSeleccionado)) {
-				it.remove();
-			}
-		}
-        System.out.println(cl); 
-
 		request.setAttribute("cliente", cl);
+		request.setAttribute("dni", clienteSeleccionado);
 		RequestDispatcher rd = request.getRequestDispatcher("/modifClienteForm.jsp");
 		
-		cargarDesplegables(request, response);
+		cargarDesplegablesModif(request, response);
+		
+		rd.forward(request, response);
+	}
+	
+	private void cargarClienteBaja(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+		ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
+	    String clienteSeleccionado = request.getParameter("dni");	
+		Cliente cl = clienteNeg.readOne(clienteSeleccionado);	
+		
+		String clienteBaja = "";
+		clienteBaja+="Cliente: "+cl.getApellido()+", "+cl.getNombre()+"<br><br>DNI: "+cl.getDni()+ " - CUIL: "+ cl.getCuil()+"<br><br>Sexo: "+cl.getSexo();
+		clienteBaja+="<br><br>Fecha de Nacimiento: "+cl.getFecha_nac()+"<br><br>Domicilio: "+cl.getDireccion()+", "+cl.getLocalidad().getLocalidad()+", "+cl.getLocalidad().getProvincia().getProvincia()+", "+cl.getLocalidad().getPais().getPais();
+		clienteBaja+="<br><br>Email: "+cl.getCorreo_electronico();
+		request.setAttribute("clienteBaja", clienteBaja);
+		
+	    
+		request.setAttribute("cliente", cl);
+		request.setAttribute("dni", cl.getDni());
+		RequestDispatcher rd = request.getRequestDispatcher("/confirmaBajaUsuario.jsp");
+		
 		
 		rd.forward(request, response);
 	}
@@ -280,13 +303,18 @@ public class ServletCliente extends HttpServlet {
 		try {
 	        Cliente cliente = new Cliente();
 	        cliente.setDni(dni);
-			ClienteNegocio clienteDao = new ClienteNegocioImpl(); 
-	        eliminado = clienteDao.logicalDeletion(cliente);
+			ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
+	        eliminado = clienteNeg.logicalDeletion(cliente);
+	        
+	        UsuarioNegocio usNeg = new UsuarioNegocioImpl();
+	        Boolean eliminadoUs = usNeg.logicalDeletion(dni);
+	        
 			if (eliminado) {
 		        System.out.println("cliente eliminado"); 
 				request.setAttribute("eliminado", eliminado);
 			
-				rd = request.getRequestDispatcher("/ServletCliente?getId");
+				//rd = request.getRequestDispatcher("/ServletCliente?getId");
+				rd = request.getRequestDispatcher("/confirmaBajaUsuario.jsp");
 				rd.forward(request, response);
 			} 
 		} catch (Exception e) {
