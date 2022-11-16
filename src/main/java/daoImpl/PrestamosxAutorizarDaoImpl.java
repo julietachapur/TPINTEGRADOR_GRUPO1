@@ -1,26 +1,15 @@
 package daoImpl;
-
-import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
 import java.util.List;
-
 import com.mysql.cj.jdbc.CallableStatement;
-
 import dao.PrestamosxAutorizarDao;
-
 import entidad.PrestamoxAutorizar;
 
 
 public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao{
 	
 	private static final String insert = "{CALL agregarPrestamoxAutorizar(?,?,?)}";
-	private static final String getcuotas = "select * from cuotas_x_prestamo where codPrestamo  =  ? ";
 	@Override
 	public boolean insert(PrestamoxAutorizar prestamo) {
 		
@@ -71,12 +60,5 @@ public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao{
 		return false;
 	}
 
-	
-	
-	
-
 }
-
-
-
 
