@@ -71,13 +71,9 @@
         <input id="txtCuotas" type="text"required name="txtCuotas" placeholder="">
       </p>
       <p class="inputForm">
-        <label for="txtDate">Fecha de depósito</label>
-        <input id="txtDate" type="date"required name="txtDate" placeholder="">
-      </p>
-      <p class="inputForm">
       </p>
       <p class="buton">
-        <input id="btnRealizarTransferencia" type="submit" value="Solicitar Prestamo" required name="btnRealizarTransferencia">
+        <input id="btnRealizarSolicitudPrestamo" type="submit" value="Solicitar Prestamo" required name="btnRealizarSolicitudPrestamo">
       </p>
     </fieldset>
 </form>		
