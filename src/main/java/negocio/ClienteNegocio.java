@@ -17,4 +17,7 @@ public interface ClienteNegocio {
 	public Cliente readOne(String dni);
 
 	public String readLast();
+	
+	public int countActive();
+
 }

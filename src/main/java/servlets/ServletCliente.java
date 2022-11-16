@@ -126,8 +126,8 @@ public class ServletCliente extends HttpServlet {
 	}
 	
 	private void cargarClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-		ClienteNegocio cliente = new ClienteNegocioImpl(); 
-		ArrayList<Cliente> lCliente = (ArrayList<Cliente>) cliente.readAll();
+		ClienteNegocio cNeg = new ClienteNegocioImpl(); 
+		ArrayList<Cliente> lCliente = (ArrayList<Cliente>) cNeg.readAll();
 		request.setAttribute("clientes", lCliente);
 				
 		if (request.getParameter("btnFiltrar") != null) {
@@ -142,6 +142,27 @@ public class ServletCliente extends HttpServlet {
 				request.setAttribute("listaFiltrada", lCliente);
 			}
 		}
+		
+		//PAGINADO
+		
+		int cant = (int) cNeg.countActive();
+		
+		int pag = 0;
+		
+		//maxPag es la variable para Máximo de Páginas
+	    //Elementos por página.			
+		int maxPag = (cant / 10) + 1;
+	    //Operación para obtener el número de registro del que inicia.    
+	   // int regMin = (pag - 1) * 10;
+	    //Operación para obtener el número de registros máximos para mostrar en esa página.
+	    //Esto con el fin, de recorrer el arreglo desde el registro mínimo hasta el registro máximo.
+	    //int regMax = pag * 10;
+	    
+	    
+		request.setAttribute("pag", pag);
+		request.setAttribute("maxPag", maxPag);		
+		//request.setAttribute("regMin", regMin);		
+		//request.setAttribute("regMax", regMax);	
 
 			RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
 			rd.forward(request, response);

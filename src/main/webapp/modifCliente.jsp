@@ -21,9 +21,14 @@
 		listaClientes = (ArrayList<Cliente>) request.getAttribute("clientes");
 	}
 
-	
-	//boolean eliminado = false;
-	//if( request.getAttribute("eliminado") != null) eliminado = (boolean)request.getAttribute("eliminado");
+	//Para paginado:
+	int pag = 1;
+	int maxPag = 1;
+    //Al momento de dar siguiente o presionar otro botón, manda como parametro "pg" con el número de página.
+    if (request.getParameter("pag") != null) {
+        pag = Integer.valueOf(request.getParameter("pag"));
+        maxPag = Integer.valueOf(request.getParameter("maxPag"));
+    } 
 	
 	
  %>
@@ -92,6 +97,29 @@
 		
     </tbody>
 </table>
+			    <%	if (maxPag >= 1) {
+                        //Si la página diferente a uno, si agrega el botón anterior.
+                        if(pag!=1){%>
+                            <li><a href="blog.jsp?pg=<%=pag - 1%>">&lt;</a></li>
+                        <%}%>
+                        <%//Realizo el for para calcular el máximo de páginas.
+                            for (int i = 0; i < maxPag; i++) {
+                            //Si la página es igual a la página actual, muestra la etiqueta active.
+                                if(i+1==pag){
+                        %>
+                            <li class="active"><span><%=i+1%></span></li>
+                        <%  }//Si no, sigue mostrando las etiquetas normales con la opción para desplazarse.
+                            else{%>
+                                <li><a href="blog.jsp?pg=<%=i+1%>"><%=i+1%></a></li>
+                        <%}}
+                        //Sí pagina es diferente al número máximo de páginas, muestra la opción siguiente.
+                        if(pag!=maxPag){%>
+                            <li><a href="blog.jsp?pg=<%=pag + 1%>">&gt;</a></li>
+                <%}}//Si el máximo de páginas no es mayor a 1, muestra solo una página 
+                    else {%>
+                        <li class="active"><span>1</span></li>
+                <%}
+                %>
 
 </body>
 </html>
