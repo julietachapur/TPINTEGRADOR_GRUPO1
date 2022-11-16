@@ -10,9 +10,11 @@ import java.util.List;
 
 import com.mysql.cj.protocol.Resultset;
 
+import dao.ClienteDao;
 import dao.LocalidadDao;
 import dao.PaisDao;
 import dao.ProvinciaDao;
+import dao.TipoUsuarioDao;
 import dao.UsuarioDao;
 import entidad.Cliente;
 import entidad.Localidad;
@@ -235,13 +237,12 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		String contraseña = resultSet.getString("contraseña");
 		boolean estado = resultSet.getBoolean("estado");
 		
-		Cliente cliente = new Cliente();
-		TipoUsuario tUs = new TipoUsuario();
-		cliente.setDireccion(dni);
-		tUs.setCodTipo(tipo);
-		
-		
-		return new Usuario(usuario, cliente, tUs, contraseña, estado);
+		ClienteDao clDao = new ClienteDaoImpl();
+		Cliente cliente = clDao.readOne(dni);
+		TipoUsuarioDao tuDao = new TipoUsuarioDaoImpl();
+		TipoUsuario tipoUs = tuDao.readOne(tipo);
+				
+		return new Usuario(usuario, cliente, tipoUs, contraseña, estado);
 	}
 	
 	

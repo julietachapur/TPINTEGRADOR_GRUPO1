@@ -18,6 +18,13 @@
 	ArrayList<TipoUsuario> listaTipos = null;
 	String dni = null;
 	String mensaje = "";
+	boolean isCliente = false;
+
+	if(request.getAttribute("isCliente") != null)
+	{
+		isCliente = (Boolean) request.getAttribute("isCliente");
+
+	}
 	
 	if(request.getAttribute("tiposUsuarios") != null)
 	{
@@ -39,7 +46,11 @@
  %>
  
  
+ <% 	if(isCliente == false) { %>  
 <a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId"> <span class="fa fa-home"></span> Volver</a>
+	 <%} else {%>	  
+<a href="index.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
+<%	} %>
 <div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
 <h1>Alta nuevo Usuario</h1>
   <%  if( agregado == false)	{ %>
@@ -58,11 +69,15 @@
         <label for="tipo">Tipo Usuario</label>
         <select id="tipo" name="tipo" required>
          <%
-		 	if(listaTipos!=null)
+		 	if(listaTipos!=null)		 		
+				 if(isCliente == true) { %>  
+					<option value="2" >Cliente</option>
+				<%	} else {
+				
 				for(TipoUsuario t:listaTipos){
 			%>
 				<option value="<%= t.getCodTipo() %>" > <%= t.getTipoUsuario() %></option>
-			<%	} %>
+			<%	} }%>
         </select>
       </p>
       <p class="inputForm">
@@ -79,13 +94,17 @@
         <select id="tipo" name="tipo" required>
          <%
 		 	if(listaTipos!=null)
+		 		
+			 if(isCliente == true) { %>  
+				<option value="2" selected >Cliente</option>
+			<%	} else {			
+				
 				for(TipoUsuario t:listaTipos){
-					if(t.getCodTipo() != us.getTipoUsuario().getCodTipo()) {
-			%>
-				<option value="<%= t.getCodTipo() %>" > <%= t.getTipoUsuario() %></option>
+					if(t.getCodTipo() != us.getTipoUsuario().getCodTipo()) { %>
+						<option value="<%= t.getCodTipo() %>" > <%= t.getTipoUsuario() %></option>
 			<%	} else { %>
 				<option value="<%= t.getCodTipo() %>" selected> <%= t.getTipoUsuario() %></option>
-			<%	} }%>
+			<%	} }  }%>
         </select>
       </p>
       <p class="inputForm">
