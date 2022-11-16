@@ -1,4 +1,4 @@
-DROP trigger `bdbanco`.`CuentaCreada`;
+/*DROP trigger `bdbanco`.`CuentaCreada`;*/
  
  delimiter //
  CREATE TRIGGER CuentaCreada AFTER  INSERT ON `cuentas`
@@ -9,7 +9,7 @@ DROP trigger `bdbanco`.`CuentaCreada`;
  delimiter ;
  
 #para ver como funciona
-  call agregarCuenta('11111111', '91011123', '1');
+ /* call agregarCuenta('11111111', '91011123', '1');*/
  
 
 DROP PROCEDURE `bdbanco`.`Prestamos_x_Autorizar`;

@@ -2,7 +2,6 @@ package dao;
 
 import java.util.List;
 
-import entidad.Cuota;
 import entidad.Provincia;
 
 public interface ProvinciaDao {

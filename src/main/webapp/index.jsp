@@ -8,9 +8,9 @@
 </head>
 <body>
 <h1>Banco X</h1>
-<a href="Index.jsp"> Inicio </a>
-<a href="Index.jsp"> Hacete Cliente </a>
-<a href="Index.jsp"> Clientes </a>
+<a href="index.jsp"> Inicio </a>
+<a href="index.jsp"> Hacete Cliente </a>
+<a href="index.jsp"> Clientes </a>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
