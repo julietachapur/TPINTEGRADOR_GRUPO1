@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Prestamo" %>
+<%@page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,14 +17,31 @@
 <h1 style="margin:auto;text-align:center;margin-bottom:30px;">Pagar prestamos</h1>
 	<div class="comboEleccionCuenta" style="margin-bottom:15px;">
 		<label>Seleccionar Prestamo</label>
-		<select class="select">
-			<option>12312412412412412</option>
-			<option>4685541124411425</option>
+		<%
+		ArrayList<Prestamo> prestamoList = null;
+		if (request.getAttribute("Prestamos")!=null){
+			prestamoList = (ArrayList<Prestamo>) request.getAttribute("Prestamos");
+			
+			
+		}
+		else if(request.getAttribute("SinPrestamos")!=null){
+			%><script>alert("No tiene prestamos para abonar");</script><% 
+		}
+		
+		%>
+		
+		<section class="eleccion-prestamos">
+		<select class="select" id="select-prestamo">
+			<option value="-1">Seleccione un prestamo</option>
+		<% for(Prestamo p : prestamoList){%>
+			<option value="<%=p.getCodPrestamo()%>">Codigo: <%=p.getCodPrestamo()%> - Monto: $<%=p.getImporte_a_pagar()%></option>
+		
+		<%}%> 
 		</select>
 	</div>
 	<div class="comboEleccionCuenta" style="margin-bottom:20px;">
 		<label>Seleccionar cuota</label>
-		<select class="select">
+		<select class="select-cuota">
 			<option>1/6</option>
 			<option>2/3</option>
 			<option>3/4</option>
@@ -31,8 +50,8 @@
 			<option>6/6</option>
 		</select>
 	</div>
-	
-	<section class="tabla-movimientos">
+	</section>
+	<section class="detalle-cuota">
 	<table>
 		<tr>
 			<th>Cuota</th>

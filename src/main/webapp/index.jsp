@@ -22,12 +22,12 @@
 <img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
 <h2>Bienvenido a el Banco LABIV</h2>
  <form action="ServletUsuario" method="post">
-		 <label for="txtUsuario">Usuario:</label><br>
-		 <input type="text" name="txtUsuario" required><br><br>
-		 <label for="txtDNI">DNI:</label><br>
-		 <input type="text" name="txtDNI" required><br><br>
+		 <label for="txtUsuario" >Usuario:</label><br>
+		 <input type="text" name="txtUsuario" required value="Nahuel"><br><br>
+		 <label for="txtDNI" >DNI:</label><br>
+		 <input type="text" name="txtDNI" required value="22232425"><br><br>
 		 <label for="txtClave">Contrase�a:</label><br>
-		 <input type="text" name="txtClave" required><br><br>
+		 <input type="text" name="txtClave" required value="clave"><br><br>
 		 <input type="submit" value="Iniciar" name="btnIniciarSesion">
 	 </form>
 	

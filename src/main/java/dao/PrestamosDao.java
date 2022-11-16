@@ -6,7 +6,7 @@ import java.util.List;
 import entidad.Prestamo;
 
 
-public interface PrestamoDao {
+public interface PrestamosDao {
 	
 	public boolean insert(Prestamo prestamo);
 
@@ -20,4 +20,5 @@ public interface PrestamoDao {
 
 	public String readLast();
 
+	public List<Prestamo> readAllDni(String dni);
 }
