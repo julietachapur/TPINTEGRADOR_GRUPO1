@@ -1,6 +1,6 @@
 package servlets;
-
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,11 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.ArrayList;
+import java.util.ListIterator;
+
+import entidad.Cuota;
 import entidad.Prestamo;
 import entidad.PrestamoxAutorizar;
+import entidad.Usuario;
 import negocio.PrestamosxAutorizarNegocio;
 import negocioImpl.PrestamosxAutorizarNegocioImpl;
-import java.math.BigDecimal;
 
 /*
 import jakarta.servlet.RequestDispatcher;
@@ -23,25 +27,25 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;*/
 
+
 /**
- * Servlet implementation class ServletPrestamosxAutorizar
+ * Servlet implementation class ServletPrestamos
  */
-@WebServlet("/ServletPrestamosxAutorizar")
+@WebServlet("/ServletPrestamos")
 public class ServletPrestamosxAutorizar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
-     * @see HttpServlet#HttpServlet()
+     * Default constructor. 
      */
     public ServletPrestamosxAutorizar() {
-        super();
         // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		if (request.getParameter("btnRealizarSolicitudPrestamo")!=null) {
 			btnRealizarSolicitudPrestamo(request, response);
@@ -64,9 +68,10 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		Prestamo p = new Prestamo();
 		PrestamosxAutorizarNegocio pdxaNeg = new PrestamosxAutorizarNegocioImpl();
 		PrestamoxAutorizar pxa = new PrestamoxAutorizar();
-		pxa.setNroCuenta(Integer.parseInt(request.getParameter("pagoPrestamos")));
+		pxa.setNroCuenta(Integer.parseInt(request.getParameter("getCuenta")));
 		p.setCantidad_cuotas(Integer.parseInt(request.getParameter("txtCuotas")));
 		p.setImporte_pedido(new BigDecimal(request.getParameter("txtMonto")));
+		pxa.setPrestamo(p);
 		boolean solicitado = false;
 		solicitado = pdxaNeg.insert(pxa);
 
@@ -74,10 +79,10 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 			resString="Solicitud agregada Satisfactoriamente";
 		else
 			resString="Solicitud no pudo ser agregada Satisfactoriamente";
-		
+		request.setAttribute("getCuenta", pxa.getNroCuenta());
 		request.setAttribute("resString", resString);
 		request.setAttribute("resBoolean", solicitado);
-		rd = request.getRequestDispatcher("/pagarPrestamo.jsp");
+		rd = request.getRequestDispatcher("/solicitarPrestamo.jsp");
 		rd.forward(request, response);
 	}
 

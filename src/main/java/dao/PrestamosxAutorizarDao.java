@@ -1,8 +1,8 @@
 package dao;
 
 import java.util.List;
-
 import entidad.PrestamoxAutorizar;
+
 
 public interface PrestamosxAutorizarDao {
 	

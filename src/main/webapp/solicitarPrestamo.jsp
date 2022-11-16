@@ -16,9 +16,12 @@
 </head>
 <body>
 <% 
+
+
+
+
+///Verificacion  de usuario conectado
 Usuario usuario = null;
-String resString=null;
-Boolean resBoolean=false;
 if(request.getSession().getAttribute("Usuario") != null) {
 	usuario = (Usuario) request.getSession().getAttribute("Usuario");
 }
@@ -27,11 +30,21 @@ else
     response.setStatus(response.SC_MOVED_TEMPORARILY);
     response.setHeader("Location", "index.jsp"); 	
 }
+///terminacion de Verificacion  de usuario conectado
+
+
+///comprobacion de cuenta
 int currentCuenta = 0;
 if(request.getSession().getAttribute("cuentaSeleccionada") != null) 
 	{
 	currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
 	}
+///terminacion de comprobacion de cuenta
+
+
+///Resultados para cuando vuelve la pagina con response
+String resString=null;
+Boolean resBoolean=false;
 if(request.getAttribute("resString")!=null)
 	{
 		resString =  request.getAttribute("resString").toString();
@@ -40,9 +53,13 @@ if(request.getAttribute("resBoolean")!=null)
 	{
 	resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
 	}
+/////Terminacion de resultados
  %>
- 
 <a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
+
+
+<form class="form" method="get" action="ServletPrestamosxAutorizar">
+
 <h1 style="margin:auto;text-align:center;margin-bottom:30px;">Solicitar nuevo prestamo</h1>
 <%
 		if(resString!= null && !resString.equals("go"))
@@ -59,7 +76,7 @@ if(request.getAttribute("resBoolean")!=null)
 		}
 	%>
 	
-<form class="form">
+
     <fieldset>
       <legend>Solicitud de prestamo para cuenta <%=currentCuenta%></legend>
       <p class="inputForm">
@@ -70,8 +87,7 @@ if(request.getAttribute("resBoolean")!=null)
         <label for="txtCuotas">Cant. De cuotas</label>
         <input id="txtCuotas" type="text"required name="txtCuotas" placeholder="">
       </p>
-      <p class="inputForm">
-      </p>
+      <input type="hidden" name="getCuenta" value="<%=currentCuenta%>">
       <p class="buton">
 		<input id="btnRealizarSolicitudPrestamo" type="submit" value="Solicitar Prestamo" required name="btnRealizarSolicitudPrestamo">      </p>
     </fieldset>

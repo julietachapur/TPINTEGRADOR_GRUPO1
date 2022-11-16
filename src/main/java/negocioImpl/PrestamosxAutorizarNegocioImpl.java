@@ -1,13 +1,12 @@
 package negocioImpl;
 
 import java.util.List;
-
 import dao.PrestamosxAutorizarDao;
 import daoImpl.PrestamosxAutorizarDaoImpl;
 import entidad.PrestamoxAutorizar;
 import negocio.PrestamosxAutorizarNegocio;
 
-public class PrestamosxAutorizarNegocioImpl implements PrestamosxAutorizarNegocio {
+public class PrestamosxAutorizarNegocioImpl implements PrestamosxAutorizarNegocio{
 	
 	PrestamosxAutorizarDao pxaDao = new PrestamosxAutorizarDaoImpl();
 	
