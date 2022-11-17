@@ -36,7 +36,6 @@
  	}
 	
 %>
-
 <header class="header"> 
 	<div>
 		<a href="#">
@@ -49,9 +48,6 @@
 	</div>
 </header>
 
-
-
- 
 <div class="menu">
 <a style="margin-top: 0.5rem;" class="volver" href="inicioAdmin.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
 <h2>Autorización Prestamos</h2>
@@ -85,7 +81,7 @@
 		 	%>
 	</script>
 <%if(listaPrestamos!=null && resBoolean){ %>
- <form method="get" action="ServletPrestamosxAutorizar">
+
  <table >
 			<caption>Prestamos disponibles para aprobacion</caption>
 		   
@@ -102,7 +98,9 @@
 
 		for(PrestamoxAutorizar p:listaPrestamos)
 		{%>
+		
 		<tr>
+		 <form method="get" action="ServletPrestamosxAutorizar">
 			<td><%=p.getCodPrestamoPendiente() %></td>
 			<td><%=p.getNroCuenta() %></td>
 			<td><%=p.getImporte() %></td>
@@ -130,11 +128,11 @@
 			<td><input type="submit" value="Rechazar" name="btnRechazar"></td>
 			<input type="hidden" name="codPrestamo" value="<%=p.getCodPrestamoPendiente()%>">
 
-		
+		</form>
 	</tr>
 		<%}%>
 		 </table>
-</form>
+
 <%}
 		else
 		{%>
