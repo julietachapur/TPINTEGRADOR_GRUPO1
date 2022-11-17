@@ -1,4 +1,4 @@
-drop procedure agregarCuenta;
+/*drop procedure agregarCuenta;*/
 
 delimiter //
  create procedure agregarCuenta(

@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ListIterator;
@@ -23,15 +24,19 @@ import jakarta.servlet.http.HttpServletResponse;
 */
 
 import entidad.Cliente;
+import entidad.Cuenta;
 import entidad.Localidad;
 import entidad.Pais;
 import entidad.Provincia;
 import excepciones.DniRepetido;
+import excepciones.SaldoCuenta;
 import negocio.ClienteNegocio;
+import negocio.CuentaNegocio;
 import negocio.LocalidadNegocio;
 import negocio.PaisNegocio;
 import negocio.UsuarioNegocio;
 import negocioImpl.ClienteNegocioImpl;
+import negocioImpl.CuentaNegocioImpl;
 import negocioImpl.LocalidadNegocioImpl;
 import negocioImpl.PaisNegocioImpl;
 import negocioImpl.UsuarioNegocioImpl;
@@ -46,6 +51,8 @@ public class ServletCliente extends HttpServlet {
 	ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
 	PaisNegocio pNeg = new PaisNegocioImpl(); 
 	LocalidadNegocio lNeg = new LocalidadNegocioImpl(); 
+	CuentaNegocio neg = new CuentaNegocioImpl();
+
 
 
 
@@ -372,14 +379,37 @@ public class ServletCliente extends HttpServlet {
 		}  
 	}
 	
+	private void validarSaldo( int nroCuenta ) throws SaldoCuenta {
+		
+		Cuenta cuenta = neg.readOne(nroCuenta);	
+		
+
+		if ( cuenta.getSaldo().compareTo(BigDecimal.ZERO) > 0 && cuenta.isEstado() == true) {
+			
+
+			System.out.println(cuenta.getSaldo().compareTo(BigDecimal.ZERO)); 
+
+			throw new SaldoCuenta();
+		} 
+	}
 	
 	private void eliminarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		RequestDispatcher rd;
 		boolean eliminado = false;
-		String dni = request.getParameter("dni");
-				
+		boolean conSaldo = false;
+		String mensaje = " ";
+		
 		try {
+			String dni = request.getParameter("dni");
+			ArrayList<Cuenta> lCuentas = (ArrayList<Cuenta>) neg.readForClient(dni);
+			
+			if (lCuentas != null ) {
+				for(Cuenta cta : lCuentas) {
+					validarSaldo(cta.getNroCuenta());
+				}
+			}
+			
 	        Cliente cliente = new Cliente();
 	        cliente.setDni(dni);
 	        eliminado = clienteNeg.logicalDeletion(cliente);
@@ -387,17 +417,25 @@ public class ServletCliente extends HttpServlet {
 	        UsuarioNegocio usNeg = new UsuarioNegocioImpl();
 	        Boolean eliminadoUs = usNeg.logicalDeletion(dni);
 	        
-			if (eliminado) {
-		        System.out.println("cliente eliminado"); 
-				request.setAttribute("eliminado", eliminado);
-			
-				//rd = request.getRequestDispatcher("/ServletCliente?getId");
-				rd = request.getRequestDispatcher("/confirmaBajaUsuario.jsp");
-				rd.forward(request, response);
-			} 
+			 
+		} catch(SaldoCuenta ex) {
+			mensaje = "El usuario tiene cuentas con saldo. Las cuentas deben estar dadas de baja para eliminar el usuario.";
+			conSaldo = true;
+
 		} catch (Exception e) {
 				e.printStackTrace();
-		}  
+		}
+		
+		if (eliminado) {
+	        System.out.println("cliente eliminado"); 
+	        mensaje = "Cliente eliminado con éxito";
+		}
+		
+		request.setAttribute("eliminado", eliminado);				
+		request.setAttribute("mensaje", mensaje);		
+		request.setAttribute("conSaldo", conSaldo);		
+		rd = request.getRequestDispatcher("/confirmaBajaUsuario.jsp");
+		rd.forward(request, response);
 	}
 	
 	

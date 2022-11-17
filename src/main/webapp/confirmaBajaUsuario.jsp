@@ -14,18 +14,33 @@
 
 <% 
 	String dni = null;
+	String mensaje = " ";
+
 	if(request.getAttribute("dni") != null) {
 		dni = (String) request.getAttribute("dni");
 	}
 	
 	boolean eliminado = false;
-	if( request.getAttribute("eliminado") != null) eliminado = (boolean)request.getAttribute("eliminado");
+	if( request.getAttribute("eliminado") != null) {
+		eliminado = (boolean)request.getAttribute("eliminado");
+	}
 	
 	Usuario usuario = new Usuario();
  	if(session.getAttribute("Usuario")!=null){	
  		usuario = (Usuario)session.getAttribute("Usuario");
  	}
 	
+ 	
+ 	if( request.getAttribute("mensaje") != null ) {
+		mensaje = (String) request.getAttribute("mensaje");
+	}
+ 	
+	boolean conSaldo = false;
+ 	if( request.getAttribute("conSaldo") != null ) {
+ 		conSaldo = (Boolean) request.getAttribute("conSaldo");
+	}
+ 	
+ 	
 	%>
  
  <header class="header"> 
@@ -46,9 +61,9 @@
 
 
 <div style="display:flex; flex-direction: column; align-items: center;">
-<% if( eliminado == true) { %>	
+<% if( eliminado == true || conSaldo == true) { %>	
 	<div>
-		<p style="font-size: 1.5rem;">Cliente eliminado con éxito <p>
+		<p style="font-size: 1.5rem;"> <%=mensaje %> <p>
 	</div>
 	<%} else { %>
 	<div>
