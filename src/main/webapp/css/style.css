@@ -1,5 +1,9 @@
 @charset "ISO-8859-1";
 
+*{
+	font-family: 'Arial', sans-serif;
+}
+
 :root{
 --color-1: green; 
 }
@@ -12,6 +16,7 @@ a{
 	display: flex;	
 	flex-direction: column;
 	align-items:center;
+	margin-top: 1rem;
 }
 
 .menuIndex {
@@ -41,7 +46,6 @@ a{
 .opcionesIndex{
 	display: flex;
 	justify-content: space-between;
-	width: 16rem;
 }
 
 .opcionesIndex a {
@@ -310,10 +314,6 @@ table th {
 }
 
 
-.logged {
- text-align: right;
- }
-
 dl
 {
 	text-align:left;
@@ -394,3 +394,37 @@ dl
 .paginado a:hover, .paginado a:active {
   text-decoration: underline;
 }
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem 2rem;
+	border-bottom-style: outset;
+  	border-color: green;
+}
+
+.logged {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.volver{
+	align-self: self-end;
+	margin-right: 2rem;
+}
+
+.volverIcon {
+	margin-right: 5px;
+}
+
+.volver:link, .volver:visited {
+	color: inherit;
+}
+
+.volver:hover, .volver:active {
+	color: green;
+}
+

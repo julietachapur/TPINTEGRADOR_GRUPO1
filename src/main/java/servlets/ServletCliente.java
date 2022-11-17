@@ -174,13 +174,7 @@ public class ServletCliente extends HttpServlet {
 			request.setAttribute("clientesPaginados", lClientePag);
 			request.setAttribute("pag", pag);
 			request.setAttribute("cantPag", cantPag);	
-			
-	        System.out.println(lClientePag); 
-	        System.out.println(pag); 
-	        System.out.println(cantPag); 
-	        System.out.println(offset); 
-	        System.out.println(resto); 
-			
+				
 		}	
 
 

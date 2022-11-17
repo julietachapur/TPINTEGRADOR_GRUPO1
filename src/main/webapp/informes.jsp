@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Usuario" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -11,8 +12,27 @@
 	<title>Informes</title>
 </head>
 <body>
+<%
+	Usuario usuario = new Usuario();
+ 	if(session.getAttribute("Usuario")!=null){	
+ 		usuario = (Usuario)session.getAttribute("Usuario");
+ 	}
+	
+%>
 
-	<a href="inicioClientes.jsp"> <span class="fa fa-home">Volver</span></a>
+<header class="header"> 
+	<div>
+		<a href="#">
+			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+		</a>
+	</div>
+	<div class="logged">
+		<span><%=usuario.getUsuario()%></span>
+		<span>LOGGUEADO</span>
+	</div>
+</header>
+
+	<a classh="volver" ref="inicioClientes.jsp"> <span class="volverIcon fa fa-home">Volver</span></a>
 	<div class="informes">
 		<h1>Informes</h1>
 		<p class= "cuentas">

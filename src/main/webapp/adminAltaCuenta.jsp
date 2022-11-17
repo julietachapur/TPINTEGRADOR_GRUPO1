@@ -1,5 +1,6 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entidad.Cuenta" %>
+<%@page import="entidad.Usuario" %>
 <%@page import="entidad.TipoCuenta" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -14,8 +15,6 @@
 <title>Alta Cuenta - Admin</title>
 </head>
 <body onLoad="resultado();">
-<div class="logged">loggeado</div>
-<a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 
 <% 
 	ArrayList<Cuenta> listaCuentas= null;
@@ -43,12 +42,32 @@
 	{
 		resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
 	}
- %>
+
+	Usuario usuario = new Usuario();
+ 	if(session.getAttribute("Usuario")!=null){	
+ 		usuario = (Usuario)session.getAttribute("Usuario");
+ 	}
+	
+	%>
  
+ 	
+<header class="header"> 
+<div>
+	<a href="#">
+		<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+	</a>
+</div>
+<div class="logged">
+	<span><%=usuario.getUsuario()%></span>
+	<span>LOGGUEADO</span>
+</div>
+</header>
  
 
  
 <div class="menu">
+	<a class="volver" href="inicioAdmin.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+
 	<h2>Alta de Cuenta</h2>
 	<%
 		if(!resBoolean && resString!= null){%>

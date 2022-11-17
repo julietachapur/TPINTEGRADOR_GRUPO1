@@ -13,21 +13,9 @@
 	<title>Inicio - Cliente</title>
 </head>
 <body onLoad="bienvenida();">
-	<a href="index.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
-	<div class="menu">
-	<h1>Panel Cliente</h1>
-	<span>Seleccione la opción deseada: </span>
-			<div class="opcionesMenu">
-				<a href="gestionarCuentas.jsp"> Seleccionar Cuentas </a>  
-				<a href="clienteInforPersonal.jsp"> Información personal </a>
-			  	<a href="informes.jsp"> Informes </a>
-			</div>
-	</div>
-	
-	<script>
-		<%
+<script>
+		<%	Usuario usuario = new Usuario();
 		 	if(session.getAttribute("Usuario")!=null){	
-		 		Usuario usuario = new Usuario();
 		 		usuario = (Usuario)session.getAttribute("Usuario");
 		%>
 	
@@ -42,5 +30,29 @@
 		 	}
 		%>
 	</script>
+	
+<header class="header"> 
+<div>
+	<a href="#">
+		<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+	</a>
+</div>
+<div class="logged">
+	<span><%=usuario.getUsuario()%></span>
+	<span>LOGGUEADO</span>
+</div>
+</header>
+
+	<div class="menu">
+	<a class="volver" href="index.jsp"> <span class="volverIcon fas fa-times-circle"></span>Salir</a>
+
+	<h1>Panel Cliente</h1>
+	<span>Seleccione la opción deseada: </span>
+			<div class="opcionesMenu">
+				<a href="gestionarCuentas.jsp"> Seleccionar Cuentas </a>  
+				<a href="clienteInforPersonal.jsp"> Información personal </a>
+			</div>
+	</div>
+
 </body>
 </html>

@@ -1,3 +1,4 @@
+<%@page import="entidad.Usuario" %>
 <%@page import="entidad.Pais" %>
 <%@page import="entidad.Localidad" %>
 <%@page import="entidad.Cliente" %>
@@ -48,11 +49,28 @@
 	if( request.getAttribute("modificado") != null) modificado = (boolean)request.getAttribute("modificado");
 	
 	
- %>
+	Usuario usuario = new Usuario();
+ 	if(session.getAttribute("Usuario")!=null){	
+ 		usuario = (Usuario)session.getAttribute("Usuario");
+ 	}
+	
+	%>
  
+  
+ <header class="header"> 
+	<div>
+		<a href="#">
+			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+		</a>
+	</div>
+	<div class="logged">
+		<span><%=usuario.getUsuario()%></span>
+		<span>LOGGUEADO</span>
+	</div>
+</header>
  
-<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?pag=1"> <span class="fa fa-home"></span> Volver</a>
 <div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
+<a style="margin-top: 0.5rem;" class="volver" href="/TPINTEGRADOR_GRUPO1/ServletCliente?pag=1"> <span class="volverIcon fa fa-home"></span> Volver</a>
 <h1>Modificar cliente</h1>
   <% if(cl != null )	{ %>
 
