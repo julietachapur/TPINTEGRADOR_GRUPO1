@@ -1,16 +1,4 @@
 /*DROP trigger `bdbanco`.`CuentaCreada`;*/
- 
- delimiter //
- CREATE TRIGGER CuentaCreada AFTER  INSERT ON `cuentas`
-  FOR EACH ROW 
-  BEGIN
-    insert into movimientos(`nroCuenta`, `fecha`, `detalle`, `importe`, `tipomovimiento`) values (NEW.nroCuenta , current_date(),'Cuenta Agregada', '10000','1');
-  END //
- delimiter ;
- 
-#para ver como funciona
- /* call agregarCuenta('11111111', '91011123', '1');*/
- 
 
 DROP PROCEDURE `bdbanco`.`Prestamos_x_Autorizar`;
 delimiter //
@@ -24,6 +12,5 @@ begin
      insert into prestamos_x_autorizar(`nroCuenta`, `fecha_creacion`, `importe_pedido`, `cantidad_cuotas`, `estado`) values (nroCuenta, current_date(),importe_pedido,cantidad_cuotas,'1');
  end //
    delimiter //;
-   
-call prestamos_x_autorizar('71', '10000.50', '12');
+
   
