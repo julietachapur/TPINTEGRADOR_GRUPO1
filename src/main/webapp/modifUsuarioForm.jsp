@@ -49,7 +49,7 @@
  
  
  <% 	if(isCliente == false) { %>  
-<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId"> <span class="fa fa-home"></span> Volver</a>
+<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?pag=1"> <span class="fa fa-home"></span> Volver</a>
 	 <%} else {%>	  
 <a href="index.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
 <%	} %>

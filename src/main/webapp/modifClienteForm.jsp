@@ -51,7 +51,7 @@
  %>
  
  
-<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId"> <span class="fa fa-home"></span> Volver</a>
+<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?pag=1"> <span class="fa fa-home"></span> Volver</a>
 <div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
 <h1>Modificar cliente</h1>
   <% if(cl != null )	{ %>

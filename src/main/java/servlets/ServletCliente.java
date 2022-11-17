@@ -63,7 +63,7 @@ public class ServletCliente extends HttpServlet {
 			registrarCliente(request, response);
 		}
 		
-		if (request.getParameter("getId") != null || request.getParameter("btnFiltrar") != null || request.getParameter("btnLimpiar") != null ) {
+		if (request.getParameter("pag") != null || request.getParameter("btnFiltrar") != null || request.getParameter("btnLimpiar") != null ) {
 			cargarClientes(request, response);
 
 		}
@@ -139,33 +139,53 @@ public class ServletCliente extends HttpServlet {
 				if(!cl.getDni().equals(clienteSeleccionado)) {
 					it.remove();
 				}
-				request.setAttribute("listaFiltrada", lCliente);
+				request.setAttribute("clientesPaginados", lCliente);
 			}
-		}
-		
-		//PAGINADO
-		
-		int cant = (int) cNeg.countActive();
-		
-		int pag = 0;
-		
-		//maxPag es la variable para Máximo de Páginas
-	    //Elementos por página.			
-		int maxPag = (cant / 10) + 1;
-	    //Operación para obtener el número de registro del que inicia.    
-	   // int regMin = (pag - 1) * 10;
-	    //Operación para obtener el número de registros máximos para mostrar en esa página.
-	    //Esto con el fin, de recorrer el arreglo desde el registro mínimo hasta el registro máximo.
-	    //int regMax = pag * 10;
-	    
-	    
-		request.setAttribute("pag", pag);
-		request.setAttribute("maxPag", maxPag);		
-		//request.setAttribute("regMin", regMin);		
-		//request.setAttribute("regMax", regMax);	
+		} else {
+			
+			//PAGINADO
+			int cantTotal = (int) cNeg.countActive();  //Cantidad de registros activos en la BD
 
-			RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
-			rd.forward(request, response);
+			int pag = 1;
+			if(request.getParameter("pag") != null) {
+				pag = Integer.parseInt(request.getParameter("pag"));	
+			}
+			
+			int limit = 10;                      //Elementos por página.		
+			int offset = 0;
+			if(pag > 1) offset = limit * (pag - 1);	 //inicio paginado   	
+			int cantPag = (cantTotal / limit) + 1 ; // Cantidad de páginas.	
+			int resto = offset + limit;
+			int index = 0;
+
+			ArrayList<Cliente> lClientePag = (ArrayList<Cliente>) cNeg.readAll();
+	        System.out.println(lClientePag); 
+			ListIterator<Cliente> itLista = lClientePag.listIterator();
+			while (itLista.hasNext()) {
+				Cliente cli = itLista.next();
+				index += 1;
+		        System.out.println(index); 
+				if(index < offset + 1 || index > offset + limit ) {
+					itLista.remove();
+				}
+
+			}
+				
+			request.setAttribute("clientesPaginados", lClientePag);
+			request.setAttribute("pag", pag);
+			request.setAttribute("cantPag", cantPag);	
+			
+	        System.out.println(lClientePag); 
+	        System.out.println(pag); 
+	        System.out.println(cantPag); 
+	        System.out.println(offset); 
+	        System.out.println(resto); 
+			
+		}	
+
+
+		RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
+		rd.forward(request, response);
 	}
 	
 	private void cargarClienteParaModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
