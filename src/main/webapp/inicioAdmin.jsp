@@ -35,11 +35,11 @@
 <div class="logged">
 	<span><%=usuario.getUsuario()%></span>
 	<span>LOGGUEADO</span>
-	<a href="index.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
 </div>
-
 </header>
+
 <div class="menu">
+<a href="index.jsp" class="volver"> <span class="volverIcon fas fa-times-circle"></span>Salir</a>
 <h1>Panel Administrador</h1>
 <span>Seleccione la opción deseada: </span>
 
