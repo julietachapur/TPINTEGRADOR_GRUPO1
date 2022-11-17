@@ -1,8 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@page import="entidad.Movimiento" %>
-<%@page import="entidad.Usuario" %>
 <%@page import="entidad.TipoMovimiento" %>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.math.BigDecimal"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,12 +12,15 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Reportes</title>
 </head>
 <body>
-
 <% 
+	boolean isCliente = true;
+	if(request.getAttribute("isCliente") != null)
+	{
+		isCliente = (Boolean) request.getAttribute("isCliente");
 	
+	}
 	ArrayList<TipoMovimiento> listaTipoMovimientos = null;
 	if(request.getAttribute("tipoMovimiento") != null)
 	{
@@ -27,35 +31,25 @@
 	{
 		listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("listaMovimientos");
 	}
-
-	Usuario usuario = new Usuario();
- 	if(session.getAttribute("Usuario")!=null){	
- 		usuario = (Usuario)session.getAttribute("Usuario");
- 	}
-	
-%>
-
+ %>
 <header class="header"> 
 	<div>
-		<a href="inicioAdmin.jsp">
+		<a href="#">
 			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
 		</a>
 	</div>
-	<div class="logged">
-		<span><%=usuario.getUsuario()%></span>
-		<span>LOGGUEADO</span>
-	</div>
 </header>
-
-
-<a style="margin-top: 0.5rem;" 	 class="volver" href="inicioAdmin.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+<div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
+<a style="margin-top: 0.5rem;" class="volver" href="/TPINTEGRADOR_GRUPO1/inicioAdmin.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+<% if(isCliente == true ) { %>
 <h1> Reportes </h1>
-<form method = "get" action="SelvetMovimientos"> 
+<div class= "ABM">
+<form class= "form " method = "get" action="ServletMovimientos"> 
     <fieldset>
 	<p class="inputForm">
 		 <label for="tipoMovimiento">Movimiento:</label>
 		 <select id="movimiento" name="movimiento">
-		 <option></option>
+		 <option value = ""></option>
 			<%
 			if(listaTipoMovimientos!=null)
 				for(TipoMovimiento t:listaTipoMovimientos)
@@ -66,32 +60,49 @@
 		 </select>
 	 </p>
 	 <label for="labelDni">DNI:</label>
-	 <input type="text" name="txtDni" >
+	 <input type="text"  maxlength=10 id= "dni" name="txtDni">
 	 <label for="labelFechaInicio">Fecha de inicio:</label>
-	 <input type="date" name="txtFechaInicio" >
+	 <input type="date" name="txtFechaInicio">
 	 <label for="labelFechaInicio">Fecha de fin:</label>
-	 <input type="date" name="txtFechaFin" ><br><br>
-	 <input type="submit" value="Filtrar" name="btnFiltrar" style="width: 156px; ">
-</fieldset>
-	 <table border="1">
-	 <tr> <th>Detalle</th>    <th>Fecha</th>   <th>Importe</th>   <th>Numero de cuenta</th> <th>Saldo</th></tr>
+	 <input type="date" name="txtFechaFin"><br><br>
+	 <div style="display:flex; justify-content: space-evenly;">
+	      <input id="btnFiltrar" type="submit" value="Filtrar" name="btnFiltrarMovimiento" style="width: 200px;">
+	 </div>
+	 <table class = "tablaReportes"  style="width:100%;height:50%;">
+	 <thead><tr> <th>Numero de cuenta</th>  <th>Detalle</th>    <th>Fecha</th>   <th>Importe</th>    <th>Saldo</th></tr></thead>
 	 <% 
 		if(listaMovimientos != null)
 		for(Movimiento mov:listaMovimientos)
-		{
+		{			
 		%>
-		<tr> <th><%=mov.getDetalle()%></th>    <th><%=mov.getFecha()%></th>   <th><%=mov.getImporte()%></th>  <th><%=mov.getNroCuenta().getNroCuenta()%></th> <th><%=mov.getSaldo()%></th>
-		 </tr>
+		<tbody>
+		<tr> <td><%=mov.getNroCuenta().getNroCuenta()%></td>   <td><%=mov.getDetalle()%></td>    <td><%=mov.getFecha()%></td>   <td><%=mov.getImporte()%></td>  <td><%=mov.getSaldo()%></td></tr>
+		</tbody>
 		<%} %>
-	 </table>
+	</table>
+ 	<br><br>
+	<%
+		int numLista = (int)request.getAttribute("numLista");
+		int numCuenta = (int)request.getAttribute("numCuentas");
+		BigDecimal saldos = (BigDecimal)request.getAttribute("saldos");
+		
+	%>
+	<table border = "3" style="width:52%;">
+		<tr> <th>Cantidad de transacciones</th> <td><%=numLista%></td></tr>
+		<tr> <th>Cantidad de cuentas</th> <td><%=numCuenta%></td></tr>
+		<tr> <th>Sumatoria de saldos</th> <td><%=saldos%></td></tr>
+	</table>
+	</fieldset>
 </form>
-
-<form method = "get" action="SelvetMovimientos"> 
- <br><br>
- <label for="labelTransacciones">Cantidad de transacciones: </label><br><br>
- <input type="hidden" name="txtTransacciones" value= "transacciones">
- <label for="labelMontosTotales">Cantidad de cuentas: </label>
- <input type="hidden" name="txtCantidadCuentas" >
-</form>
+	 <%} else {%>	  
+	 <form class="form" action="ServletMovimientos" method="post">
+		 <h2>Cliente no encontrado. Por favor ingrese un dni válido</h2>
+		 <div style="display:flex; justify-content: space-evenly;">
+	     	<input id="btnAtras" type="submit" value="Atras" name="btnAtras" style="width: 200px;">
+		 </div>      		
+	 </form>
+	  	 <%} %>	  
+</div>
+</div>
 </body>
 </html>
