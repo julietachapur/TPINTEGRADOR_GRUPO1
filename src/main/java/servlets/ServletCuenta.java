@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,7 +27,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import dao.CuentaDao;
 import daoImpl.CuentaDaoImpl;
+import entidad.Cliente;
 import entidad.Cuenta;
+import excepciones.DniRepetido;
+import excepciones.SaldoCuenta;
 import negocio.CuentaNegocio;
 import negocio.TipoCuentaNegocio;
 import negocioImpl.CuentaNegocioImpl;
@@ -38,6 +42,8 @@ import negocioImpl.TipoCuentaImpl;
 @WebServlet("/ServletCuenta")
 public class ServletCuenta extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	CuentaNegocio neg = new CuentaNegocioImpl();
+
 
     /**
      * Default constructor. 
@@ -185,22 +191,41 @@ public class ServletCuenta extends HttpServlet {
 		rd.forward(request, response);
 	
 	}
+	
+	private void validarSaldo( int nroCuenta ) throws SaldoCuenta {
+		
+		Cuenta cuenta = neg.readOne(nroCuenta);	
+
+		if ( cuenta.getSaldo().compareTo(BigDecimal.ZERO) > 0) {
+
+			throw new SaldoCuenta();
+		} 
+	}
+
 	private void BajaCurrentCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
 		RequestDispatcher rd;
-		int nroCuenta = Integer.parseInt(request.getParameter("cuenta"));
-		CuentaNegocio neg = new CuentaNegocioImpl();
 		boolean borrado = false;
-		String resString="";
-		borrado = neg.delete(neg.readOne(nroCuenta));
-		if (borrado) 
-			resString="Cuenta dada de baja Satisfactoriamente";
-		else
-			resString="Cuenta "+neg.readOne(nroCuenta).getNroCuenta()+" no pudo ser dada de baja satisfactoriamente";
+		String resString = "";
+		
+		try {
+			int nroCuenta = Integer.parseInt(request.getParameter("cuenta"));
+			validarSaldo(nroCuenta);
+			
+			borrado = neg.delete(neg.readOne(nroCuenta));
+			if (borrado) 
+				resString="Cuenta dada de baja Satisfactoriamente";
+			else
+				resString="Cuenta "+neg.readOne(nroCuenta).getNroCuenta()+" no pudo ser dada de baja satisfactoriamente";
+		} catch(SaldoCuenta ex) {
+			resString = "La cuenta debe estar en cero para poder darse de baja";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 				
-				request.setAttribute("resString", resString);
-				request.setAttribute("resBoolean", borrado);
+		request.setAttribute("resString", resString);
+		request.setAttribute("resBoolean", borrado);
 		rd = request.getRequestDispatcher("/adminBajaCuenta.jsp");
 		rd.forward(request, response);
 	}
