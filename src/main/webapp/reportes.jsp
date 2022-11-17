@@ -1,22 +1,24 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
 <%@page import="entidad.Movimiento" %>
-<%@page import="entidad.Usuario" %>
 <%@page import="entidad.TipoMovimiento" %>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.math.BigDecimal"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-<style type="text/css">
-	<jsp:include page="css/style.css"></jsp:include>
-</style>
 <title>Reportes</title>
 </head>
 <body>
 
 <% 
-	
+	String resString=null;
+	if(request.getAttribute("resString")!=null)
+	{
+		resString =  request.getAttribute("resString").toString();
+	}
 	ArrayList<TipoMovimiento> listaTipoMovimientos = null;
 	if(request.getAttribute("tipoMovimiento") != null)
 	{
@@ -27,14 +29,7 @@
 	{
 		listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("listaMovimientos");
 	}
-
-	Usuario usuario = new Usuario();
- 	if(session.getAttribute("Usuario")!=null){	
- 		usuario = (Usuario)session.getAttribute("Usuario");
- 	}
-	
-%>
-
+ %>
 <header class="header"> 
 	<div>
 		<a href="#">
@@ -42,15 +37,14 @@
 		</a>
 	</div>
 	<div class="logged">
-		<span><%=usuario.getUsuario()%></span>
+		<span>ADMIN</span>
 		<span>LOGGUEADO</span>
 	</div>
 </header>
-
-
-<a style="margin-top: 0.5rem;" 	 class="volver" href="inicioAdmin.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+<a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
+<div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
 <h1> Reportes </h1>
-<form method = "get" action="SelvetMovimientos"> 
+<form class= "form " method = "get" action="ServletMovimientos"> 
     <fieldset>
 	<p class="inputForm">
 		 <label for="tipoMovimiento">Movimiento:</label>
@@ -66,32 +60,37 @@
 		 </select>
 	 </p>
 	 <label for="labelDni">DNI:</label>
-	 <input type="text" name="txtDni" >
+	 <input type="text"  maxlength=10 id= "dni" name="txtDni">
 	 <label for="labelFechaInicio">Fecha de inicio:</label>
-	 <input type="date" name="txtFechaInicio" >
+	 <input type="date" name="txtFechaInicio">
 	 <label for="labelFechaInicio">Fecha de fin:</label>
-	 <input type="date" name="txtFechaFin" ><br><br>
-	 <input type="submit" value="Filtrar" name="btnFiltrar" style="width: 156px; ">
-</fieldset>
-	 <table border="1">
-	 <tr> <th>Detalle</th>    <th>Fecha</th>   <th>Importe</th>   <th>Numero de cuenta</th> <th>Saldo</th></tr>
+	 <input type="date" name="txtFechaFin"><br><br>
+     <input id="btnFiltrar" type="submit" value="Filtrar" name="btnFiltrarMovimiento" style="width: 156px;">
+	 <table border="1"  style="width:100%;height:50%;">
+	 <tr> <th>Numero de cuenta</th>  <th>Detalle</th>    <th>Fecha</th>   <th>Importe</th>    <th>Saldo</th></tr>
 	 <% 
 		if(listaMovimientos != null)
 		for(Movimiento mov:listaMovimientos)
-		{
+		{			
 		%>
-		<tr> <th><%=mov.getDetalle()%></th>    <th><%=mov.getFecha()%></th>   <th><%=mov.getImporte()%></th>  <th><%=mov.getNroCuenta().getNroCuenta()%></th> <th><%=mov.getSaldo()%></th>
+		<tr> <th><%=mov.getNroCuenta().getNroCuenta()%></th>   <th><%=mov.getDetalle()%></th>    <th><%=mov.getFecha()%></th>   <th><%=mov.getImporte()%></th>  <th><%=mov.getSaldo()%></th>
 		 </tr>
 		<%} %>
-	 </table>
+	</table>
+ 	<br><br>
+	<%
+		int numLista = (int)request.getAttribute("numLista");
+		int numCuenta = (int)request.getAttribute("numCuentas");
+		BigDecimal saldos = (BigDecimal)request.getAttribute("saldos");
+		
+	%>
+	<table border="1"  style="width:52%;">
+		<tr> <th>Cantidad de transacciones</th>  <th><%=numLista%></th> </tr>
+		<tr> <th>Cantidad de cuentas</th>   <th><%=numCuenta%></th> </tr>
+		<tr> <th>Sumatoria de saldos</th>   <th><%=saldos%></th> </tr>
+	</table>
+	</fieldset>
 </form>
-
-<form method = "get" action="SelvetMovimientos"> 
- <br><br>
- <label for="labelTransacciones">Cantidad de transacciones: </label><br><br>
- <input type="hidden" name="txtTransacciones" value= "transacciones">
- <label for="labelMontosTotales">Cantidad de cuentas: </label>
- <input type="hidden" name="txtCantidadCuentas" >
-</form>
+</div>
 </body>
 </html>

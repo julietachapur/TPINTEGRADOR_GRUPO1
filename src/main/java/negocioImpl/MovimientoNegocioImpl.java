@@ -1,7 +1,7 @@
 package negocioImpl;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import dao.MovimientoDao;
 import daoImpl.MovimientoDaoImpl;
@@ -45,6 +45,18 @@ public class MovimientoNegocioImpl implements MovimientoNegocio{
 	public ArrayList<Movimiento> readXtipoMov(int tipoMovimiento) {
 		ArrayList<Movimiento> tipo_movimiento;
 		tipo_movimiento = mDao.readXtipoMov(tipoMovimiento);
+		return tipo_movimiento; 
+	}
+
+	public ArrayList<Movimiento> readDesdeFecha(Date fechaInicio) {
+		ArrayList<Movimiento> tipo_movimiento;
+		tipo_movimiento = mDao.readDesdeFecha(fechaInicio);
+		return tipo_movimiento; 
+	}
+	
+	public ArrayList<Movimiento> readHastaFecha(Date fechaFinal) {
+		ArrayList<Movimiento> tipo_movimiento;
+		tipo_movimiento = mDao.readDesdeFecha(fechaFinal);
 		return tipo_movimiento; 
 	}
 

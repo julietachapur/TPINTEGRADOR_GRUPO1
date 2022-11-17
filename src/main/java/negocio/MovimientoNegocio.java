@@ -1,7 +1,6 @@
 package negocio;
-
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import entidad.Movimiento;
 
@@ -13,8 +12,12 @@ public interface MovimientoNegocio {
 	
 	public ArrayList<Movimiento> readOneCta(int nroCuenta);
 	
-	public ArrayList<Movimiento> readXtipoMov(int tipoMovimiento);
-
 	public Movimiento readLast();
+	
+	public ArrayList<Movimiento> readXtipoMov(int tipoMovimiento);
+	
+	public ArrayList<Movimiento> readDesdeFecha(Date fechaInicio);
+	
+	public ArrayList<Movimiento> readHastaFecha(Date fechaFinal);
 
 }

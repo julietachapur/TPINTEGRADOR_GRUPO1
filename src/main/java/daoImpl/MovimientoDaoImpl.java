@@ -24,6 +24,8 @@ public class MovimientoDaoImpl implements MovimientoDao {
 	private static final String readOneCta = "SELECT * FROM Movimientos Where nroCuenta = ? order by fecha DESC";
 	private static final String readlast = "SELECT * FROM Movimientos ORDER by fecha DESC LIMIT 1";
 	private static final String readXtipoMov = "SELECT * FROM Movimientos Where tipoMovimiento = ?";
+	private static final String readDesdeFecha = "SELECT * FROM Movimientos where fecha >=?";
+	private static final String readHastaFecha = "SELECT * FROM Movimientos where fecha <= ?";
 	
 	
 	public boolean insert(Movimiento movimiento_a_agregar) {
@@ -174,6 +176,53 @@ public class MovimientoDaoImpl implements MovimientoDao {
 
 		return movList;
 		
+	}
+	public ArrayList<Movimiento> readDesdeFecha(java.util.Date fechaInicio) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		ArrayList<Movimiento> movList = new ArrayList<Movimiento>();
+		Conexion conexion = Conexion.getConexion();
+		java.sql.Date fInicio = new java.sql.Date(fechaInicio.getTime());  // acá se hace el parseo a Date sql
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(readDesdeFecha);
+			statement.setDate(1, fInicio);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				movList.add(getMovimiento(resultSet));
+			}
+		} catch (SQLException e) {
+			System.out.print("Error al Querer   el registro(SQL ERROR)");
+		}
+		return movList;
+	}
+
+	public ArrayList<Movimiento> readHastaFecha(java.util.Date fechaFinal) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		ArrayList<Movimiento> movList = new ArrayList<Movimiento>();
+		Conexion conexion = Conexion.getConexion();
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(readHastaFecha);
+			statement.setDate(1, (Date) fechaFinal);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				movList.add(getMovimiento(resultSet));
+			}
+		} catch (SQLException e) {
+			System.out.print("Error al Querer   el registro(SQL ERROR)");
+		}
+		return movList;
 	}
 
 }
