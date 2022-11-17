@@ -3,9 +3,9 @@ DELIMITER //
 create procedure  SP_TRANSFERENCIA		(	
 										nroCuentaOrigen int, 
 										nroCuentaDestino int, 
-										importe decimal, 
-                                        saldoCtaOrigen decimal,
-										SaldoCtaDestino decimal,
+										importe decimal(20,6) ,
+                                        saldoCtaOrigen decimal(20,6),
+										SaldoCtaDestino decimal(20,6),
 										tipoMovimiento int,
 										detalle varchar(200)
 										)

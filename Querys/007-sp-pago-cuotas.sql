@@ -1,10 +1,10 @@
-/*drop procedure SP_PAGO_CUOTA;*/
+#drop procedure SP_PAGO_CUOTA;
 DELIMITER //
 create procedure  SP_PAGO_CUOTA		(	
 										IdCuota int, 
 										NroCuenta int,
                                         tipoMovimiento int,
-                                        saldo 	decimal,
+                                        saldo 	DECIMAL(20,6),
                                         detalle varchar(200)
 										)
 BEGIN
