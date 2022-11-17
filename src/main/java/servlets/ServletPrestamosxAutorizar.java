@@ -138,8 +138,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 				itLista.remove();
 			}
 		}
-		 System.out.println("pagina "+pag); 
-		 System.out.println("cantidad de paginas " +cantPag); 
+
 		request.setAttribute("pag", pag);
 		request.setAttribute("cantPag", cantPag);
 		request.setAttribute("resString", resString);

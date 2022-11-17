@@ -44,8 +44,6 @@
  	    } 
  		
 %>
-Pagina<%=pag%></br>
-Cantidad de paginas<%=cantPag%>
 <header class="header"> 
 	<div>
 		<a href="#">
