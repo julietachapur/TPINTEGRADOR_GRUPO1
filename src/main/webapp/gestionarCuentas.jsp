@@ -32,7 +32,19 @@
 	{
 		currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
 	}
-		
+	
+	if (request.getAttribute("CuotaPaga")!=null){
+		%><script><%
+		boolean exito = (boolean) request.getAttribute("CuotaPaga");
+		if (exito){
+			%>alert("Cuota pagada con exitó!")<%
+		}
+		else{
+			%>alert("Ocurrio un error durante el pago de la cuota.")<%
+		}
+		%></script><%
+	}
+			
  %> 
  
 <a href="inicioClientes.jsp"> <span class="fa fa-home"></span> Volver</a>

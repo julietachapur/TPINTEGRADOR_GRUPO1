@@ -298,3 +298,26 @@ dl
 #btnSeleccionar:hover, #btnSeleccionar:active {
 	font-weight: 700;
 }
+
+.btnSeleccionar {
+	background-color: green ; /* #008000 */
+  	color: white;
+  	border-radius: 7px;
+  	border: 2px solid green;
+ 	padding: 0.2rem 1rem;
+}
+
+.btnSeleccionar:hover, #btnSeleccionar:active {
+	font-weight: 700;
+}
+
+.eleccion-prestamos{
+	margin: auto;
+    text-align: center;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100px;
+    margin-bottom: 30px;
+}

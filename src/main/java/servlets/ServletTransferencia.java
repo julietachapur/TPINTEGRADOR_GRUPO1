@@ -56,12 +56,7 @@ public class ServletTransferencia extends HttpServlet {
 		
 		// TODO Auto-generated method stub
 		if (request.getParameter("btnRealizarTransferencia")!=null) {
-			try {
-				realizarTransferencia(request,response);	
-			}
-			catch(IOException e) {
-				request.setAttribute("errorBD", true);
-			}
+			realizarTransferencia(request,response);	
 			RequestDispatcher rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
 			rd.forward(request, response);
 		}
@@ -75,6 +70,7 @@ public class ServletTransferencia extends HttpServlet {
 		Cuenta cueDestino = new Cuenta();
 		CuentaNegocioImpl cuentaDaoD = new CuentaNegocioImpl();
 		cueDestino =cuentaDaoD.readOneCbu(cbuDestino);
+		
 		if(cueDestino.getCbu()== null) {
 			request.setAttribute("CBUInexistente", true);
 			return ;

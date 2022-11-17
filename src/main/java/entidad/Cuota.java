@@ -13,7 +13,6 @@ public class Cuota {
 	private boolean estado;
 	
 	
-	
 	public Cuota(int idCuota, int codPrestamo, int nroCuota, Date fecha_venc, Date fecha_pago, BigDecimal importe,
 			boolean estado) {
 		this.idCuota = idCuota;
