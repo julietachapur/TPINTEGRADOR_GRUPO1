@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="entidad.PrestamoxAutorizar" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -8,36 +10,119 @@
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Administrar Cuentas - Admin</title>
+<title>Administrar Prestamos - Admin</title>
 </head>
 <body>
 <div class="logged">loggeado</div>
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
-<h1>Autorización Prestamos</h1>
-<table border="1">
-<tr>	
-<th>Cliente</th>
-<th>Fecha</th>
-<th>Importe a pagar cliente con interés</th>
-<th>importe pedido por cliente</th>
-<th>plazo de pago</th>
-<th>monto a pagar</th>
-<th>meses</th>
-<th>cuotas</th>
-<th colspan="2">Autorización</th>
-</tr>
-<tr>
-<td>001</td>
-<td>5/11/2022</td>
-<td>$125000</td>
-<td>$100000</td>
-<td>12 meses</td>
-<td>1000000</td>
-<td>12</td>
-<td>12</td>
-<td><input type="button" value="Alta"></td>
-<td><input type="button" value="Denegar"></td>
-</tr>
-</table>
+
+
+<% 
+	ArrayList<PrestamoxAutorizar> listaPrestamos= null;
+	String resString=null;
+	Boolean resBoolean=false;
+	if(request.getAttribute("Prestamos")!=null)
+	{
+		listaPrestamos = (ArrayList<PrestamoxAutorizar>) request.getAttribute("Prestamos");
+	}
+	if(request.getAttribute("resString")!=null)
+	{
+		resString =  request.getAttribute("resString").toString();
+	}
+	if(request.getAttribute("resBoolean")!=null)
+	{
+		resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
+	}
+ %>
+ 
+<div class="menu">
+<h2>Autorización Prestamos</h2>
+<%
+		if(!resBoolean && resString!= null){%>
+	<br>
+	 <h2 style="color:red;"><%=resString%></h2>
+	<%}
+	else
+	{ 
+		if(resString!= null)
+		{
+			if( !resString.equals("go")){
+	%>
+		
+		<br>
+	 <h2 style="color:green;"><%=resString%></h2>
+		
+	<%}}
+		}
+
+	%>
+<script>
+		<%
+		 	if(resString!= null && resBoolean){	
+		 		if(!resString.equals("go"))
+		 		{
+		 			%>
+					function resultado(){alert("<%=resString%>");}
+				<%}}
+		 	%>
+	</script>
+<%if(listaPrestamos!=null && resBoolean){ %>
+ <form method="get" action="ServletPrestamoxAutorizar">
+ <table >
+		<thead>
+		<tr>
+			<td colspan="8">Prestamos disponibles para aprobacion</td>
+		</tr>
+		   	</thead>
+		<tr>
+			<th>Codigo de prestamo pendiente</th>
+		    <th>Numero de cuenta</th>
+		    <th>importe pedido</th>
+		    <th>Cantidad de cuotas</th>
+		    <th>Fecha Creación</th>
+		    <th>estado</th>
+		    <th colspan="2"></th>
+		</tr>
+<%
+
+		for(PrestamoxAutorizar p:listaPrestamos)
+		{%>
+		<tr>
+			<td><%=p.getCodPrestamoPendiente() %></td>
+			<td><%=p.getNroCuenta() %></td>
+			<td><%=p.getImporte() %></td>
+			<td><%=p.getCantidad_cuotas()%></td>
+			<td><%=p.getFecha_creacion() %></td>
+			<%
+			switch(p.getEstado())
+			{
+			case 0:%>
+				<td>Desaprobado</td>
+				<%break;
+			case 1:%>
+				<td>Pendiente de aprobacion</td>
+			<%break;
+			 default: %>
+				<td>Error</td>
+			<%break;
+			}%>
+			<td><%=p.getEstado() %></td>
+			<td><input type="submit" value="Autorizar" name="btnAutorizar"></td>
+		<td>	<input type="submit" value="Rechazar" name="btnRechazar"></td>
+			
+			
+		</tr>
+		<%}%>
+		 </table>
+</form>
+<%}
+		else
+		{%>
+			<br>
+			 <h3 style="color:red;"> <No disponible></h3>
+		<%}%>
+
+		 </div>	
+
 </body>
 </html>

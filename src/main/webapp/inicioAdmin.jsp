@@ -21,7 +21,7 @@
 		<div class="opcionesMenu">
 			<a href=adminClientes.jsp> Administrar Clientes </a>
 			<a href=adminCuentas.jsp > Administrar Cuentas </a>
-		  	<a href=adminPrestamos.jsp> Préstamos </a>
+		  	<a href=/TPINTEGRADOR_GRUPO1/ServletPrestamosxAutorizar?getPrestamos>Administrar Préstamos </a>
 		    <a href=/TPINTEGRADOR_GRUPO1/ServletMovimientos?getMovimientos> Informes </a>
 		</div>
 </div>

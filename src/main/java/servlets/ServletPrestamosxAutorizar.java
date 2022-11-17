@@ -9,11 +9,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import entidad.Prestamo;
 import entidad.PrestamoxAutorizar;
+
 import negocio.PrestamosxAutorizarNegocio;
 import negocioImpl.PrestamosxAutorizarNegocioImpl;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 /*
 import jakarta.servlet.RequestDispatcher;
@@ -47,7 +50,33 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 			btnRealizarSolicitudPrestamo(request, response);
 	
 		}
+		if (request.getParameter("getPrestamos") != null) {
+			cargarPrestamos(request, response);
+		}
 		
+	}
+
+	private void cargarPrestamos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher rd;
+		boolean solicitado = false;
+		String resString="";
+		PrestamosxAutorizarNegocio pdxaNeg = new PrestamosxAutorizarNegocioImpl();
+		ArrayList<PrestamoxAutorizar> lPrestamos = (ArrayList<PrestamoxAutorizar>)pdxaNeg.readAll() ;
+		if(lPrestamos != null)
+		{
+			for(PrestamoxAutorizar cadena :lPrestamos) {
+			      System.out.println(cadena.getCodPrestamoPendiente());
+			    }
+			if(!lPrestamos.isEmpty())
+				solicitado =true;
+			else
+			resString="No hay Prestamos pendientes de aprobacion";
+		}
+		request.setAttribute("resString", resString);
+		request.setAttribute("resBoolean", solicitado);
+		request.setAttribute("Prestamos", lPrestamos);
+		rd = request.getRequestDispatcher("/AltaPrestamo.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
@@ -60,18 +89,18 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 	
 	public void btnRealizarSolicitudPrestamo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
 		RequestDispatcher rd;
-		String resString="";
+		
 		Prestamo p = new Prestamo();
 		PrestamosxAutorizarNegocio pdxaNeg = new PrestamosxAutorizarNegocioImpl();
 		boolean solicitado = false;
+		String resString="";
 		PrestamoxAutorizar pxa = new PrestamoxAutorizar();
 		try
 		{
 		pxa.setNroCuenta(Integer.parseInt(request.getParameter("getCuenta")));
-		p.setCantidad_cuotas(Integer.parseInt(request.getParameter("txtCuotas")));
-		p.setImporte_pedido(new BigDecimal(request.getParameter("txtMonto")));
+		pxa.setCantidad_cuotas(Integer.parseInt(request.getParameter("txtCuotas")));
+		pxa.setImporte(new BigDecimal(request.getParameter("txtMonto")));
 		
-		pxa.setPrestamo(p);
 		
 		solicitado = pdxaNeg.insert(pxa);
 

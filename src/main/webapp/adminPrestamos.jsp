@@ -12,6 +12,10 @@
 <div class="logged">loggeado</div>
 </head>
 <body>
+
+
+
+
 <a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 
 <div class="menu">
@@ -19,8 +23,7 @@
 <h1>Administrar Prestamos</h1>
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
-			<a href="AltaPrestamo.jsp"> Autorización de Préstamos </a>			
-			<a href=# > Modificar/Dar de baja Préstamos </a>
+			<a href="/ServletPrestamosxAutorizar?getPrestamos"> Autorización de Préstamos </a>			
 		</div>
 </div>
 

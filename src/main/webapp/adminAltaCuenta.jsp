@@ -57,14 +57,15 @@
 	<%}
 	else
 	{ 
-		if(!resString.equals("go"))
+		if( resString!= null)
 		{
+			if(!resString.equals("go") ){
 	%>
 		
 		<br>
 	 <h2 style="color:green;"><%=resString%></h2>
 		
-	<%}}
+	<%}}}
 	%>
 		 
 	 <form method="get" action="ServletCuenta">

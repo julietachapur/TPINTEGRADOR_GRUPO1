@@ -121,7 +121,7 @@
 			<td><%=c.getCbu() %></td>
 			<td><%=c.getFecha_creacion() %></td>
 			<td><%=c.getTipoCuenta().getTipoCuenta() %></td>
-			<td>$<%=c.getSaldo() %></td>
+			
 			<input type="hidden" name="cuenta" value="<%=c.getNroCuenta() %>">
 			<td> <input type="submit" value="Dar de baja" name="btnBaja"></td>
 			
