@@ -1,16 +1,3 @@
-create table Cuentas
-(
-nroCuenta INT NOT NULL AUTO_INCREMENT ,
-CBU BIGINT NOT NULL,
-dni VARCHAR(10),
-fecha_creacion date NOT NULL,
-tipoCuenta INT NOT NULL, 
-estado BIT NOT NULL DEFAULT TRUE,
-primary key (nroCuenta, CBU),
-foreign key (dni) references Clientes(dni) 
-);
-ALTER TABLE Cuentas AUTO_INCREMENT = 5230;
-ALTER TABLE Cuentas ADD FOREIGN KEY (tipoCuenta) REFERENCES TiposCuentas(codTipo);
 
 
 delimiter //
