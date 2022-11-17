@@ -60,9 +60,9 @@
 	</div>
 </header>
  
-<h1 style="margin:auto; margin-bottom:20px; text-align:center;">Gestionar Cuentas</h1>
 <div class= "selectorCuentas">
-<a class="volver" href="inicioClientes.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+<a style="margin-top: 0.5rem;" 	class="volver" href="inicioClientes.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+<h1 style="margin:auto; margin-bottom:20px; text-align:center;">Gestionar Cuentas</h1>
  	<label for="cuentaSeleccionada">Cuenta <%=currentCuenta%> </label><br>
 	<span>Cambiar cuenta:  </span>
 	

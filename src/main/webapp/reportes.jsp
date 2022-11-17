@@ -8,6 +8,9 @@
 <head>
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+<style type="text/css">
+	<jsp:include page="css/style.css"></jsp:include>
+</style>
 <title>Reportes</title>
 </head>
 <body>
@@ -45,7 +48,7 @@
 </header>
 
 
-<a class="volver" href="inicioAdmin.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+<a style="margin-top: 0.5rem;" 	 class="volver" href="inicioAdmin.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
 <h1> Reportes </h1>
 <form method = "get" action="SelvetMovimientos"> 
     <fieldset>
