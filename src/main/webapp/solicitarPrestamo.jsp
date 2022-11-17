@@ -92,12 +92,24 @@ if(request.getAttribute("resBoolean")!=null)
       <legend>Solicitud de prestamo para cuenta <%=currentCuenta%></legend>
       <p class="inputForm">
         <label for="txtMonto">Monto solicitado</label>
-        <input id="txtMonto" type="text"required name="txtMonto" placeholder="$..">
+        <input id="txtMonto" type="text" required name="txtMonto" placeholder="$..">
       </p>
-      <p class="inputForm">
+     
         <label for="txtCuotas">Cant. De cuotas</label>
-        <input id="txtCuotas" type="text"required name="txtCuotas" placeholder="">
-      </p>
+        
+        <label for="cuotas">Elige  una cuota</label>
+  <select name="txtCuotas" id="cuotas">
+      <option value="3">3</option>
+      <option value="6">6</option>
+      <option value="9">9</option>
+      <option value="12">12</option>
+      <option value="12">18</option>
+      <option value="24">24</option>
+      <option value="48">48</option>
+      <option value="60">60</option>
+      <option value="72">72</option>
+  </select>
+      
       <input type="hidden" name="getCuenta" value="<%=currentCuenta%>">
       <p class="buton">
 		<input id="btnRealizarSolicitudPrestamo" type="submit" value="Solicitar Prestamo" required name="btnRealizarSolicitudPrestamo">      </p>
