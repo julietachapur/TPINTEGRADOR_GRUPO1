@@ -26,6 +26,7 @@ import entidad.Cliente;
 import entidad.Localidad;
 import entidad.Pais;
 import entidad.Provincia;
+import excepciones.DniRepetido;
 import negocio.ClienteNegocio;
 import negocio.LocalidadNegocio;
 import negocio.PaisNegocio;
@@ -42,6 +43,7 @@ import negocioImpl.UsuarioNegocioImpl;
 @WebServlet("/ServletCliente")
 public class ServletCliente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
 
     /**
      * Default constructor. 
@@ -164,11 +166,9 @@ public class ServletCliente extends HttpServlet {
 			while (itLista.hasNext()) {
 				Cliente cli = itLista.next();
 				index += 1;
-		        System.out.println(index); 
-				if(index < offset + 1 || index > offset + limit ) {
+				if(index < offset + 1 || index > resto ) {
 					itLista.remove();
 				}
-
 			}
 				
 			request.setAttribute("clientesPaginados", lClientePag);
@@ -216,11 +216,35 @@ public class ServletCliente extends HttpServlet {
 		rd.forward(request, response);
 	}
 	
+	private void validarDNI( String dni ) throws DniRepetido {
+		
+		Cliente cl = clienteNeg.readOne(dni);	
+
+		if (cl.getDni() != null) {
+
+			throw new DniRepetido();
+		} 
+	}
+	
+	private Boolean validaEstado( String dni ) {
+		boolean estado = true;
+
+		Cliente cl = clienteNeg.readOne(dni);	
+		
+		if (cl != null && cl.isEstado() == false) {
+				estado = false;
+			} 
+			
+		return estado;
+	}
 	
 	private void registrarCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				
 		RequestDispatcher rd;
 		boolean agregado = false;
+		Boolean existe = false;
+		Boolean estado = true;
+		String mensaje = "";
 		String dni = request.getParameter("txtDNI");
 		String nombre = request.getParameter("txtNombre");
 		String apellido = request.getParameter("txtApellido");
@@ -234,7 +258,7 @@ public class ServletCliente extends HttpServlet {
 		
 		LocalidadNegocio locDao = new LocalidadNegocioImpl();
 		Localidad localidad = locDao.readOne(loc);	
-        System.out.println(localidad); 
+        //System.out.println(localidad); 
 
 		Provincia provincia = new Provincia();		
 		provincia.setCodProvincia(localidad.getProvincia().getCodProvincia());
@@ -244,6 +268,10 @@ public class ServletCliente extends HttpServlet {
 		nacionalidad.setCodPais(nac);
 		
 		try {
+			
+			validarDNI(dni);
+		      System.out.println(123); 
+
 			//En la fecha, para pasarlo de String a Date (sql), primero hay que pasarlo a Date (java) con el formato deseado,
 			//luego se pasa a Date sql. Estas dos líneas hacen el parseo a date java:
 	        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
@@ -254,7 +282,6 @@ public class ServletCliente extends HttpServlet {
 			ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
 			agregado = clienteNeg.insert(cliente);
 			if (agregado) {
-		        System.out.println(cliente); 
 				request.setAttribute("agregado", agregado);
 			
 				String resultado="";
@@ -262,15 +289,32 @@ public class ServletCliente extends HttpServlet {
 				resultado+="<br><br>Fecha de Nacimiento: "+fNac+"<br><br>Domicilio: "+direccion+", "+localidad.getLocalidad()+", "+localidad.getProvincia().getProvincia()+", "+localidad.getPais().getPais();
 				resultado+="<br><br>Email: "+email;
 				request.setAttribute("resultado", resultado);
+				mensaje = "Cliente agregado con éxito";
 				
 				request.setAttribute("dni", dni);
 
-				rd = request.getRequestDispatcher("/altaCliente.jsp");
-				rd.forward(request, response);
 			} 
+		} catch (DniRepetido ex) {
+				existe = true;
+				estado = validaEstado(dni);
+		        System.out.println(1); 
+				if (existe && estado) {
+					mensaje = "Ya existe un usuario activo en el banco con ese DNI";
+				} else if (!estado) {
+			        System.out.println(2); 
+					mensaje = "Ya existe un registro dado de baja con ese DNI. Comuniquese con el Dpto de sistemas para reactivarlo";
+				}
+				
+				
 		} catch (Exception e) {
 				e.printStackTrace();
-		}  
+		} 
+
+		request.setAttribute("existe", existe);
+		request.setAttribute("mensaje", mensaje);
+
+		rd = request.getRequestDispatcher("/altaCliente.jsp");
+		rd.forward(request, response);
 	}
 	
 	
@@ -307,7 +351,7 @@ public class ServletCliente extends HttpServlet {
 			ClienteNegocio clienteDao = new ClienteNegocioImpl(); 
 			modificado = clienteDao.update(cliente);
 			if (modificado) {
-		        System.out.println(cliente); 
+//		        System.out.println(cliente); 
 				request.setAttribute("modificado", modificado);
 			
 			
