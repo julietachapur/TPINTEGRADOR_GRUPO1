@@ -44,6 +44,10 @@ import negocioImpl.UsuarioNegocioImpl;
 public class ServletCliente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
+	PaisNegocio pNeg = new PaisNegocioImpl(); 
+	LocalidadNegocio lNeg = new LocalidadNegocioImpl(); 
+
+
 
     /**
      * Default constructor. 
@@ -100,12 +104,10 @@ public class ServletCliente extends HttpServlet {
 	
 	
 	private void cargarDesplegablesAlta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PaisNegocio p = new PaisNegocioImpl(); 
-		ArrayList<Pais> lPais = (ArrayList<Pais>) p.readAll();
+		ArrayList<Pais> lPais = (ArrayList<Pais>) pNeg.readAll();
 		request.setAttribute("nacionalidad", lPais);
 		
-		LocalidadNegocio l = new LocalidadNegocioImpl(); 
-		ArrayList<Localidad> lLoc = (ArrayList<Localidad>) l.readAll();
+		ArrayList<Localidad> lLoc = (ArrayList<Localidad>) lNeg.readAll();
 		request.setAttribute("localidad", lLoc);
 			
 		RequestDispatcher rd = request.getRequestDispatcher("/altaCliente.jsp");
@@ -114,12 +116,11 @@ public class ServletCliente extends HttpServlet {
 	}
 	
 	private void cargarDesplegablesModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PaisNegocio p = new PaisNegocioImpl(); 
-		ArrayList<Pais> lPais = (ArrayList<Pais>) p.readAll();
+		ArrayList<Pais> lPais = (ArrayList<Pais>) pNeg.readAll();
 		request.setAttribute("nacionalidad", lPais);
 		
 		LocalidadNegocio l = new LocalidadNegocioImpl(); 
-		ArrayList<Localidad> lLoc = (ArrayList<Localidad>) l.readAll();
+		ArrayList<Localidad> lLoc = (ArrayList<Localidad>) lNeg.readAll();
 		request.setAttribute("localidad", lLoc);
 			
 		RequestDispatcher rd = request.getRequestDispatcher("/modifClienteForm.jsp");
@@ -128,8 +129,7 @@ public class ServletCliente extends HttpServlet {
 	}
 	
 	private void cargarClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-		ClienteNegocio cNeg = new ClienteNegocioImpl(); 
-		ArrayList<Cliente> lCliente = (ArrayList<Cliente>) cNeg.readAll();
+		ArrayList<Cliente> lCliente = (ArrayList<Cliente>) clienteNeg.readAll();
 		request.setAttribute("clientes", lCliente);
 				
 		if (request.getParameter("btnFiltrar") != null) {
@@ -146,7 +146,7 @@ public class ServletCliente extends HttpServlet {
 		} else {
 			
 			//PAGINADO
-			int cantTotal = (int) cNeg.countActive();  //Cantidad de registros activos en la BD
+			int cantTotal = (int) clienteNeg.countActive();  //Cantidad de registros activos en la BD
 
 			int pag = 1;
 			if(request.getParameter("pag") != null) {
@@ -160,7 +160,7 @@ public class ServletCliente extends HttpServlet {
 			int resto = offset + limit;
 			int index = 0;
 
-			ArrayList<Cliente> lClientePag = (ArrayList<Cliente>) cNeg.readAll();
+			ArrayList<Cliente> lClientePag = (ArrayList<Cliente>) clienteNeg.readAll();
 	        System.out.println(lClientePag); 
 			ListIterator<Cliente> itLista = lClientePag.listIterator();
 			while (itLista.hasNext()) {
@@ -183,7 +183,6 @@ public class ServletCliente extends HttpServlet {
 	}
 	
 	private void cargarClienteParaModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-		ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
 	    String clienteSeleccionado = request.getParameter("dni");	
 		Cliente cl = clienteNeg.readOne(clienteSeleccionado);					        
 	    
@@ -197,7 +196,6 @@ public class ServletCliente extends HttpServlet {
 	}
 	
 	private void cargarClienteBaja(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-		ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
 	    String clienteSeleccionado = request.getParameter("dni");	
 		Cliente cl = clienteNeg.readOne(clienteSeleccionado);	
 		
@@ -254,7 +252,9 @@ public class ServletCliente extends HttpServlet {
 		String direccion = request.getParameter("txtDireccion");
 		int loc = Integer.parseInt(request.getParameter("localidad"));
 		String email = request.getParameter("txtEmail");
-		
+		String tel = request.getParameter("txtTelefonos");
+        System.out.println(tel); 
+
 		
 		LocalidadNegocio locDao = new LocalidadNegocioImpl();
 		Localidad localidad = locDao.readOne(loc);	
@@ -270,7 +270,6 @@ public class ServletCliente extends HttpServlet {
 		try {
 			
 			validarDNI(dni);
-		      System.out.println(123); 
 
 			//En la fecha, para pasarlo de String a Date (sql), primero hay que pasarlo a Date (java) con el formato deseado,
 			//luego se pasa a Date sql. Estas dos líneas hacen el parseo a date java:
@@ -278,8 +277,7 @@ public class ServletCliente extends HttpServlet {
 	        java.util.Date fecha = formato.parse(request.getParameter("txtFecha_nac"));
 			java.sql.Date fNac = new java.sql.Date(fecha.getTime());  // acá se hace el parseo a Date sql
 	        
-	        Cliente cliente = new Cliente(dni, nombre, apellido, cuil, sexo, nacionalidad, fNac, direccion, localidad, provincia, pais, email, true);
-			ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
+	        Cliente cliente = new Cliente(dni, nombre, apellido, cuil, sexo, nacionalidad, fNac, direccion, localidad, provincia, pais, email, tel, true);
 			agregado = clienteNeg.insert(cliente);
 			if (agregado) {
 				request.setAttribute("agregado", agregado);
@@ -287,7 +285,7 @@ public class ServletCliente extends HttpServlet {
 				String resultado="";
 				resultado+="Cliente: "+apellido+", "+nombre+"<br><br>DNI: "+dni+ " - CUIL: "+ cuil+"<br><br>Sexo: "+sexo;
 				resultado+="<br><br>Fecha de Nacimiento: "+fNac+"<br><br>Domicilio: "+direccion+", "+localidad.getLocalidad()+", "+localidad.getProvincia().getProvincia()+", "+localidad.getPais().getPais();
-				resultado+="<br><br>Email: "+email;
+				resultado+="<br><br>Email: "+email+ " - Telefonos: "+ tel;
 				request.setAttribute("resultado", resultado);
 				mensaje = "Cliente agregado con éxito";
 				
@@ -331,6 +329,8 @@ public class ServletCliente extends HttpServlet {
 		String direccion = request.getParameter("txtDireccion");
 		int loc = Integer.parseInt(request.getParameter("localidad"));
 		String email = request.getParameter("txtEmail");
+		String tel = request.getParameter("txtTelefonos");
+        System.out.println(tel); 
 		
 		
 		LocalidadNegocio locDao = new LocalidadNegocioImpl();
@@ -347,9 +347,9 @@ public class ServletCliente extends HttpServlet {
 	        java.util.Date fecha = formato.parse(request.getParameter("txtFecha_nac"));
 			java.sql.Date fNac = new java.sql.Date(fecha.getTime());  
 	        
-	        Cliente cliente = new Cliente(dni, nombre, apellido, cuil, sexo, nacionalidad, fNac, direccion, localidad, provincia, pais, email, true);
-			ClienteNegocio clienteDao = new ClienteNegocioImpl(); 
-			modificado = clienteDao.update(cliente);
+	        Cliente cliente = new Cliente(dni, nombre, apellido, cuil, sexo, nacionalidad, fNac, direccion, localidad, provincia, pais, email, tel, true);
+	        System.out.println(cliente); 
+	        modificado = clienteNeg.update(cliente);
 			if (modificado) {
 //		        System.out.println(cliente); 
 				request.setAttribute("modificado", modificado);
@@ -359,7 +359,7 @@ public class ServletCliente extends HttpServlet {
 				resultado+="Cliente: "+apellido+", "+nombre+"<br><br>DNI: "+dni+ " - CUIL: "+ cuil+"<br><br>Sexo: "+sexo;
 				resultado+="<br><br>Fecha de Nacimiento: "+ fNac;
 				resultado+="<br><br>Domicilio: "+direccion+", "+localidad.getLocalidad()+", "+localidad.getProvincia().getProvincia()+", "+localidad.getPais().getPais();
-				resultado+="<br><br>Email: "+email;
+				resultado+="<br><br>Email: "+email+ " - Telefonos: "+ tel;
 				request.setAttribute("resultado", resultado);
 
 				request.setAttribute("dni", dni);
@@ -382,7 +382,6 @@ public class ServletCliente extends HttpServlet {
 		try {
 	        Cliente cliente = new Cliente();
 	        cliente.setDni(dni);
-			ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
 	        eliminado = clienteNeg.logicalDeletion(cliente);
 	        
 	        UsuarioNegocio usNeg = new UsuarioNegocioImpl();

@@ -142,6 +142,10 @@
         <label for="email">E-mail</label>
         <input id="email" type="email" required name="txtEmail" maxlength=200>
       </p>
+      <p class="inputForm">
+        <label for="telefonos">Teléfonos</label>
+        <input id="telefonos" type="text" required name="txtTelefonos" maxlength=200>
+      </p>
       <p class="button">
         <input id="btnRegistrar" type="submit" value="Registrar" name="btnAltaCliente">
       </p>

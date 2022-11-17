@@ -45,19 +45,12 @@ codLocalidad INT,
 codProvincia INT,
 codPais INT,
 correo_electronico varchar(200),
+telefonos VARCHAR(200) NULL,
 estado BIT NOT NULL DEFAULT TRUE,
 foreign key (codLocalidad, codProvincia, codPais) references Localidades(codLocalidad, codProvincia, codPais)
 );
 
 ALTER TABLE Clientes ADD FOREIGN KEY (nacionalidad) REFERENCES Paises(codPais);
-
-create table Telefonos_x_cliente
-(
-dni VARCHAR(10) NOT NULL PRIMARY KEY,
-telefono VARCHAR(20) NOT NULL,
-estado BIT NOT NULL DEFAULT TRUE,
-foreign key (dni) references Clientes(dni)
-);
 
 create table TiposUsuarios
 (

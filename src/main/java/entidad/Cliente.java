@@ -16,13 +16,14 @@ public class Cliente {
 	private Provincia provincia;
 	private Pais pais;
 	private String correo_electronico;
+	private String telefonos;
 	private boolean estado;
 
 	public Cliente() {	}
 
 	public Cliente(String dni, String nombre, String apellido, String cuil, String sexo, Pais nacionalidad,
 			Date fecha_nac, String direccion, Localidad localidad, Provincia provincia, Pais pais,
-			String correo_electronico, boolean estado) {
+			String correo_electronico, String telefonos, boolean estado) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -35,7 +36,18 @@ public class Cliente {
 		this.provincia = provincia;
 		this.pais = pais;
 		this.correo_electronico = correo_electronico;
+		this.telefonos = telefonos;
 		this.estado = estado;
+	}
+	
+	
+
+	public String getTelefonos() {
+		return telefonos;
+	}
+
+	public void setTelefonos(String telefonos) {
+		this.telefonos = telefonos;
 	}
 
 	public String getDni() {
@@ -147,8 +159,10 @@ public class Cliente {
 		return "Cliente [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", cuil=" + cuil + ", sexo="
 				+ sexo + ", nacionalidad=" + nacionalidad + ", fecha_nac=" + fecha_nac + ", direccion=" + direccion
 				+ ", localidad=" + localidad + ", provincia=" + provincia + ", pais=" + pais + ", correo_electronico="
-				+ correo_electronico + ", estado=" + estado + "]";
+				+ correo_electronico + ", telefonos=" + telefonos + ", estado=" + estado + "]";
 	}
+
+	
 
 	
 }
