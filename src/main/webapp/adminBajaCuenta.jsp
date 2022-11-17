@@ -103,7 +103,7 @@
 			
 			</script>
 			
-<form method="get" action="ServletCuenta">
+
 	 <%	
 	if(listaCuentas != null && resBoolean!= null && resBoolean )
 		
@@ -126,11 +126,12 @@
 		<%
 		for(Cuenta c:listaCuentas)
 		{
+			
 		if(c.isEstado())
 		{
 		
 		%>
-		
+		<form method="get" action="ServletCuenta">
 		<tr>
 			<td><%=c.getNroCuenta() %></td>
 			<td><%=c.getCbu() %></td>
@@ -142,9 +143,11 @@
 			
 			
 		</tr>
-		<%}}}%>
+		<%}%></form><%}%>
+		
+		 <%}%>
 		</table>
- </form>
+
 	 </div>
 </body>
 </html>
