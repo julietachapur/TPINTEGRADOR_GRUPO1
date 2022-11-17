@@ -34,8 +34,18 @@
  	if(session.getAttribute("Usuario")!=null){	
  		usuario = (Usuario)session.getAttribute("Usuario");
  	}
-	
+ 	//Para paginado:
+ 		int pag = 0;
+ 		int cantPag = 0;
+ 	    //Al momento de dar siguiente o presionar otro botón, manda como parametro "pag" con el número de página.
+ 	    if (request.getAttribute("pag") != null) {
+ 	        pag = (int) request.getAttribute("pag");
+ 	        cantPag = (int) request.getAttribute("cantPag");
+ 	    } 
+ 		
 %>
+Pagina<%=pag%></br>
+Cantidad de paginas<%=cantPag%>
 <header class="header"> 
 	<div>
 		<a href="#">
@@ -139,7 +149,33 @@
 			<br>
 			 <h3 style="color:red;"> <No disponible></h3>
 		<%}%>
-
-		 </div>	
+		
+		
+		<!---Empieza PAginado---->
+<div class="paginado">
+		 <%	if (cantPag >= 1) {
+            //Si la página diferente a uno, si agrega el botón anterior.
+               if(pag!=1){%>
+                   <a href="ServletPrestamosxAutorizar?pag=<%=pag - 1%>">&lt;</a>
+                      <%  }  //Calcula la cant de páginas a mostrar.
+                            for (int i = 0; i < cantPag; i++) {
+                         
+                                if(i+1==pag){  //Si la página es igual a la página actual, muestra la etiqueta active.
+                        %>
+                            <span><%=i+1%></span>
+                      
+                      <%  } else { //Si no, sigue mostrando las etiquetas normales con la opción para desplazarse. %>
+                             <a href="ServletPrestamosxAutorizar?pag=<%=i+1%>"><%=i+1%></a>
+                        <%} }
+                        //Sí pagina es diferente al número máximo de páginas, muestra la opción siguiente.
+                        if(pag!=cantPag){%>
+                            <a href="ServletPrestamosxAutorizar?pag=<%=pag + 1%>">&gt;</a>
+                <%} }  else { //Si el máximo de páginas no es mayor a 1, muestra solo una página %>
+                   			<span>1</span>
+                <% }  %>						
+	</div>
+	
+	<!---Termina PAginado---->
+		 </div					>	
 </body>
 </html>

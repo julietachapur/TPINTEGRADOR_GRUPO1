@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import entidad.Cliente;
 import entidad.Prestamo;
 import entidad.PrestamoxAutorizar;
 
@@ -17,6 +17,7 @@ import negocio.PrestamosxAutorizarNegocio;
 import negocioImpl.PrestamosxAutorizarNegocioImpl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 /*
 import jakarta.servlet.RequestDispatcher;
@@ -49,7 +50,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		if (request.getParameter("btnRealizarSolicitudPrestamo")!=null) {
 			btnRealizarSolicitudPrestamo(request, response);
 		}
-		if (request.getParameter("getPrestamos") != null) {
+		if (request.getParameter("getPrestamos") != null || request.getParameter("pag") != null) {
 			cargarPrestamos(request, response);
 		}
 		if (request.getParameter("btnAutorizar") != null) {
@@ -60,6 +61,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		}
 		
 		
+		
 	}
 
 	private void updatePrestamo(HttpServletRequest request, HttpServletResponse response, int i) throws ServletException, IOException {
@@ -68,7 +70,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		boolean solicitado = false;
 		String resString="";
 		PrestamoxAutorizar pxa = new PrestamoxAutorizar();
-		ArrayList<PrestamoxAutorizar> lPrestamos = (ArrayList<PrestamoxAutorizar>)pdxaNeg.readAll() ;
+		ArrayList<PrestamoxAutorizar> lPrestamos = (ArrayList<PrestamoxAutorizar>)pdxaNeg.readAllActive() ;
 		try
 		{
 		pxa.setCodPrestamoPendiente(Integer.parseInt(request.getParameter("codPrestamo")));
@@ -90,7 +92,8 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		request.setAttribute("resBoolean", solicitado);
 		request.setAttribute("resString", resString);
 		request.setAttribute("Prestamos", lPrestamos);
-		rd = request.getRequestDispatcher("/AltaPrestamo.jsp?getPrestamos");
+		rd = request.getRequestDispatcher("/AltaPrestamo.jsp");
+		///rd = request.getRequestDispatcher("/AltaPrestamo.jsp?getPrestamos");
 		rd.forward(request, response);
 	}
 
@@ -99,7 +102,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		boolean solicitado = false;
 		String resString="";
 		PrestamosxAutorizarNegocio pdxaNeg = new PrestamosxAutorizarNegocioImpl();
-		ArrayList<PrestamoxAutorizar> lPrestamos = (ArrayList<PrestamoxAutorizar>)pdxaNeg.readAll() ;
+		ArrayList<PrestamoxAutorizar> lPrestamos = (ArrayList<PrestamoxAutorizar>)pdxaNeg.readAllActive() ;
 		if(lPrestamos != null)
 		{
 	
@@ -108,10 +111,42 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 			else
 			resString="No hay Prestamos pendientes de aprobacion";
 		}
+		
+		
+		
+		//PAGINADO
+		int cantTotal = (int) pdxaNeg.countActive();  //Cantidad de registros activos en la BD
+
+		int pag = 1;
+		if(request.getParameter("pag") != null) {
+			pag = Integer.parseInt(request.getParameter("pag"));	
+		}
+		
+		int limit = 10;                      //Elementos por página.		
+		int offset = 0;
+		if(pag > 1) offset = limit * (pag - 1);	 //inicio paginado   	
+		int cantPag = (cantTotal / limit) + 1 ; // Cantidad de páginas.	
+		int resto = offset + limit;
+		int index = 0;
+		
+		ListIterator<PrestamoxAutorizar> itLista = lPrestamos.listIterator();
+		while (itLista.hasNext()) {
+			PrestamoxAutorizar pres = itLista.next();
+			index += 1;
+	       
+			if(index < offset + 1 || index > offset + limit ) {
+				itLista.remove();
+			}
+		}
+		 System.out.println("pagina "+pag); 
+		 System.out.println("cantidad de paginas " +cantPag); 
+		request.setAttribute("pag", pag);
+		request.setAttribute("cantPag", cantPag);
 		request.setAttribute("resString", resString);
 		request.setAttribute("resBoolean", solicitado);
 		request.setAttribute("Prestamos", lPrestamos);
-		rd = request.getRequestDispatcher("/AltaPrestamo.jsp");
+
+	    rd = request.getRequestDispatcher("/AltaPrestamo.jsp");
 		rd.forward(request, response);
 	}
 

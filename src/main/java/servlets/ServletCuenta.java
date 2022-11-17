@@ -190,7 +190,6 @@ public class ServletCuenta extends HttpServlet {
 		
 		RequestDispatcher rd;
 		int nroCuenta = Integer.parseInt(request.getParameter("cuenta"));
-		System.out.println("Esto es el servlet: "+nroCuenta);
 		CuentaNegocio neg = new CuentaNegocioImpl();
 		boolean borrado = false;
 		String resString="";

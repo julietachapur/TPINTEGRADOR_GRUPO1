@@ -13,7 +13,9 @@ public interface PrestamosxAutorizarNegocio {
 	public boolean update(PrestamoxAutorizar prestamo);
 
 	public List<PrestamoxAutorizar> readAll();
-	
+	public List<PrestamoxAutorizar> readAllActive();
 	public PrestamoxAutorizar readOne(int nroCuenta);
+
+	public int countActive();
 	
 }
