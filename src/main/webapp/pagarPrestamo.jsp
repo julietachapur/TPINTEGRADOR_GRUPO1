@@ -138,13 +138,16 @@
 	<form method="post" action ="ServletCuota" hidden>
 		<input type="text" hidden id="IdCuotaAPagar" name="IdCuotaAPagar">
 		<input type="text" hidden id="NroCuenta" name="NroCuenta" value="<%=cuentasList.get(pos).getNroCuenta()%>">
+		<input type="text"  hidden id="impCuot" name="impCuota">
 		<input type="text" name="OPPAGARCUOTA">
 	</form>
 	<script>
 	
 	function cuotaSeleccionada(idCuota, importe, estado){
 		requestID = document.getElementById("IdCuotaAPagar");
+		requestImporte = document.getElementById("impCuot");
 		requestID.value= idCuota;
+		requestImporte.value = importe;
 		if(!estado)
 			alert("La cuota esta paga")
 		
