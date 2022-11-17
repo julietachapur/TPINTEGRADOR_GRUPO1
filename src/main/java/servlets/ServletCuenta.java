@@ -187,8 +187,10 @@ public class ServletCuenta extends HttpServlet {
 	}
 	private void BajaCurrentCuenta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		RequestDispatcher rd;
 		int nroCuenta = Integer.parseInt(request.getParameter("cuenta"));
+		System.out.println("Esto es el servlet: "+nroCuenta);
 		CuentaNegocio neg = new CuentaNegocioImpl();
 		boolean borrado = false;
 		String resString="";
