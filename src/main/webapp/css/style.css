@@ -306,6 +306,14 @@ table th {
    border-spacing: 0;
 }
 
+.tablaReportes{
+ 	margin-top: 1rem;
+   width: 90vw;
+   border: 1px solid #000;
+}
+.tablaReportes th {
+   border: 1px solid #000;
+}
 
 .tablaMovimientos {
    margin-top: 1rem;

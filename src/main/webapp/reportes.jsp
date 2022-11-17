@@ -9,15 +9,18 @@
 <head>
 <meta charset="ISO-8859-1">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-<title>Reportes</title>
+<style type="text/css">
+	<jsp:include page="css/style.css"></jsp:include>
+</style>
 </head>
 <body>
 
 <% 
-	String resString=null;
-	if(request.getAttribute("resString")!=null)
+	boolean isCliente = true;
+	if(request.getAttribute("isCliente") != null)
 	{
-		resString =  request.getAttribute("resString").toString();
+		isCliente = (Boolean) request.getAttribute("isCliente");
+	
 	}
 	ArrayList<TipoMovimiento> listaTipoMovimientos = null;
 	if(request.getAttribute("tipoMovimiento") != null)
@@ -36,20 +39,18 @@
 			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
 		</a>
 	</div>
-	<div class="logged">
-		<span>ADMIN</span>
-		<span>LOGGUEADO</span>
-	</div>
 </header>
-<a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
 <div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
+<a style="margin-top: 0.5rem;" class="volver" href="/TPINTEGRADOR_GRUPO1/inicioAdmin.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+<% if(isCliente == true ) { %>
 <h1> Reportes </h1>
+<div class= "ABM">
 <form class= "form " method = "get" action="ServletMovimientos"> 
     <fieldset>
 	<p class="inputForm">
 		 <label for="tipoMovimiento">Movimiento:</label>
 		 <select id="movimiento" name="movimiento">
-		 <option></option>
+		 <option value = ""></option>
 			<%
 			if(listaTipoMovimientos!=null)
 				for(TipoMovimiento t:listaTipoMovimientos)
@@ -65,16 +66,19 @@
 	 <input type="date" name="txtFechaInicio">
 	 <label for="labelFechaInicio">Fecha de fin:</label>
 	 <input type="date" name="txtFechaFin"><br><br>
-     <input id="btnFiltrar" type="submit" value="Filtrar" name="btnFiltrarMovimiento" style="width: 156px;">
-	 <table border="1"  style="width:100%;height:50%;">
-	 <tr> <th>Numero de cuenta</th>  <th>Detalle</th>    <th>Fecha</th>   <th>Importe</th>    <th>Saldo</th></tr>
+	 <div style="display:flex; justify-content: space-evenly;">
+	      <input id="btnFiltrar" type="submit" value="Filtrar" name="btnFiltrarMovimiento" style="width: 200px;">
+	 </div>
+	 <table class = "tablaReportes"  style="width:100%;height:50%;">
+	 <thead><tr> <th>Numero de cuenta</th>  <th>Detalle</th>    <th>Fecha</th>   <th>Importe</th>    <th>Saldo</th></tr></thead>
 	 <% 
 		if(listaMovimientos != null)
 		for(Movimiento mov:listaMovimientos)
 		{			
 		%>
-		<tr> <th><%=mov.getNroCuenta().getNroCuenta()%></th>   <th><%=mov.getDetalle()%></th>    <th><%=mov.getFecha()%></th>   <th><%=mov.getImporte()%></th>  <th><%=mov.getSaldo()%></th>
-		 </tr>
+		<tbody>
+		<tr> <td><%=mov.getNroCuenta().getNroCuenta()%></td>   <td><%=mov.getDetalle()%></td>    <td><%=mov.getFecha()%></td>   <td><%=mov.getImporte()%></td>  <td><%=mov.getSaldo()%></td></tr>
+		</tbody>
 		<%} %>
 	</table>
  	<br><br>
@@ -84,13 +88,23 @@
 		BigDecimal saldos = (BigDecimal)request.getAttribute("saldos");
 		
 	%>
-	<table border="1"  style="width:52%;">
-		<tr> <th>Cantidad de transacciones</th>  <th><%=numLista%></th> </tr>
-		<tr> <th>Cantidad de cuentas</th>   <th><%=numCuenta%></th> </tr>
-		<tr> <th>Sumatoria de saldos</th>   <th><%=saldos%></th> </tr>
+	<table border = "3" style="width:52%;">
+		<tr> <th>Cantidad de transacciones</th> <td><%=numLista%></td></tr>
+		<tr> <th>Cantidad de cuentas</th> <td><%=numCuenta%></td></tr>
+		<tr> <th>Sumatoria de saldos</th> <td><%=saldos%></td></tr>
 	</table>
 	</fieldset>
 </form>
+	 <%} else {%>	  
+	 <form class="form" action="ServletMovimientos" method="post">
+		 <h2>Cliente no encontrado. Por favor ingrese un dni válido</h2>
+		 <div style="display:flex; justify-content: space-evenly;">
+	     	<input id="btnAtras" type="submit" value="Atras" name="btnAtras" style="width: 200px;">
+		 </div>      		
+	 </form>
+	  	 <%} %>	  
+</div>
+
 </div>
 </body>
 </html>

@@ -64,7 +64,7 @@ public class SelvetMovimientos extends HttpServlet {
 
 		}
 		if (request.getParameter("btnFiltrarMovimiento") != null) {
-			filtrarReporte(request, response);
+			validarDNI(request, response);
 		}
 	}
 	/**
@@ -72,8 +72,36 @@ public class SelvetMovimientos extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		if(request.getParameter("btnAtras") != null ) {
+			cargarPlanilla(request, response);
+		}
 		// TODO Auto-generated method stub
 
+	}
+	private void validarDNI(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher rd;
+		boolean isCliente = false;
+		String dni = request.getParameter("txtDni");
+		if(dni != "")
+		{
+		ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
+		Cliente cl = clienteNeg.readOne(dni);	
+        System.out.println(cl); 
+
+		if (cl != null && cl.isEstado() == true) {
+			request.setAttribute("isCliente", true);
+			filtrarReporte(request, response);
+		
+		} else {
+			request.setAttribute("isCliente", isCliente);
+			rd = request.getRequestDispatcher("/reportes.jsp");
+			rd.forward(request, response);		
+		}
+		}
+		else {
+			request.setAttribute("isCliente", true);
+			filtrarReporte(request, response);
+		}
 	}
 	private void cargarPlanilla(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		TipoMovimientoNegocio tipoMovimientoNegocio = new TipoMovimientoNegocioImpl(); 
@@ -119,24 +147,22 @@ public class SelvetMovimientos extends HttpServlet {
 	
 	private void filtrarReporte(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		MovimientoNegocio movimientoNegocio = new MovimientoNegocioImpl();
-		ArrayList<Movimiento> movimiento = (ArrayList<Movimiento>)movimientoNegocio.readAll();
-		request.setAttribute("listaMovimientos", movimiento);
-		if(request.getParameter("txtFechaFinal")!=null)
+		ArrayList<Movimiento> listaMovimientos = (ArrayList<Movimiento>)movimientoNegocio.readAll();
+		request.setAttribute("listaMovimientos", listaMovimientos);
+		if(request.getParameter("txtFechaInicial")!=null)
 		{
 			cargarFiltroFechaInicio(request, movimientoNegocio);
 		}
-        System.out.println(request.getParameter("txtFechaFinal")); 
 		if(request.getParameter("txtFechaFinal")!=null)
 		{
 			cargarFiltroFechaFinal(request, movimientoNegocio);
 		}
-        System.out.println(request.getParameter("txtDni")); 
-		if(request.getParameter("txtDni")!= null || request.getParameter("txtDni")!= "" )
+		if(request.getParameter("txtDni")!= "")
 		{
 			cargarFiltroDni(request, movimientoNegocio);	
 		}
         System.out.println(request.getParameter("movimiento")); 
-		if(request.getParameter("movimiento") != "" || request.getParameter("movimiento") != null)
+		if(request.getParameter("movimiento") != "")
 		{
 			cargarFiltroMovimiento(request, movimientoNegocio);
 		}
