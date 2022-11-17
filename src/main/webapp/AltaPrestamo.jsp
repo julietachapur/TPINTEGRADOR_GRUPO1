@@ -67,7 +67,7 @@
 		 	%>
 	</script>
 <%if(listaPrestamos!=null && resBoolean){ %>
- <form method="get" action="ServletPrestamoxAutorizar">
+ <form method="get" action="ServletPrestamosxAutorizar">
  <table >
 		<thead>
 		<tr>
@@ -102,13 +102,16 @@
 			case 1:%>
 				<td>Pendiente de aprobacion</td>
 			<%break;
+			case 2:%>
+			<td>Aprobado</td>
+		<%break;
 			 default: %>
 				<td>Error</td>
 			<%break;
 			}%>
-			<td><%=p.getEstado() %></td>
+			<td><input type="hidden" name="codPrestamo" value="<%=p.getCodPrestamoPendiente()%>"></td>
 			<td><input type="submit" value="Autorizar" name="btnAutorizar"></td>
-		<td>	<input type="submit" value="Rechazar" name="btnRechazar"></td>
+			<td><input type="submit" value="Rechazar" name="btnRechazar"></td>
 			
 			
 		</tr>

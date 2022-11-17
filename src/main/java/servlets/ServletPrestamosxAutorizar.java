@@ -53,7 +53,45 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		if (request.getParameter("getPrestamos") != null) {
 			cargarPrestamos(request, response);
 		}
+		if (request.getParameter("btnAutorizar") != null) {
+			updatePrestamo(request, response,2);
+		}
+		if (request.getParameter("btnRechazar") != null) {
+			updatePrestamo(request, response,0);
+		}
 		
+		
+	}
+
+	private void updatePrestamo(HttpServletRequest request, HttpServletResponse response, int i) throws ServletException, IOException {
+		RequestDispatcher rd;
+		PrestamosxAutorizarNegocio pdxaNeg = new PrestamosxAutorizarNegocioImpl();
+		boolean solicitado = false;
+		String resString="";
+		PrestamoxAutorizar pxa = new PrestamoxAutorizar();
+		ArrayList<PrestamoxAutorizar> lPrestamos = (ArrayList<PrestamoxAutorizar>)pdxaNeg.readAll() ;
+		try
+		{
+		pxa.setCodPrestamoPendiente(Integer.parseInt(request.getParameter("codPrestamo")));
+		pxa.setEstado(i);
+		solicitado = pdxaNeg.update(pxa);
+
+		if(solicitado)
+			resString="Solicitud agregada Satisfactoriamente";
+		else
+			resString="Solicitud no pudo ser agregada Satisfactoriamente";
+		}
+		catch(Exception e)
+		{
+			resString="Solicitud no pudo ser agregada Satisfactoriamente";
+			request.setAttribute("codPrestamo",null);
+		}
+		request.setAttribute("codPrestamo", pxa.getCodPrestamoPendiente());
+		request.setAttribute("resBoolean", solicitado);
+		request.setAttribute("resString", resString);
+		request.setAttribute("Prestamos", lPrestamos);
+		rd = request.getRequestDispatcher("/AltaPrestamo.jsp");
+		rd.forward(request, response);
 	}
 
 	private void cargarPrestamos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,9 +102,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		ArrayList<PrestamoxAutorizar> lPrestamos = (ArrayList<PrestamoxAutorizar>)pdxaNeg.readAll() ;
 		if(lPrestamos != null)
 		{
-			for(PrestamoxAutorizar cadena :lPrestamos) {
-			      System.out.println(cadena.getCodPrestamoPendiente());
-			    }
+	
 			if(!lPrestamos.isEmpty())
 				solicitado =true;
 			else
@@ -90,7 +126,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 	public void btnRealizarSolicitudPrestamo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
 		RequestDispatcher rd;
 		
-		Prestamo p = new Prestamo();
+		
 		PrestamosxAutorizarNegocio pdxaNeg = new PrestamosxAutorizarNegocioImpl();
 		boolean solicitado = false;
 		String resString="";

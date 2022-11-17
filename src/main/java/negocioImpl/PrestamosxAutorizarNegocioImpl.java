@@ -37,16 +37,16 @@ public class PrestamosxAutorizarNegocioImpl implements PrestamosxAutorizarNegoci
 	}
 
 	@Override
-	public PrestamoxAutorizar readOne(int nroCuenta) {
+	public PrestamoxAutorizar readOne(int nroPrestamo) {
 		PrestamoxAutorizar prestamo = new PrestamoxAutorizar();
-		prestamo = pxaDao.readOne(nroCuenta);
+		prestamo = pxaDao.readOne(nroPrestamo);
 		return prestamo; 
 	}
 
 	@Override
 	public boolean update(PrestamoxAutorizar prestamo) {
 		boolean estado=false;
-		if( prestamo.getNroCuenta()  > 0 )
+		if( prestamo.getCodPrestamoPendiente()  > 0 )
 		{
 			estado=pxaDao.update(prestamo);
 		}

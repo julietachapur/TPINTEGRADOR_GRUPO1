@@ -20,6 +20,7 @@ public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao {
 	
 	private static final String insert = "{CALL agregarPrestamoxAutorizar(?,?,?)}";
 	private static final String readall = "SELECT * FROM prestamos_x_autorizar";
+	private static final String update = "UPDATE prestamos_x_autorizar SET estado = ? WHERE codPrestamoPendinte = ?";
 	@Override
 	public boolean insert(PrestamoxAutorizar prestamo) {
 		
@@ -87,9 +88,38 @@ public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao {
 	}
 
 	public boolean update(PrestamoxAutorizar prestamo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isUpdateExitoso = false;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+				statement = conexion.prepareStatement(update);	
+				
+				statement.setInt(1,prestamo.getEstado());
+				statement.setInt(2,prestamo.getCodPrestamoPendiente());
+				
+				
+				System.out.println(prestamo.getCodPrestamoPendiente());
+
+			if(statement.executeUpdate() > 0){
+				conexion.commit();
+				isUpdateExitoso  = true;
+				}
+			} 
+		catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+
+
+		return isUpdateExitoso;
+		}
 	
 	private PrestamoxAutorizar getPrestamoxAutorizar(ResultSet resultSet) throws SQLException {
 
