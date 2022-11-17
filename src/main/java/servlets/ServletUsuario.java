@@ -21,22 +21,22 @@ import negocio.PaisNegocio;
 import negocio.TipoUsuarioNegocio;
 import negocio.UsuarioNegocio;
 
-/*
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-*/
 
+/*
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+*/
 /**
  * Servlet implementation class ServletUsuario
  */
@@ -66,11 +66,19 @@ public class ServletUsuario extends HttpServlet {
 		}
 		
 		if(request.getParameter("btnModifUsuario") != null ) {
-			cargarUsuarioParaModif(request, response);
+		    String dni = request.getParameter("dni");	
+			cargarUsuarioParaModif(dni, request, response);
 		}
 		
 		if(request.getParameter("btnModifUs") != null ) {
 			modificarUsuario(request, response);
+		}
+		
+		if(request.getParameter("btnIndex") != null ) {
+			boolean pedirDni = true;
+			request.setAttribute("pedirDni", pedirDni);
+			RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+			rd.forward(request, response);
 		}
 
 	}
@@ -97,9 +105,35 @@ public class ServletUsuario extends HttpServlet {
 				rd.forward(request, response);
 			}	
 		}
+			
+		if(request.getParameter("btnSiguiente") != null ) {
+			validarDNI(request, response);
+		}
 		
 	}
 	
+	private void validarDNI(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher rd;
+		boolean isCliente = false;
+		String dni = request.getParameter("txtDNI");
+		
+		ClienteNegocio clienteNeg = new ClienteNegocioImpl(); 
+		Cliente cl = clienteNeg.readOne(dni);	
+        System.out.println(cl); 
+
+		if (cl != null && cl.isEstado() == true) {
+			request.setAttribute("isCliente", true);
+			cargarUsuarioParaModif(dni,request, response);
+		
+		} else {
+			request.setAttribute("isCliente", isCliente);
+			rd = request.getRequestDispatcher("/index.jsp");
+			rd.forward(request, response);		
+		}
+		
+	}
+
+		
 	/*InicarSesion(request, response, usuario)
 	 * Entrada: request, response, entidad.usuario
 	 * Salida: true o false en el nombre de la funcion.
@@ -158,12 +192,13 @@ public class ServletUsuario extends HttpServlet {
 			
 		}
 		
-		private void cargarUsuarioParaModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+		private void cargarUsuarioParaModif(String dni, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
 			UsuarioNegocio usNeg = new UsuarioNegocioImpl(); 
-		    String dni = request.getParameter("dni");	
 			Usuario us = usNeg.readOne(dni);	
 			String usuario = us.getUsuario();
 			request.setAttribute("usuario", us);
+	        System.out.println(dni); 
+	        System.out.println(us); 
 		    
 			if (usuario != null) {
 				cargarDesplegablesModif(dni, request, response);
@@ -207,8 +242,7 @@ public class ServletUsuario extends HttpServlet {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
-				
+							
 			} else {
 				mensaje = "Las contraseñas no coinciden";
 				request.setAttribute("mensaje", mensaje);

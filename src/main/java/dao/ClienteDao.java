@@ -16,7 +16,9 @@ public interface ClienteDao {
 	public Cliente readOne(String dni);
 	
 	public List<Cliente> readAll();
-
+	
 	public String readLast();
+
+	public int countActive();
 
 }

@@ -16,14 +16,22 @@
 
 <% 
 	ArrayList<Cliente> listaClientes = null;
+	ArrayList<Cliente> clientesPaginados = null;
 	if(request.getAttribute("clientes") != null)
 	{
 		listaClientes = (ArrayList<Cliente>) request.getAttribute("clientes");
+		clientesPaginados = (ArrayList<Cliente>) request.getAttribute("clientesPaginados");
+		
 	}
 
-	
-	//boolean eliminado = false;
-	//if( request.getAttribute("eliminado") != null) eliminado = (boolean)request.getAttribute("eliminado");
+	//Para paginado:
+	int pag = 0;
+	int cantPag = 0;
+    //Al momento de dar siguiente o presionar otro botón, manda como parametro "pag" con el número de página.
+    if (request.getAttribute("pag") != null) {
+        pag = (int) request.getAttribute("pag");
+        cantPag = (int) request.getAttribute("cantPag");
+    } 
 	
 	
  %>
@@ -64,8 +72,8 @@
         </tr>
     </thead>
     <tbody>
-       <%  if(listaClientes != null)
-		for(Cliente cl : listaClientes) 
+       <%  if(clientesPaginados != null)
+		for(Cliente cl : clientesPaginados) 
 		{			
 			if(cl.isEstado()) {   //Así solo muestra los que tienen el estado en true
 	%>
@@ -92,6 +100,28 @@
 		
     </tbody>
 </table>
-
+	<div class="paginado">
+		 <%	if (cantPag >= 1) {
+            //Si la página diferente a uno, si agrega el botón anterior.
+               if(pag!=1){%>
+                   <a href="ServletCliente?pag=<%=pag - 1%>">&lt;</a>
+                      <%  }  //Calcula la cant de páginas a mostrar.
+                            for (int i = 0; i < cantPag; i++) {
+                         
+                                if(i+1==pag){  //Si la página es igual a la página actual, muestra la etiqueta active.
+                        %>
+                            <span><%=i+1%></span>
+                      
+                      <%  } else { //Si no, sigue mostrando las etiquetas normales con la opción para desplazarse. %>
+                             <a href="ServletCliente?pag=<%=i+1%>"><%=i+1%></a>
+                        <%} }
+                        //Sí pagina es diferente al número máximo de páginas, muestra la opción siguiente.
+                        if(pag!=cantPag){%>
+                            <a href="ServletCliente?pag=<%=pag + 1%>">&gt;</a>
+                <%} }  else { //Si el máximo de páginas no es mayor a 1, muestra solo una página %>
+                   			<span>1</span>
+                <% }  %>
+	</div>
+	</div>
 </body>
 </html>

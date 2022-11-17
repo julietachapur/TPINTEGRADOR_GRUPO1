@@ -41,4 +41,11 @@ public class MovimientoNegocioImpl implements MovimientoNegocio{
 		return lMovimientos_x_cuenta; 
 	}
 
+
+	public ArrayList<Movimiento> readXtipoMov(int tipoMovimiento) {
+		ArrayList<Movimiento> tipo_movimiento;
+		tipo_movimiento = mDao.readXtipoMov(tipoMovimiento);
+		return tipo_movimiento; 
+	}
+
 }

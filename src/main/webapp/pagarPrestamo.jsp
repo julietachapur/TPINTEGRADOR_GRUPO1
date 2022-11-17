@@ -1,11 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="entidad.Prestamo" %>
 <%@page import="entidad.Cuenta" %>
 <%@page import="entidad.Cuota" %>
 <%@page import="java.util.ArrayList" %>
-<%@page import="jakarta.servlet.RequestDispatcher" %>
-
+<%-- <%@page import="jakarta.servlet.RequestDispatcher" %> --%>
 <!DOCTYPE html>
 <html>
 <head>

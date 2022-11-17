@@ -14,6 +14,50 @@ a{
 	align-items:center;
 }
 
+.menuIndex {
+	display: flex;	
+	flex-direction: column;
+	align-items:center;
+	justify-content: center;
+	height: 100vh;
+}
+
+.menuIndex form{
+	margin-top: 0;
+}
+
+
+.inputIndex input{
+	border-radius: 5px;
+	font-size: 1rem;
+	padding: 0.5rem;
+}
+
+.btnIniciarSesion{
+	display: flex;
+	justify-content: center;
+}
+
+.opcionesIndex{
+	display: flex;
+	justify-content: space-between;
+	width: 16rem;
+}
+
+.opcionesIndex a {
+	margin-top: 1rem;
+	padding: 0.3rem;
+	font-size: 1.1rem;
+}
+
+.opcionesIndex a:link, .opcionesIndex a:visited {
+	color: green;
+}
+
+.opcionesIndex a:hover, .opcionesIndex a:active {
+  text-decoration: underline;
+}
+
 .opcionesMenu {
 	display: flex;
 	flex-direction: column;
@@ -23,7 +67,7 @@ a{
 	width:15rem;
 }
 
-.opcionesMenu a:link, a:visited {
+.opcionesMenu a:link, .opcionesMenu a:visited {
   background-color: white;
   color: black;
   border: 2px solid green;
@@ -34,7 +78,7 @@ a{
   
 }
 
-.opcionesMenu a:hover, a:active {
+.opcionesMenu a:hover, .opcionesMenu a:active {
   background-color: green;
   color: white;
 }
@@ -185,6 +229,7 @@ table th {
 
 .form fieldset{
 	padding: 1rem 2rem;
+	border-radius: 5px;
 }
 
 .inputForm {
@@ -199,7 +244,7 @@ table th {
 
 }
 
-#btnRegistrar {
+#btnRegistrar, #btnIniciarSesion {
 	background-color: green;
   	color: white;
   	border-radius: 7px;
@@ -207,7 +252,15 @@ table th {
  	padding: 0.2rem 1rem;
 }
 
-#btnRegistrar:hover, #btnRegistrar:active {
+#btnIniciarSesion {
+	margin-top: 1rem;
+	padding: 0.4rem 1rem;
+	width: 100%;
+}
+
+#btnRegistrar:hover, #btnRegistrar:active,
+#btnIniciarSesionr:hover, #btnIniciarSesion:active,
+ {
   background-color: white;
   color: black;
 }
@@ -320,4 +373,24 @@ dl
     justify-content: space-between;
     height: 100px;
     margin-bottom: 30px;
+}
+
+.paginado{	
+	display: flex; 
+	align-items: center; 
+	margin: 1rem 0; 
+	gap: 1rem; 
+	padding: 0.5rem 1rem;
+}
+
+.paginado a {
+	font-size: 1.1rem;
+}
+
+.paginado a:link, .paginado a:visited {
+	color: green;
+}
+
+.paginado a:hover, .paginado a:active {
+  text-decoration: underline;
 }

@@ -13,7 +13,7 @@
 <title>Inicio - Admin</title>
 </head>
 <body>
-<a href="login.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
+<a href="index.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
 <div class="menu">
 <h1>Panel Administrador</h1>
 <span>Seleccione la opción deseada: </span>

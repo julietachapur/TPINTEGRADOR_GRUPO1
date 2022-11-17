@@ -5,22 +5,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-/*
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-*/
 
+/*
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+*/
 
 import entidad.Cliente;
 import entidad.Localidad;
@@ -63,7 +63,7 @@ public class ServletCliente extends HttpServlet {
 			registrarCliente(request, response);
 		}
 		
-		if (request.getParameter("getId") != null || request.getParameter("btnFiltrar") != null || request.getParameter("btnLimpiar") != null ) {
+		if (request.getParameter("pag") != null || request.getParameter("btnFiltrar") != null || request.getParameter("btnLimpiar") != null ) {
 			cargarClientes(request, response);
 
 		}
@@ -126,8 +126,8 @@ public class ServletCliente extends HttpServlet {
 	}
 	
 	private void cargarClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
-		ClienteNegocio cliente = new ClienteNegocioImpl(); 
-		ArrayList<Cliente> lCliente = (ArrayList<Cliente>) cliente.readAll();
+		ClienteNegocio cNeg = new ClienteNegocioImpl(); 
+		ArrayList<Cliente> lCliente = (ArrayList<Cliente>) cNeg.readAll();
 		request.setAttribute("clientes", lCliente);
 				
 		if (request.getParameter("btnFiltrar") != null) {
@@ -139,12 +139,53 @@ public class ServletCliente extends HttpServlet {
 				if(!cl.getDni().equals(clienteSeleccionado)) {
 					it.remove();
 				}
-				request.setAttribute("listaFiltrada", lCliente);
+				request.setAttribute("clientesPaginados", lCliente);
 			}
-		}
+		} else {
+			
+			//PAGINADO
+			int cantTotal = (int) cNeg.countActive();  //Cantidad de registros activos en la BD
 
-			RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
-			rd.forward(request, response);
+			int pag = 1;
+			if(request.getParameter("pag") != null) {
+				pag = Integer.parseInt(request.getParameter("pag"));	
+			}
+			
+			int limit = 10;                      //Elementos por página.		
+			int offset = 0;
+			if(pag > 1) offset = limit * (pag - 1);	 //inicio paginado   	
+			int cantPag = (cantTotal / limit) + 1 ; // Cantidad de páginas.	
+			int resto = offset + limit;
+			int index = 0;
+
+			ArrayList<Cliente> lClientePag = (ArrayList<Cliente>) cNeg.readAll();
+	        System.out.println(lClientePag); 
+			ListIterator<Cliente> itLista = lClientePag.listIterator();
+			while (itLista.hasNext()) {
+				Cliente cli = itLista.next();
+				index += 1;
+		        System.out.println(index); 
+				if(index < offset + 1 || index > offset + limit ) {
+					itLista.remove();
+				}
+
+			}
+				
+			request.setAttribute("clientesPaginados", lClientePag);
+			request.setAttribute("pag", pag);
+			request.setAttribute("cantPag", cantPag);	
+			
+	        System.out.println(lClientePag); 
+	        System.out.println(pag); 
+	        System.out.println(cantPag); 
+	        System.out.println(offset); 
+	        System.out.println(resto); 
+			
+		}	
+
+
+		RequestDispatcher rd = request.getRequestDispatcher("/modifCliente.jsp");
+		rd.forward(request, response);
 	}
 	
 	private void cargarClienteParaModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 

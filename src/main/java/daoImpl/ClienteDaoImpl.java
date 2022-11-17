@@ -24,6 +24,32 @@ public class ClienteDaoImpl implements ClienteDao {
 	private static final String readOne = "SELECT * FROM Clientes Where dni = ?";
 	private static final String update = "UPDATE Clientes set nombre = ?, apellido = ?, CUIL = ?, sexo = ?, nacionalidad = ?, fecha_nac = ?, direccion = ?, codLocalidad = ?, codProvincia = ?, codPais = ?, correo_electronico = ?  Where dni = ?";
 	private static final String readlast = "SELECT * FROM Clientes ORDER by dni DESC LIMIT 1";
+	private static final String countAll = "SELECT COUNT(dni) as total FROM Clientes where estado = 1 ORDER by apellido, dni ASC";
+	
+	
+	public int countActive() {
+		PreparedStatement statement;
+		ResultSet resultSet; // Guarda el resultado de la query
+		int cant = 0;
+		Conexion conexion = Conexion.getConexion();
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(countAll);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				cant = resultSet.getInt("total");
+			}
+		} catch (SQLException e) {
+			System.out.print("Error al Querer leer la cantidad de clientes activos (SQL ERROR)");
+		}
+		System.out.print(cant);
+		return cant;
+	}
 	
 	public boolean insert(Cliente cliente_a_agregar) {
 		PreparedStatement statement;

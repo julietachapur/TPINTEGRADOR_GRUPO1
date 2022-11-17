@@ -1,41 +1,84 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>HOME</title>
-</head>
-<body>
-<h1>Banco X</h1>
-<a href="Index.jsp"> Inicio </a>
-<a href="Index.jsp"> Hacete Cliente </a>
-<a href="Index.jsp"> Clientes </a>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 <style type="text/css">
 	<jsp:include page="css/style.css"></jsp:include>
 </style>
-<title>Bienvenido</title>
+<title>Inicio - Banco LABIV</title>
 </head>
+
 <body>
-<div class="menu">
+
+<% 
+	boolean pedirDni = false;
+	boolean isCliente = true;
+
+	if(request.getAttribute("isCliente") != null)
+	{
+		isCliente = (Boolean) request.getAttribute("isCliente");
+
+	}
+
+	if(request.getAttribute("pedirDni") != null)
+	{
+		pedirDni = (Boolean) request.getAttribute("pedirDni");
+
+	}
+	
+ %>
+ 
+ 
+<div class="menuIndex">
 <img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
-<h2>Bienvenido a el Banco LABIV</h2>
- <form action="ServletUsuario" method="post">
-		 <label for="txtUsuario" >Usuario:</label><br>
-		 <input type="text" name="txtUsuario" required value="Nahuel"><br><br>
-		 <label for="txtDNI" >DNI:</label><br>
-		 <input type="text" name="txtDNI" required value="22232425"><br><br>
-		 <label for="txtClave">Contrase�a:</label><br>
-		 <input type="text" name="txtClave" required value="clave"><br><br>
-		 <input type="submit" value="Iniciar" name="btnIniciarSesion">
+	<h1>Online Banking Banco LABIV </h1>
+	
+<% if( pedirDni == false && isCliente == true ) { %>
+	<h2>Acceso</h2>
+	
+ 	<form class="form" action="ServletUsuario" method="post">
+ 	    <fieldset>
+		<p class="inputIndex">
+		 <input placeholder="Tu DNI" type="text" name="txtDNI" required > 
+		 </p>
+		<p class="inputIndex">
+		 <input placeholder="Tu usuario" type="text" name="txtUsuario" required >
+		 </p>
+		<p class="inputIndex">
+		 <input placeholder="Tu clave" type="password" name="txtClave" required >
+		 		 </p>
+      <p class="btnIniciarSesion">		
+		 <input type="submit" value="Iniciar" name="btnIniciarSesion" ID="btnIniciarSesion">
+		 		 </p>
+		</fieldset>
+		 		 
 	 </form>
 	
-	 <div class="opcionesMenu">
-	 			<a href=CrearCuenta.jsp>No sos Usuario aun?,Crea uno!</a>
+	 <div class="opcionesIndex">
+	 		<a href="/TPINTEGRADOR_GRUPO1/ServletUsuario?btnIndex">Recuperar clave - Crear Usuario</a>
 	  </div>
-	    </div>
+	 <%} else {%>	  
+	  	 <form class="form" action="ServletUsuario" method="post">
+		<p class="inputIndex">
+		 <input placeholder="Tu DNI" type="text" name="txtDNI" required >
+		 </p>
+      <p class="btnIniciarSesion">		
+		 <input type="submit" value="Siguiente" name="btnSiguiente" ID="btnIniciarSesion">
+	  </p>	      		 
+	 </form>
+	  	 <%} %>	  
+
 	    
+	  
+	  <div style="display:flex; flex-direction: column; align-items: center;">
+<% if( isCliente == false) { %>	
+		<p style="font-size: 1.5rem;">Cliente no encontrado. Por favor acerquese a alguna sucursal para realizar el alta. <p>
+	</div>
+<%} %>
+
+	    	    </div>
 	    <%
 	    if (request.getAttribute("SesionFallida") != null){
 	    	%>
@@ -45,5 +88,7 @@
 	    	<%
 	    }
 	    %>
+	    
+	    
 </body>
 </html>
