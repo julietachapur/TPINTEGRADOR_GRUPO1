@@ -351,3 +351,24 @@ dl
 #btnSeleccionar:hover, #btnSeleccionar:active {
 	font-weight: 700;
 }
+
+
+.paginado{	
+	display: flex; 
+	align-items: center; 
+	margin: 1rem 0; 
+	gap: 1rem; 
+	padding: 0.5rem 1rem;
+}
+
+.paginado a {
+	font-size: 1.1rem;
+}
+
+.paginado a:link, .paginado a:visited {
+	color: green;
+}
+
+.paginado a:hover, .paginado a:active {
+  text-decoration: underline;
+}

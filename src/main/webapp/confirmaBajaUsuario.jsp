@@ -23,7 +23,7 @@
  %>
  
  
-<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId"> <span class="fa fa-home"></span> Volver</a>
+<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?pag=1"> <span class="fa fa-home"></span> Volver</a>
 <div class="ABM">
 <h1>Eliminar cliente</h1>
 

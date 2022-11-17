@@ -17,7 +17,7 @@
 <span>Seleccione la opción deseada: </span>
 		<div class="opcionesMenu">
 			<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getTxtDni"> Alta nuevo Cliente </a> 
-			<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId" > Modificar - Eliminar Cliente </a>
+			<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?pag=1" > Modificar - Eliminar Cliente </a>
 		</div>
 </div>
 
