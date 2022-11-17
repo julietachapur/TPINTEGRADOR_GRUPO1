@@ -1,3 +1,4 @@
+<%@page import="entidad.Usuario" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@page import="entidad.Prestamo" %>
 <%@page import="entidad.Cuenta" %>
@@ -15,9 +16,34 @@
 </style>
 </head>
 <body>
-<a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
+<%
+		
+		Usuario usuario = new Usuario();
+	 	if(session.getAttribute("Usuario")!=null){	
+	 		usuario = (Usuario)session.getAttribute("Usuario");
+	 	}
+	 	%>
+<header class="header"> 
+	<div>
+		<a href="inicioClientes.jsp">
+			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+		</a>
+	</div>
+	<div class="logged">
+		<span><%=usuario.getUsuario()%></span>
+		<span>LOGGUEADO</span>
+	</div>
+</header>
+
+
+
+<a style="margin-top: 0.5rem;" class="volver" href="gestionarCuentas.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+
+
+
 <h1 style="margin:auto;text-align:center;margin-bottom:30px;">Pagar prestamos</h1>
 		<%
+	 	
 		ArrayList<Prestamo> prestamoList = null;
 		ArrayList<Cuenta> cuentasList = null;
 		ArrayList<Cuota> cuotasList = null;

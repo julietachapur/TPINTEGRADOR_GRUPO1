@@ -281,9 +281,9 @@ table th {
 }
 
 .tablaDatos{
-   margin-top: 1rem;
-   width: 70vw;
-   background-color: white;
+  margin-top: 1rem;
+  width: 50vw;
+  background-color: white;
   color: black;
   border: 2px solid green;
 }
@@ -294,7 +294,6 @@ table th {
    vertical-align: top;
    border: 1px solid #000;
    border-spacing: 0;
-   color: #444;
 }
 .tablaCuentas{
    margin-top: 1rem;

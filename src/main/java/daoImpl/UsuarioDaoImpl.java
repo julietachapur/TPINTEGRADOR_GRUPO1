@@ -25,7 +25,7 @@ import entidad.Usuario;
 
 public class UsuarioDaoImpl implements UsuarioDao {
 	
-	private static final String QueryIniciarSesion = "select  c.nombre, c.apellido, c.cuil, c.sexo, c.nacionalidad, c.fecha_nac, c.direccion, c.correo_electronico, c.estado, tu.tipoUsuario, tu.codTipo from usuarios u  inner join clientes c on c.dni = u.dni  inner join tiposUsuarios tu on tu.CodTipo = u.tipoUsuario where u.usuario = ? and u.DNI = ? and	u.contraseña = ? and	u.estado = 1 and c.estado = 1 and tu.estado = 1";
+	private static final String QueryIniciarSesion = "select  c.nombre, c.apellido, c.cuil, c.sexo, c.nacionalidad, c.fecha_nac, c.direccion, c.codLocalidad, c.codProvincia, c.codPais, c.correo_electronico, c.telefonos, c.estado, tu.tipoUsuario, tu.codTipo from usuarios u  inner join clientes c on c.dni = u.dni  inner join tiposUsuarios tu on tu.CodTipo = u.tipoUsuario where u.usuario = ? and u.DNI = ? and	u.contraseña = ? and	u.estado = 1 and c.estado = 1 and tu.estado = 1";
 	private static final String insert = "INSERT INTO Usuarios (usuario, dni, tipoUsuario, contraseña) VALUES (?,?,?,?)";
 	private static final String logicalDeletion = "UPDATE Usuarios set estado = 0 Where dni = ?";
 	private static final String readall = "SELECT * FROM Usuarios";
@@ -212,18 +212,36 @@ public class UsuarioDaoImpl implements UsuarioDao {
 		String 	Apellido = rs.getString("apellido");
 		String 	Cuil = rs.getString("cuil");
 		String 	Sexo = rs.getString("sexo");
+		int codNacionalidad = rs.getInt("nacionalidad");
 		Date 	fecha_nac = rs.getDate("fecha_nac");
-		
-		String 	direccion = rs.getString("direccion");
+		String direccion = rs.getString("direccion");
+		int codLocalidad = rs.getInt("codLocalidad");
+		int codProvincia = rs.getInt("codProvincia");
+		int codPais = rs.getInt("codPais");
 		String 	correo_electronico = rs.getString("correo_electronico");
 		String 	tipoUsuario = rs.getString("tipoUsuario");
 		int 	CodTipo = rs.getInt("codTipo");
 		
+		LocalidadDao localidadDao = new LocalidadDaoImpl();
+		Localidad localidad = localidadDao.readOne(codLocalidad);		
+		ProvinciaDao provinciaDao = new ProvinciaDaoImpl();
+		Provincia provincia = provinciaDao.readOne(codProvincia);		
+		PaisDao paisDao = new PaisDaoImpl();
+		Pais pais = paisDao.readOne(codPais);
+		Pais nacionalidad = paisDao.readOne(codNacionalidad);
+		
+
 		usuario.getcliente().setNombre(Nombre);
 		usuario.getcliente().setApellido(Apellido);
 		usuario.getcliente().setCuil(Cuil);
 		usuario.getcliente().setSexo(Sexo);
 		usuario.getcliente().setFecha_nac(fecha_nac);
+		usuario.getcliente().setNacionalidad(nacionalidad);
+		usuario.getcliente().setDireccion(direccion);
+		usuario.getcliente().setLocalidad(localidad);
+		usuario.getcliente().setProvincia(provincia);
+		usuario.getcliente().setPais(pais);
+		usuario.getcliente().setCorreo_electronico(correo_electronico);
 		/*Si llegue aca es porque el estado es true*/
 		usuario.setEstado(true);
 		
