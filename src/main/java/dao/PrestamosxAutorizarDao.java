@@ -14,5 +14,7 @@ public interface PrestamosxAutorizarDao {
 	public PrestamoxAutorizar readOne(int nroCuenta);
 	
 	public List<PrestamoxAutorizar> readAll();
+	public List<PrestamoxAutorizar> readAllActive();
+	public int countActive();
 
 }

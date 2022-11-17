@@ -49,9 +49,23 @@ public class PrestamosxAutorizarNegocioImpl implements PrestamosxAutorizarNegoci
 		if( prestamo.getCodPrestamoPendiente()  > 0 )
 		{
 			estado=pxaDao.update(prestamo);
-			System.out.println("codigo  update negocio:"+prestamo.getCodPrestamoPendiente());
+			
 		}
 		return estado;
+	
+	}
+	public int countActive() {
+
+		int cant;
+		cant = pxaDao.countActive();
+		return cant;
+	}
+
+	@Override
+	public List<PrestamoxAutorizar> readAllActive() {
+		List<PrestamoxAutorizar> prestamo;
+		prestamo = pxaDao.readAllActive();
+		return prestamo;
 	
 	}
 

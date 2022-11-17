@@ -19,8 +19,11 @@ import entidad.PrestamoxAutorizar;
 public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao {
 	
 	private static final String insert = "{CALL agregarPrestamoxAutorizar(?,?,?)}";
-	private static final String readall = "SELECT * FROM prestamos_x_autorizar";
+	private static final String readallActive = "SELECT * FROM prestamos_x_autorizar where estado=1";
+	private static final String countallActive = "SELECT COUNT(codPrestamoPendinte) as total  FROM prestamos_x_autorizar where estado = 1";
 	private static final String update = "UPDATE prestamos_x_autorizar SET estado = ? WHERE codPrestamoPendinte = ?";
+	private static final String countAll = "SELECT COUNT(codPrestamoPendinte) as total FROM agregarPrestamoxAutorizar where estado = 1 ORDER by apellido, dni codPrestamoPendinte";
+	
 	@Override
 	public boolean insert(PrestamoxAutorizar prestamo) {
 		
@@ -74,7 +77,31 @@ public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao {
 			e.printStackTrace();
 		}
 		try {
-			statement = conexion.getSQLConexion().prepareStatement(readall);
+			statement = conexion.getSQLConexion().prepareStatement(readallActive);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				prestamoxAutorizar.add(getPrestamoxAutorizar(resultSet));
+			
+			
+			}
+		} catch (SQLException e) {
+			System.out.print("Error al Querer obtener todos los registros(SQL ERROR)");
+		}
+		return prestamoxAutorizar;
+	}
+	public List<PrestamoxAutorizar> readAllActive() {
+		PreparedStatement statement;
+		ResultSet resultSet; // Guarda el resultado de la query
+		ArrayList<PrestamoxAutorizar> prestamoxAutorizar = new ArrayList<PrestamoxAutorizar>();
+		Conexion conexion = Conexion.getConexion();
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(readallActive);
 			resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				prestamoxAutorizar.add(getPrestamoxAutorizar(resultSet));
@@ -106,7 +133,7 @@ public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao {
 				statement.setInt(2,prestamo.getCodPrestamoPendiente());
 				
 				
-				System.out.println("cod update dao: "+prestamo.getCodPrestamoPendiente());
+				
 
 			if(statement.executeUpdate() > 0){
 				conexion.commit();
@@ -130,6 +157,31 @@ public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao {
 		int cantidad_cuotas = resultSet.getInt("cantidad_cuotas");
 		int estado = resultSet.getInt("estado");
 		return new PrestamoxAutorizar(nroCuenta,codPrestamoPendinte,fecha_creacion,importe,cantidad_cuotas,estado);
+	}
+
+	
+	public int countActive() {
+		PreparedStatement statement;
+		ResultSet resultSet; // Guarda el resultado de la query
+		int cant = 0;
+		Conexion conexion = Conexion.getConexion();
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			statement = conexion.getSQLConexion().prepareStatement(countallActive);
+			resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				cant = resultSet.getInt("total");
+			}
+		} catch (SQLException e) {
+			System.out.print("Error al Querer leer la cantidad de Prestamos por Autorizar activos (SQL ERROR)");
+		}
+		System.out.print(cant);
+		return cant;
 	}
 
 	
