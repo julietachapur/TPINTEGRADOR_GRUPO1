@@ -106,7 +106,7 @@ public class PrestamosxAutorizarDaoImpl implements PrestamosxAutorizarDao {
 				statement.setInt(2,prestamo.getCodPrestamoPendiente());
 				
 				
-				System.out.println(prestamo.getCodPrestamoPendiente());
+				System.out.println("cod update dao: "+prestamo.getCodPrestamoPendiente());
 
 			if(statement.executeUpdate() > 0){
 				conexion.commit();

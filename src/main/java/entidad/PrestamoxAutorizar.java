@@ -5,8 +5,36 @@ import java.util.Date;
 
 public class PrestamoxAutorizar {
 	
+
+
+	private int codPrestamoPendiente;
+	private Date fecha_creacion;
+	private BigDecimal importe;
+	private int cantidad_cuotas;
+	private int nroCuenta;
+	private int estado;
+
+	public PrestamoxAutorizar(int _nroCuenta,int codPrestamoPendinte, Date fecha_creacion, BigDecimal importe,
+		int cantidad_cuotas, int _estado) {
+		try
+		{
+			
+			this.fecha_creacion = fecha_creacion;
+			this.nroCuenta = _nroCuenta;
+			this.codPrestamoPendiente= codPrestamoPendinte;
+			this.importe=importe;
+			this.cantidad_cuotas=cantidad_cuotas;
+			this.estado=_estado;
+		
+		}
+		catch(Exception e)
+		{
+			System.out.println("No se pudo cargar la entidad prestamo");
+		}
+	}
+	
 	public int getCodPrestamoPendiente() {
-		return codPrestamoPendiente;
+		return this.codPrestamoPendiente;
 	}
 
 
@@ -64,32 +92,6 @@ public class PrestamoxAutorizar {
 		this.estado = estado;
 	}
 
-
-	private int codPrestamoPendiente;
-	private Date fecha_creacion;
-	private BigDecimal importe;
-	private int cantidad_cuotas;
-	private int nroCuenta;
-	private int estado;
-
-	public PrestamoxAutorizar(int _nroCuenta,int codPrestamoPendinte, Date fecha_creacion, BigDecimal importe,
-		int cantidad_cuotas, int _estado) {
-		try
-		{
-			
-			this.fecha_creacion = fecha_creacion;
-			this.nroCuenta = _nroCuenta;
-			this.codPrestamoPendiente= (codPrestamoPendinte);
-			this.importe=(importe);
-			this.cantidad_cuotas=(cantidad_cuotas);
-			this.estado=_estado;
-		
-		}
-		catch(Exception e)
-		{
-			System.out.println("No se pudo cargar la entidad prestamo");
-		}
-	}
 		
 
 	public PrestamoxAutorizar() {

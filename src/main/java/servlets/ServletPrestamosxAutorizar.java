@@ -48,7 +48,6 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		// TODO Auto-generated method stub
 		if (request.getParameter("btnRealizarSolicitudPrestamo")!=null) {
 			btnRealizarSolicitudPrestamo(request, response);
-	
 		}
 		if (request.getParameter("getPrestamos") != null) {
 			cargarPrestamos(request, response);
@@ -73,6 +72,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		try
 		{
 		pxa.setCodPrestamoPendiente(Integer.parseInt(request.getParameter("codPrestamo")));
+		System.out.println("cod servlet:"+Integer.parseInt(request.getParameter("codPrestamo")));
 		pxa.setEstado(i);
 		solicitado = pdxaNeg.update(pxa);
 
@@ -90,7 +90,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		request.setAttribute("resBoolean", solicitado);
 		request.setAttribute("resString", resString);
 		request.setAttribute("Prestamos", lPrestamos);
-		rd = request.getRequestDispatcher("/AltaPrestamo.jsp");
+		rd = request.getRequestDispatcher("/AltaPrestamo.jsp?getPrestamos");
 		rd.forward(request, response);
 	}
 

@@ -69,11 +69,8 @@
 <%if(listaPrestamos!=null && resBoolean){ %>
  <form method="get" action="ServletPrestamosxAutorizar">
  <table >
-		<thead>
-		<tr>
-			<td colspan="8">Prestamos disponibles para aprobacion</td>
-		</tr>
-		   	</thead>
+			<caption>Prestamos disponibles para aprobacion</caption>
+		   
 		<tr>
 			<th>Codigo de prestamo pendiente</th>
 		    <th>Numero de cuenta</th>
@@ -81,7 +78,7 @@
 		    <th>Cantidad de cuotas</th>
 		    <th>Fecha Creación</th>
 		    <th>estado</th>
-		    <th colspan="2"></th>
+		    <th colspan="2">Autorizacion</th>
 		</tr>
 <%
 
@@ -109,12 +106,14 @@
 				<td>Error</td>
 			<%break;
 			}%>
-			<td><input type="hidden" name="codPrestamo" value="<%=p.getCodPrestamoPendiente()%>"></td>
-			<td><input type="submit" value="Autorizar" name="btnAutorizar"></td>
+			
+		
+			<td><input type="submit" value="Aprobar" name="btnAutorizar"></td>
 			<td><input type="submit" value="Rechazar" name="btnRechazar"></td>
-			
-			
-		</tr>
+			<input type="hidden" name="codPrestamo" value="<%=p.getCodPrestamoPendiente()%>">
+
+		
+	</tr>
 		<%}%>
 		 </table>
 </form>

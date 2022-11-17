@@ -49,6 +49,7 @@ public class PrestamosxAutorizarNegocioImpl implements PrestamosxAutorizarNegoci
 		if( prestamo.getCodPrestamoPendiente()  > 0 )
 		{
 			estado=pxaDao.update(prestamo);
+			System.out.println("codigo  update negocio:"+prestamo.getCodPrestamoPendiente());
 		}
 		return estado;
 	
