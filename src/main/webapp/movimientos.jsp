@@ -97,7 +97,11 @@
 			<td><%= mov.getImporte() %></td>
 			<td><%= mov.getTipoMovimiento().getTipoMovimiento() %></td>
 			<td><%= mov.getSaldo() %></td>
+		 <%  if( mov.getDetalle() == null) { %>
+		 			<td> --- </td>
+		 <%	} else { %>
 			<td><%= mov.getDetalle()%></td>
+		<%	}  %>
 		</tr>
 	<% }  %>
 		</tbody>

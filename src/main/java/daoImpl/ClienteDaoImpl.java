@@ -18,11 +18,11 @@ import entidad.Pais;
 import entidad.Provincia;
 
 public class ClienteDaoImpl implements ClienteDao {
-	private static final String insert = "INSERT INTO Clientes(dni,nombre,apellido,CUIL,sexo,nacionalidad,fecha_nac,direccion,codLocalidad, codProvincia, codPais, correo_electronico) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+	private static final String insert = "INSERT INTO Clientes(dni,nombre,apellido,CUIL,sexo,nacionalidad,fecha_nac,direccion,codLocalidad, codProvincia, codPais, correo_electronico, telefonos) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 	private static final String logicalDeletion = "UPDATE Clientes set estado = 0 Where dni = ?";
 	private static final String readall = "SELECT * FROM Clientes ORDER by apellido, dni ASC";
 	private static final String readOne = "SELECT * FROM Clientes Where dni = ?";
-	private static final String update = "UPDATE Clientes set nombre = ?, apellido = ?, CUIL = ?, sexo = ?, nacionalidad = ?, fecha_nac = ?, direccion = ?, codLocalidad = ?, codProvincia = ?, codPais = ?, correo_electronico = ?  Where dni = ?";
+	private static final String update = "UPDATE Clientes set nombre = ?, apellido = ?, CUIL = ?, sexo = ?, nacionalidad = ?, fecha_nac = ?, direccion = ?, codLocalidad = ?, codProvincia = ?, codPais = ?, correo_electronico = ?, telefonos = ?  Where dni = ?";
 	private static final String readlast = "SELECT * FROM Clientes ORDER by dni DESC LIMIT 1";
 	private static final String countAll = "SELECT COUNT(dni) as total FROM Clientes where estado = 1 ORDER by apellido, dni ASC";
 	
@@ -75,6 +75,7 @@ public class ClienteDaoImpl implements ClienteDao {
 			statement.setInt(10, cliente_a_agregar.getLocalidad().getProvincia().getCodProvincia());
 			statement.setInt(11, cliente_a_agregar.getLocalidad().getPais().getCodPais());
 			statement.setString(12, cliente_a_agregar.getCorreo_electronico());
+			statement.setString(13, cliente_a_agregar.getTelefonos());
 
 
 			if (statement.executeUpdate() > 0) {
@@ -117,7 +118,8 @@ public class ClienteDaoImpl implements ClienteDao {
 			statement.setInt(9, cliente_a_actualizar.getLocalidad().getProvincia().getCodProvincia());
 			statement.setInt(10, cliente_a_actualizar.getLocalidad().getPais().getCodPais());
 			statement.setString(11, cliente_a_actualizar.getCorreo_electronico());
-			statement.setString(12, cliente_a_actualizar.getDni());
+			statement.setString(12, cliente_a_actualizar.getTelefonos());
+			statement.setString(13, cliente_a_actualizar.getDni());
 
 			if (statement.executeUpdate() > 0) {
 				conexion.commit();
@@ -242,6 +244,7 @@ public class ClienteDaoImpl implements ClienteDao {
 		int codProvincia = resultSet.getInt("codProvincia");
 		int codPais = resultSet.getInt("codPais");
 		String correo_electronico = resultSet.getString("correo_electronico");
+		String telefonos = resultSet.getString("telefonos");
 		boolean estado = resultSet.getBoolean("estado");
 		
 		LocalidadDao localidadDao = new LocalidadDaoImpl();
@@ -253,7 +256,7 @@ public class ClienteDaoImpl implements ClienteDao {
 		Pais nacionalidad = paisDao.readOne(codNacionalidad);
 		
 		
-		return new Cliente(dni, nombre, apellido, cuil, sexo, nacionalidad, fecha_nac, direccion, localidad, provincia, pais, correo_electronico, estado);
+		return new Cliente(dni, nombre, apellido, cuil, sexo, nacionalidad, fecha_nac, direccion, localidad, provincia, pais, correo_electronico, telefonos, estado);
 	}
 
 

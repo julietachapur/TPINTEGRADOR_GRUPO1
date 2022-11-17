@@ -23,6 +23,8 @@
 	sexo.add("X");
 	ArrayList<Pais> listaPaises = null;
 	String dni = null;
+	String mensaje = "";
+	Boolean existe = false;
 	
 	if(request.getAttribute("nacionalidad") != null)
 	{
@@ -39,6 +41,12 @@
 	if( request.getAttribute("agregado") != null) {
 		agregado = (boolean)request.getAttribute("agregado");
 		dni = (String) request.getAttribute("dni");
+		mensaje = (String) request.getAttribute("mensaje");
+	}
+	
+	if( request.getAttribute("existe") != null) {
+		existe = (boolean)request.getAttribute("existe");
+		mensaje = (String) request.getAttribute("mensaje");
 	}
 		
 	Usuario usuario = new Usuario();
@@ -64,7 +72,7 @@
 <div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
 <a style="margin-top: 0.5rem;" class="volver" href="adminClientes.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
 <h1>Alta nuevo cliente</h1>
-  <%  if( agregado == false)	{ %>
+  <%  if( agregado == false && existe == false)	{ %>
 <span>Por favor complete todos los datos </span>
 <div class="ABM">
 
@@ -134,6 +142,10 @@
         <label for="email">E-mail</label>
         <input id="email" type="email" required name="txtEmail" maxlength=200>
       </p>
+      <p class="inputForm">
+        <label for="telefonos">Teléfonos</label>
+        <input id="telefonos" type="text" required name="txtTelefonos" maxlength=200>
+      </p>
       <p class="button">
         <input id="btnRegistrar" type="submit" value="Registrar" name="btnAltaCliente">
       </p>
@@ -144,15 +156,17 @@
 </div>
   <%	}%>
 <div style="display:flex; flex-direction: column; align-items: center;">
-<% if( agregado == true) { %>	
+<% if( agregado == true || existe == true ) { %>	
 	<div>
-		<p style="font-size: 1.5rem;">Cliente agregado con éxito <p>
+		<p style="font-size: 1.5rem;"><%=mensaje %> <p>
 	</div>
 	<div>
 	<% if(request.getAttribute("resultado") != null) {%>
 		<%=request.getAttribute("resultado")%>
 	<%}%>
 	</div>
+	<%} %>
+	<% if( agregado == true) { %>	
 	<form method="get" action="ServletUsuario">
 	  <p class="button">
         <input id="btnRegistrar" type="submit" value="Alta Usuario Home Banking" name="btnAltaUsuario">

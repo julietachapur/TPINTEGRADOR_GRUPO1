@@ -152,6 +152,14 @@
         <label for="email">E-mail</label>
         <input id="email" type="email" required name="txtEmail" value="<%= cl.getCorreo_electronico() %>" maxlength=200>
       </p>
+      <p class="inputForm">
+        <label for="telefonos">Teléfonos</label>
+        <%  if( cl.getTelefonos() == null) { %>
+                <input id="telefonos" type="text" required name="txtTelefonos" value=" " maxlength=200>
+        	<%	} else { %>
+        	<input id="telefonos" type="text" required name="txtTelefonos" value="<%= cl.getTelefonos() %>" maxlength=200>
+        <%	}  %>
+      </p>
       <p class="button">
         <input id="btnRegistrar" type="submit" value="Modificar" required name="btnModificarBD">
       </p>
