@@ -41,13 +41,29 @@
 		us = (Usuario)request.getAttribute("usuario");
 	}
 	
+	Usuario usuario = new Usuario();
+ 	if(session.getAttribute("Usuario")!=null){	
+ 		usuario = (Usuario)session.getAttribute("Usuario");
+ 	}
 	
-	
- %>
+	%>
+ 
+ 
+<header class="header"> 
+	<div>
+		<a href="#">
+			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+		</a>
+	</div>
+	<div class="logged">
+		<span><%=usuario.getUsuario()%></span>
+		<span>LOGGUEADO</span>
+	</div>
+</header>
  
  
  <% 	if(isCliente == false) { %>  
-<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId"> <span class="fa fa-home"></span> Volver</a>
+<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?pag=1"> <span class="fa fa-home"></span> Volver</a>
 	 <%} else {%>	  
 <a href="index.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
 <%	} %>

@@ -13,8 +13,33 @@
 <title>Inicio - Admin</title>
 </head>
 <body>
-<a href="index.jsp"> <span class="fas fa-times-circle"></span>Salir</a>
+<script>
+		<%
+ 			Usuario usuario = new Usuario();
+		 	if(session.getAttribute("Usuario")!=null){	
+		 		usuario = (Usuario)session.getAttribute("Usuario");
+			}
+		 	else {
+		 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/index.jsp");
+		 	}
+		
+		%>
+</script>
+
+<header class="header"> 
+<div>
+	<a href="#">
+		<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+	</a>
+</div>
+<div class="logged">
+	<span><%=usuario.getUsuario()%></span>
+	<span>LOGGUEADO</span>
+</div>
+</header>
+
 <div class="menu">
+<a href="index.jsp" class="volver"> <span class="volverIcon fas fa-times-circle"></span>Salir</a>
 <h1>Panel Administrador</h1>
 <span>Seleccione la opción deseada: </span>
 
@@ -25,16 +50,5 @@
 		    <a href=/TPINTEGRADOR_GRUPO1/ServletMovimientos?getMovimientos> Informes </a>
 		</div>
 </div>
-<script>
-		<%
-		 	if(session.getAttribute("Usuario")!=null){	
-		 		Usuario usuario = new Usuario();
-		 		usuario = (Usuario)session.getAttribute("Usuario");
-			}
-		 	else {
-		 	response.sendRedirect("/TPINTEGRADOR_GRUPO1/index.jsp");
-		 	}
-		%>
-</script>
 </body>
 </html>

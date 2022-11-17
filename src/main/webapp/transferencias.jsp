@@ -20,15 +20,26 @@
 <a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
 <h1 style="margin:auto;text-align:center;margin-bottom:30px;">Transferencias</h1>
 <%
-	Cuenta cuenta = new Cuenta();
-	int currentCuenta;
-	CuentaNegocioImpl cuentas = new CuentaNegocioImpl();
+	Cuenta cuenta = null;
+	int currentCuenta = 0;
+	int nroCuenta = 0;
+	ArrayList<Cuenta> cuentasList = null;
+	Usuario usuario = new Usuario();
 	
-	if(session.getAttribute("Usuario")!=null && request.getParameter("getCuenta")!=null){	
-		Usuario usuario = new Usuario();
+	if(session.getAttribute("Usuario")!=null && request.getParameter("getCuenta")!=null && request.getSession().getAttribute("cuentas") != null){	
+		cuentasList = (ArrayList<Cuenta>) request.getSession().getAttribute("cuentas");
 		usuario = (Usuario)session.getAttribute("Usuario");	
 		currentCuenta = Integer.parseInt(request.getParameter("getCuenta"));
-		cuenta = cuentas.readOne(currentCuenta);
+		nroCuenta = Integer.parseInt(request.getParameter("getCuenta"));	
+		for(int i=0;i<cuentasList.size();i++) { 
+ 			if(cuentasList.get(i).isEstado()){
+ 				if (cuentasList.get(i).getNroCuenta()==nroCuenta){
+ 					cuenta = cuentasList.get(i);
+ 					break;
+ 				}
+ 			}
+		}
+		
 	}
 	else {
 	%>
@@ -77,7 +88,13 @@
 		var monto = document.getElementById('txtMonto');
 		var dni = document.getElementById('txtDNI');
 		var cbu = document.getElementById('txtCbu');
-		if (monto.value == "" || dni.value =="" || cbu.value ==""){
+		
+		<%
+ 				%>if(cbu.value==<%=cuenta.getCbu()%>){
+ 					alert("No puede transferir dinero a la misma cuenta!");
+ 				}<%
+		%>
+		else if (monto.value == "" || dni.value =="" || cbu.value ==""){
 			alert("Llene los campos");
 		}
 		else if(isNaN(monto.value)|| isNaN(dni.value) || isNaN(cbu.value)){

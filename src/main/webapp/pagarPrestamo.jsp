@@ -41,14 +41,14 @@
 			
 		}
 		else{
-			request.setAttribute("ErrorSinParametro",true);
-			RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-			dispatcher.forward(request,response);
+			%><script>alert("Ocurrio un error durante la carga de la pagina. Si el problema persiste contacte a soporte tecnico.")</script><%
+			response.sendRedirect("/index.jsp");
 		}
 		//cuentasList.get(pos)
 		%>
-		<label>Seleccionar Prestamo</label>
+		
 		<section class="eleccion-prestamos">
+		<label>SELECCIONAR PRESTAMO</label>
 		<select class="select" id="select-prestamo">
 			<option value="-1">Seleccione un prestamo</option>
 		<% for(Prestamo p : prestamoList){%>
@@ -56,10 +56,10 @@
 		
 		<%}%> 
 		</select>
-		<button id="btnPagar">Pagar</button>
+		<button id="btnElegirPrestamo" class="btnSeleccionar" onclick="getCuotasPretamo()">Elegir prestamo</button>
 	</section>
 	
-	<section class="Cuenta">
+	<section class="Cuenta" style="margin-bottom:30px;">
 		<div class="Cuenta-Tipo">
 		<%  if(cuentasList.get(pos).getTipoCuenta().getCodTipo()== 1) {	%>
 			<label id="lblCuentaTipo">CA$</label>
@@ -68,43 +68,116 @@
 		<%	} %>
 		</div>
 		<div class="Cuenta-Detalle">
-			<label id="lblDisponibleCuenta">$<%=cuentasList.get(pos).getSaldo() %></label>
-			<label id="lblDetalleCuenta"><%=cuentasList.get(pos).getTipoCuenta().getTipoCuenta()%> - Cuenta Nro: <%= cuentasList.get(pos).getNroCuenta() %></label>
+			<label id="">$<%=cuentasList.get(pos).getSaldo()%></label>
+			<label id="lblDetalleCuenta"><%=cuentasList.get(pos).getTipoCuenta().getTipoCuenta()%> - Cuenta Nro: <%=cuentasList.get(pos).getNroCuenta()%></label>
 		</div>
 	</section>
-	
-	
+	<!-- -->
+	<!--<%=cuentasList.get(pos).getNroCuenta()%>-->
 	<section class="detalle-cuota">
-	<table id="tabla-cuotas">
-		<tr>
+	<table id="tabla-cuotas" style="display:none; text-align:center; width:80%; margin:auto;">
+		<tr style="text-align:center;">
 			<th>Cuota</th>
 			<th>Importe</th>
 			<th>Fecha de pago</th>
 			<th>Fecha vencimiento</th>
 			<th>Estado</th>
+			<th>Pagar</th>
 		</tr>
 		<% for(Cuota c : cuotasList){%>
-		<tr class="<%=c.getCodPrestamo()%>">
+		<tr class="cuotasTr cuoPrestamo-<%=c.getCodPrestamo()%>" style="display:none">
 			<td><%=c.getNroCuota()%></td>
-			<td><%=c.getImporte() %></td>
-			<td><%=c.getFecha_pago() %></td>
+			<td>$<%=c.getImporte() %></td>
+			<td><% if (c.getFecha_pago()==null ){%>
+				<%="-"%>
+			<%} 
+			else{%>
+				<%=c.getFecha_pago()%>
+			<%}%></td>
 			<td><%=c.getFecha_venc() %></td>
-			<td><%=c.getEstado()%></td>
-			<td><button onclick="cuotaSeleccionada(<%=c.getIdCuota()%>);">Seleccionar</button></td>
+			<td><% if (c.getEstado()){%>
+				<%="Pendiente de pago"%>
+			<%} 
+			else{%>
+				<%="Pago"%>
+			<%}%></td>
+			<td><button <%if(!c.getEstado()){%>
+							disabled				
+						<%}%> 
+				onclick="cuotaSeleccionada(<%=c.getIdCuota()%>,<%=c.getImporte()%>,<%=c.getEstado()%>);" class="">Pagar cuota</button></td>
 		</tr>
 		<%}%> 
 	</table>
 	</section>
-	
+	<form method="post" action ="ServletCuota" hidden>
+		<input type="text" hidden id="IdCuotaAPagar" name="IdCuotaAPagar">
+		<input type="text" hidden id="NroCuenta" name="NroCuenta" value="<%=cuentasList.get(pos).getNroCuenta()%>">
+		<input type="text" name="OPPAGARCUOTA">
+	</form>
 	<script>
 	
-	function cuotaSeleccionada(idCuota){
-		alert("Selecciono la cuota con el ID " + idCuota + ", vamo a pagarla en el proximo episodio");
+	function cuotaSeleccionada(idCuota, importe, estado){
+		requestID = document.getElementById("IdCuotaAPagar");
+		requestID.value= idCuota;
+		if(!estado)
+			alert("La cuota esta paga")
+		
+		else if (importe><%=cuentasList.get(pos).getSaldo()%>)
+			alert("No tiene saldo suficiente para realizar el pago.");
+		
+		else if(confirm("Presione aceptar para confirmar el pago de la cuota.."))
+			document.forms[0].submit();
+		
+		else
+			alert("Pago cancelado")
+		
+		}
+	
+	var tabla = document.getElementById("tabla-cuotas");
+	var prestamoSeleccionado = document.getElementById("select-prestamo");
+	
+		
+	function getCuotasPretamo(){
+		/*Oculto Todas Las Cuotas*/
+		var btnElegirPrestamo = document.getElementById("btnElegirPrestamo");
+		var CodPrestamo = prestamoSeleccionado.options[prestamoSeleccionado.selectedIndex].value;
+		
+		var allCuo = document.querySelectorAll('.cuotasTr');
+		OcultarCuotas(allCuo);
+		
+		/*Si se eligio un prestamo muestro las cuotas de ese prestamo*/
+		if (CodPrestamo!=-1){
+			var cuotasPrestamoSeleccionado = document.querySelectorAll(".cuoPrestamo-"+CodPrestamo);
+			MostrarCuotas(cuotasPrestamoSeleccionado);
+			MostrarTabla();
+		}
+		/*Si no oculto las cuotas*/
+		else{
+			OcultarTabla();
+		}
+		
 	}
 	
-	var prestamoSeleccionado = document.getElementById("select-prestamo");
-	var btnPagar = document.getElementById("btnPagar");
-	var tabla = document.getElementById("tabla-cuotas");
+	function OcultarCuotas(allCuo){
+		
+		for (var cuo of allCuo){
+				cuo.style.display='none';
+		}	
+	}
+	
+	function MostrarCuotas(allCuo){
+		for (var cuo of allCuo){
+			cuo.style.display="";
+	}	
+	}
+	
+	function OcultarTabla(){
+		tabla.style.display='none';
+	}
+	
+	function MostrarTabla(){
+		tabla.style.display='';
+	}
 	
 	</script>
 </body>

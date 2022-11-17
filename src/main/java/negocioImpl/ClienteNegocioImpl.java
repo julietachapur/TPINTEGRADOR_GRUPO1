@@ -62,6 +62,13 @@ public class ClienteNegocioImpl implements ClienteNegocio {
 		System.out.print(cDao.readLast());
 		return cDao.readLast();
 	}
+	
+	public int countActive() {
+
+		int cant;
+		cant = cDao.countActive();
+		return cant;
+	}
 
 
 }

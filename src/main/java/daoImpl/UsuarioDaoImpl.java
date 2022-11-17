@@ -91,6 +91,9 @@ public class UsuarioDaoImpl implements UsuarioDao {
 				conexion.commit();
 				isInsertExitoso = true;
 			}
+			else {
+				conexion.rollback();
+			}
 		} catch (SQLException e) {
 
 			System.out.println("Error al intentar ingresar el registro de usuario");

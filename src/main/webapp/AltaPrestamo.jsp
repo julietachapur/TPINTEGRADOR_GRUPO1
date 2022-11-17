@@ -1,7 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="entidad.PrestamoxAutorizar" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"    pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Usuario" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +13,6 @@
 <title>Administrar Prestamos - Admin</title>
 </head>
 <body>
-<div class="logged">loggeado</div>
-<a href="inicioAdmin.jsp"> <span class="fa fa-home"></span> Volver</a>
-
-
 <% 
 	ArrayList<PrestamoxAutorizar> listaPrestamos= null;
 	String resString=null;
@@ -33,9 +29,31 @@
 	{
 		resBoolean =  Boolean.parseBoolean( request.getAttribute("resBoolean").toString());
 	}
- %>
+
+	Usuario usuario = new Usuario();
+ 	if(session.getAttribute("Usuario")!=null){	
+ 		usuario = (Usuario)session.getAttribute("Usuario");
+ 	}
+	
+%>
+
+<header class="header"> 
+	<div>
+		<a href="#">
+			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+		</a>
+	</div>
+	<div class="logged">
+		<span><%=usuario.getUsuario()%></span>
+		<span>LOGGUEADO</span>
+	</div>
+</header>
+
+
+
  
 <div class="menu">
+<a style="margin-top: 0.5rem;" class="volver" href="inicioAdmin.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
 <h2>Autorización Prestamos</h2>
 <%
 		if(!resBoolean && resString!= null){%>
@@ -125,6 +143,5 @@
 		<%}%>
 
 		 </div>	
-
 </body>
 </html>

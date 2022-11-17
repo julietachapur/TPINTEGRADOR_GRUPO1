@@ -12,17 +12,19 @@ public class Cuenta {
 	private Cliente dni;
 	private Date fecha_creacion; 
 	private TipoCuenta tipoCuenta;
+	private BigDecimal saldo;
 	private boolean estado;
 
 	public Cuenta() { }
 
-	public Cuenta(int nroCuenta, Long cbu, Cliente dni, Date fecha_creacion, TipoCuenta tipoCuenta,boolean estado) {
+	public Cuenta(int nroCuenta, Long cbu, Cliente dni, Date fecha_creacion, TipoCuenta tipoCuenta, BigDecimal saldo,
+			boolean estado) {
 		this.nroCuenta = nroCuenta;
 		this.cbu = cbu;
 		this.dni = dni;
 		this.fecha_creacion = fecha_creacion;
 		this.tipoCuenta = tipoCuenta;
-		
+		this.saldo = saldo;
 		this.estado = estado;
 	}
 
@@ -66,6 +68,14 @@ public class Cuenta {
 		this.tipoCuenta = tipoCuenta;
 	}
 
+	public BigDecimal getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(BigDecimal saldo) {
+		this.saldo = saldo;
+	}
+
 	public boolean isEstado() {
 		return estado;
 	}
@@ -77,7 +87,7 @@ public class Cuenta {
 	@Override
 	public String toString() {
 		return "Cuenta [nroCuenta=" + nroCuenta + ", cbu=" + cbu + ", dni=" + dni + ", fecha_creacion=" + fecha_creacion
-				+ ", tipoCuenta=" + tipoCuenta   + ", estado=" + estado + "]";
+				+ ", tipoCuenta=" + tipoCuenta + ", saldo=" + saldo + ", estado=" + estado + "]";
 	}
 
 }

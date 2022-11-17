@@ -1,11 +1,14 @@
 package servlets;
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import negocioImpl.CuotasNegocioImpl;
+
 
 /*
 import jakarta.servlet.RequestDispatcher;
@@ -14,7 +17,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-*/
+
 
 /**
  * Servlet implementation class ServletCuota
@@ -43,7 +46,25 @@ public class ServletCuota extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		RequestDispatcher rd;
+		if(request.getParameter("OPPAGARCUOTA")!=null) {
+			if(pagarCuota(request, response))
+				request.setAttribute("CuotaPaga", true);
+			else
+				request.setAttribute("CuotaPaga", false);
+			rd = request.getRequestDispatcher("/gestionarCuentas.jsp");
+			rd.forward(request, response);
+		}
+	}
+	
+	protected boolean pagarCuota(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int idCuota =  Integer.parseInt(request.getParameter("IdCuotaAPagar"));
+		int NroCuenta = Integer.parseInt(request.getParameter("NroCuenta"));
+		CuotasNegocioImpl cuotasneg =  new CuotasNegocioImpl();
+		if(cuotasneg.pagarCuota(NroCuenta, idCuota))
+			return true;
+		else
+			return false;
 	}
 
 }

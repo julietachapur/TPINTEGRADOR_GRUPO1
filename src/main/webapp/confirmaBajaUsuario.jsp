@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Usuario" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,11 +21,27 @@
 	boolean eliminado = false;
 	if( request.getAttribute("eliminado") != null) eliminado = (boolean)request.getAttribute("eliminado");
 	
- %>
+	Usuario usuario = new Usuario();
+ 	if(session.getAttribute("Usuario")!=null){	
+ 		usuario = (Usuario)session.getAttribute("Usuario");
+ 	}
+	
+	%>
  
+ <header class="header"> 
+	<div>
+		<a href="#">
+			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+		</a>
+	</div>
+	<div class="logged">
+		<span><%=usuario.getUsuario()%></span>
+		<span>LOGGUEADO</span>
+	</div>
+</header>
  
-<a href="/TPINTEGRADOR_GRUPO1/ServletCliente?getId"> <span class="fa fa-home"></span> Volver</a>
 <div class="ABM">
+<a class="volver" href="/TPINTEGRADOR_GRUPO1/ServletCliente?pag=1"> <span class="volverIcon fa fa-home"></span> Volver</a>
 <h1>Eliminar cliente</h1>
 
 

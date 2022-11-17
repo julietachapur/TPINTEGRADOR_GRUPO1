@@ -25,7 +25,6 @@ BEGIN
 	 IF `_rollback` THEN
         ROLLBACK;
     else
-		select 1,2,3 as exito; 
         COMMIT;
     END IF;
 END //

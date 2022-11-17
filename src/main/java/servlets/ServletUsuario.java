@@ -141,11 +141,9 @@ public class ServletUsuario extends HttpServlet {
 	 * en caso de exito genera una session con los datos del usuario,
 	 * en caso de error o usuario inexistente devuelve false*/
 	public Boolean iniciarSesion(HttpServletRequest request, HttpServletResponse response, Usuario usuario) throws ServletException, IOException { 
-		
 		String clave =  request.getParameter("txtClave");
 		String usu = request.getParameter("txtUsuario");
 		String DNI = request.getParameter("txtDNI");
-		
 		usuario.setDNI(DNI); 
 		usuario.setUsuario(usu);
 		usuario.setContraseña(clave);

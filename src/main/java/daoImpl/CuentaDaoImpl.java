@@ -28,7 +28,7 @@ public class CuentaDaoImpl implements CuentaDao{
 	private static final String readOne = "SELECT * FROM Cuentas Where nroCuenta = ?";
 	private static final String readOneCbu = "SELECT * FROM Cuentas Where CBU = ?";
 	private static final String readForClient = "SELECT * FROM Cuentas Where dni = ?";
-	private static final String update = "UPDATE Cuentas set CBU = ?, dni = ?, tipoCuenta = ? Where nroCuenta = ?";
+	private static final String update = "UPDATE Cuentas set saldo = ?, CBU = ?, dni = ?, tipoCuenta = ? Where nroCuenta = ?";
 
 
 
@@ -56,8 +56,8 @@ public class CuentaDaoImpl implements CuentaDao{
 		} catch (SQLException e) {
 
 			System.out.println("Error al intentar ingresar el registro");
-			return false;
 		}
+
 		return isInsertExitoso;
 	}
 
@@ -216,8 +216,9 @@ public class CuentaDaoImpl implements CuentaDao{
 		int numCuenta = resultSet.getInt("tipoCuenta");
 		TipoCuentaDao tipoCuentaDao = new TipoCuentaDaoImpl();
 		TipoCuenta tipoCuenta = tipoCuentaDao.readOne(numCuenta);
+		BigDecimal saldo = resultSet.getBigDecimal("saldo");
 		Boolean estado = resultSet.getBoolean("estado");
-		return new Cuenta(nroCuenta,cbu,cliente,fecha_creacion,tipoCuenta,estado);
+		return new Cuenta(nroCuenta,cbu,cliente,fecha_creacion,tipoCuenta,saldo,estado);
 	}
 
 
@@ -236,7 +237,7 @@ public boolean update(Cuenta cuenta_a_actualizar) {
 		}
 		try {
 				statement = conexion.prepareStatement(update);	
-				
+				statement.setBigDecimal(1, cuenta_a_actualizar.getSaldo());
 				statement.setLong(2, cuenta_a_actualizar.getCbu());
 				statement.setString(3, cuenta_a_actualizar.getDni().getDni());
 				statement.setString(4, cuenta_a_actualizar.getTipoCuenta().getTipoCuenta());

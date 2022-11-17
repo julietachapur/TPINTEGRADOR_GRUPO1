@@ -32,12 +32,37 @@
 	{
 		currentCuenta = (int) request.getSession().getAttribute("cuentaSeleccionada");
 	}
-		
+	
+	if (request.getAttribute("CuotaPaga")!=null){
+		%><script><%
+		boolean exito = (boolean) request.getAttribute("CuotaPaga");
+		if (exito){
+			%>alert("Cuota pagada con exitó!")<%
+		}
+		else{
+			%>alert("Ocurrio un error durante el pago de la cuota.")<%
+		}
+		%></script><%
+	}
+			
  %> 
  
-<a href="inicioClientes.jsp"> <span class="fa fa-home"></span> Volver</a>
-<h1 style="margin:auto; margin-bottom:20px; text-align:center;">Gestionar Cuentas</h1>
+ 
+ <header class="header"> 
+	<div>
+		<a href="#">
+			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+		</a>
+	</div>
+	<div class="logged">
+		<span><%=usuario.getUsuario()%></span>
+		<span>LOGGUEADO</span>
+	</div>
+</header>
+ 
 <div class= "selectorCuentas">
+<a style="margin-top: 0.5rem;" 	class="volver" href="inicioClientes.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
+<h1 style="margin:auto; margin-bottom:20px; text-align:center;">Gestionar Cuentas</h1>
  	<label for="cuentaSeleccionada">Cuenta <%=currentCuenta%> </label><br>
 	<span>Cambiar cuenta:  </span>
 	

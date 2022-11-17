@@ -1,5 +1,9 @@
 @charset "ISO-8859-1";
 
+*{
+	font-family: 'Arial', sans-serif;
+}
+
 :root{
 --color-1: green; 
 }
@@ -12,6 +16,7 @@ a{
 	display: flex;	
 	flex-direction: column;
 	align-items:center;
+	margin-top: 1rem;
 }
 
 .menuIndex {
@@ -41,7 +46,6 @@ a{
 .opcionesIndex{
 	display: flex;
 	justify-content: space-between;
-	width: 16rem;
 }
 
 .opcionesIndex a {
@@ -310,10 +314,6 @@ table th {
 }
 
 
-.logged {
- text-align: right;
- }
-
 dl
 {
 	text-align:left;
@@ -323,11 +323,6 @@ dl
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-evenly;
-	height: 15vh;	
-	font-family: 'Arial', sans-serif;
-	font-weight: 400;
- 	color: #444;
 }
 
 .selectorCuentas label{ 
@@ -351,3 +346,80 @@ dl
 #btnSeleccionar:hover, #btnSeleccionar:active {
 	font-weight: 700;
 }
+
+.btnSeleccionar {
+	background-color: green ; /* #008000 */
+  	color: white;
+  	border-radius: 7px;
+  	border: 2px solid green;
+ 	padding: 0.2rem 1rem;
+}
+
+.btnSeleccionar:hover, #btnSeleccionar:active {
+	font-weight: 700;
+}
+
+.eleccion-prestamos{
+	margin: auto;
+    text-align: center;
+    width: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100px;
+    margin-bottom: 30px;
+}
+
+.paginado{	
+	display: flex; 
+	align-items: center; 
+	margin: 1rem 0; 
+	gap: 1rem; 
+	padding: 0.5rem 1rem;
+}
+
+.paginado a {
+	font-size: 1.1rem;
+}
+
+.paginado a:link, .paginado a:visited {
+	color: green;
+}
+
+.paginado a:hover, .paginado a:active {
+  text-decoration: underline;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem 2rem;
+	border-bottom-style: outset;
+  	border-color: green;
+}
+
+.logged {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.volver{
+	align-self: self-end;
+	margin-right: 2rem;
+}
+
+.volverIcon {
+	margin-right: 5px;
+}
+
+.volver:link, .volver:visited {
+	color: inherit;
+}
+
+.volver:hover, .volver:active {
+	color: green;
+}
+
