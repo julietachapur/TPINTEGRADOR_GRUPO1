@@ -1,6 +1,6 @@
-<%@page import="entidad.Usuario" %>
 <%@page import="entidad.Pais" %>
 <%@page import="entidad.Localidad" %>
+<%@page import="entidad.Usuario" %>
 <%@page import="entidad.Cliente" %>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
@@ -17,19 +17,22 @@
 <body>
 
 <% 
-		
+
+	
 	Usuario usuario = new Usuario();
  	if(session.getAttribute("Usuario")!=null){	
  		usuario = (Usuario)session.getAttribute("Usuario");
+ 		
  	}
- 	
 	Cliente cliente = usuario.getcliente();	
+
+	
 	%>
  
   
  <header class="header"> 
 	<div>
-		<a href="#">
+		<a href="inicioClientes.jsp">
 			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
 		</a>
 	</div>
@@ -38,19 +41,21 @@
 		<span>LOGGUEADO</span>
 	</div>
 </header>
-	
+<div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
+<a href="inicioClientes.jsp" class="volver"> <span class="volverIcon fa fa-home"></span>Volver</a>
 
-	<a class="volver" href="inicioClientes.jsp"> <span class="volverIcon fa fa-home">Volver</span></a>
 	<div class="inforPer">
 	<h1><%=	cliente.getApellido()%> <%=cliente.getNombre() %> </h1>
-	<span>Sus datos:</span>
-		<table class="tablaDatos">
+	<span>Información personal:</span>
+	<div> 
+	
+			<table class="tablaDatos">
 				<tr>
 					<th>DNI</th>
 					<td><%=cliente.getDni() %></td>
 				</tr>
 				<tr>
-			  		<th>Nombre</th>					
+			  		<th>Apellido y nombre</th>					
 					<td><%=cliente.getApellido()%>, <%=cliente.getNombre()%></td>
 				</tr>
 				<tr>
@@ -62,16 +67,20 @@
 					<th>Sexo</th>
 					<td><%=cliente.getSexo() %></td>
 				</tr>
-				
 				<tr>
 					<th>Nacionalidad</th>
-					<td><%=cliente.getNacionalidad() %></td>
+					<td><%=cliente.getNacionalidad().getPais() %></td>
 				</tr>
 				<tr>
-					<th>Dirección</th>
-					<td><%= cliente.getLocalidad().getLocalidad() %>, 
-					<%= cliente.getLocalidad().getProvincia().getProvincia() %>,
-					<%= cliente.getLocalidad().getPais().getPais() %></td>
+					<th>Domicilio</th>
+					<td><%=cliente.getDireccion() %></td>
+				</tr>
+				<tr>
+					<th>Localidad</th>
+					<td><%= cliente.getLocalidad().getLocalidad()%>,
+					<%= cliente.getProvincia().getProvincia()%>,
+					<%= cliente.getPais().getPais()%>
+					</td>
 				</tr>
 			
 				<tr>
@@ -81,11 +90,11 @@
 			
 				<tr>
 					<th>Correo</th>
-					<td><%= (String) cliente.getCorreo_electronico() %></td>
-				</tr>
-			
+					<td><%= cliente.getCorreo_electronico() %></td>
+				</tr>			
 			</table>		
 	</div>
-	
+</div>
+
 </body>
 </html>

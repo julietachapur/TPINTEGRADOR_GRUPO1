@@ -54,7 +54,7 @@ if(request.getAttribute("resBoolean")!=null)
  %>
 <header class="header"> 
 	<div>
-		<a href="#">
+		<a href="inicioClientes.jsp">
 			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
 		</a>
 	</div>
