@@ -128,11 +128,19 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 		{
 		CuentaDao cDao = new CuentaDaoImpl();
 		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) cDao.readForClient(dni);
-
-		if(lCuenta.size()>=3)
+       int i=0;
+       if(lCuenta !=  null)
+       {
+       for(Cuenta c:lCuenta)
+       {
+    	   if(c.isEstado())
+    		   i++;
+       }
+		if(i>=3)
 		{
 			return true;
 		}
+       }
 		return false;
 		}
 		catch(Exception  e)

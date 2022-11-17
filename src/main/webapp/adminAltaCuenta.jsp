@@ -128,7 +128,11 @@
 		</tr>
 		<%
 		for(Cuenta c:listaCuentas)
-		{%>
+		{
+		if(c.isEstado())
+		{
+		%>
+		
 		<tr>
 			<td><%=c.getNroCuenta() %></td>
 			<td><%=c.getCbu() %></td>
@@ -161,7 +165,7 @@
 		{%>
 			<br>
 			 <h3 style="color:red;"> <No disponible></h3>
-		<%}%>
+		<%}}%>
 
 		 </div>
 </body>
