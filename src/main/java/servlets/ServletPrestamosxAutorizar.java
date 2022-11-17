@@ -70,11 +70,10 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 		boolean solicitado = false;
 		String resString="";
 		PrestamoxAutorizar pxa = new PrestamoxAutorizar();
-		ArrayList<PrestamoxAutorizar> lPrestamos = (ArrayList<PrestamoxAutorizar>)pdxaNeg.readAllActive() ;
+		
 		try
 		{
 		pxa.setCodPrestamoPendiente(Integer.parseInt(request.getParameter("codPrestamo")));
-		System.out.println("cod servlet:"+Integer.parseInt(request.getParameter("codPrestamo")));
 		pxa.setEstado(i);
 		solicitado = pdxaNeg.update(pxa);
 
@@ -88,6 +87,41 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 			resString="Solicitud no pudo ser agregada Satisfactoriamente";
 			request.setAttribute("codPrestamo",null);
 		}
+		ArrayList<PrestamoxAutorizar> lPrestamos = (ArrayList<PrestamoxAutorizar>)pdxaNeg.readAllActive() ;
+		
+		
+		
+		
+		//PAGINADO
+		int cantTotal = (int) pdxaNeg.countActive();  //Cantidad de registros activos en la BD
+
+		int pag = 1;
+		if(request.getParameter("pag") != null) {
+			pag = Integer.parseInt(request.getParameter("pag"));	
+		}
+		
+		int limit = 10;                      //Elementos por página.		
+		int offset = 0;
+		if(pag > 1) offset = limit * (pag - 1);	 //inicio paginado   	
+		int cantPag = (cantTotal / limit) + 1 ; // Cantidad de páginas.	
+		int resto = offset + limit;
+		int index = 0;
+		
+		ListIterator<PrestamoxAutorizar> itLista = lPrestamos.listIterator();
+		while (itLista.hasNext()) {
+			PrestamoxAutorizar pres = itLista.next();
+			index += 1;
+	       
+			if(index < offset + 1 || index > offset + limit ) {
+				itLista.remove();
+			}
+		}
+
+		request.setAttribute("pag", pag);
+		request.setAttribute("cantPag", cantPag);
+		
+		
+		
 		request.setAttribute("codPrestamo", pxa.getCodPrestamoPendiente());
 		request.setAttribute("resBoolean", solicitado);
 		request.setAttribute("resString", resString);
@@ -138,8 +172,7 @@ public class ServletPrestamosxAutorizar extends HttpServlet {
 				itLista.remove();
 			}
 		}
-		 System.out.println("pagina "+pag); 
-		 System.out.println("cantidad de paginas " +cantPag); 
+
 		request.setAttribute("pag", pag);
 		request.setAttribute("cantPag", cantPag);
 		request.setAttribute("resString", resString);
