@@ -1,3 +1,4 @@
+<%@page import="entidad.Usuario" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="entidad.Movimiento" %>
@@ -31,12 +32,21 @@
 	{
 		listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("listaMovimientos");
 	}
+	
+	Usuario usuario = new Usuario();
+ 	if(session.getAttribute("Usuario")!=null){	
+ 		usuario = (Usuario)session.getAttribute("Usuario");
+ 	}
  %>
 <header class="header"> 
 	<div>
-		<a href="#">
+		<a href="inicioAdmin.jsp">
 			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
 		</a>
+	</div>
+	<div class="logged">
+		<span><%=usuario.getUsuario()%></span>
+		<span>LOGGUEADO</span>
 	</div>
 </header>
 <div style="display:flex; justify-content: space-around; align-items: center; flex-direction: column">
