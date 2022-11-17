@@ -54,7 +54,18 @@
 		if(!resBoolean && resString!= null){%>
 	<br>
 	 <h2 style="color:red;"><%=resString%></h2>
-	<%}%>
+	<%}
+	else
+	{ 
+		if(!resString.equals("go"))
+		{
+	%>
+		
+		<br>
+	 <h2 style="color:green;"><%=resString%></h2>
+		
+	<%}}
+	%>
 		 
 	 <form method="get" action="ServletCuenta">
 		 <label for="labeldni">Buscar DNI:</label><br>
@@ -92,8 +103,8 @@
 		    <th>CBU</th>
 		    <th>Fecha Creación</th>
 		    <th>Tipo de cuenta</th>
-		     <th>Saldo</th>
-		     <th>Baja</th>
+		    
+		   
 		</tr>
 		<%
 		for(Cuenta c:listaCuentas)
@@ -103,12 +114,12 @@
 			<td><%=c.getCbu() %></td>
 			<td><%=c.getFecha_creacion() %></td>
 			<td><%=c.getTipoCuenta().getTipoCuenta() %></td>
-			<td>$<%=c.getSaldo() %></td>
-			<td><input type="button" value="Baja"></td>
+			
+			
 		</tr>
 		<%}}%>
 		</table>
-<%if(listaTC!=null){ %>
+<%if(listaTC!=null && resBoolean){ %>
 
 <label for="TC">Elige un tipo de cuenta:</label>
  
@@ -123,7 +134,7 @@
   <%}%>
 </select>
  <input type="hidden" name="dni" value="<%=dni%>">
-<input type="submit" value="submit" name="btnAgregar">
+<input type="submit" value="Agregar" name="btnAgregar">
 </form>
 		<%}
 		else

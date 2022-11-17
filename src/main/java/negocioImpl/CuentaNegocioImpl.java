@@ -101,7 +101,10 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 				c.setDni(clienteDao.readOne(dni));
 				c.setTipoCuenta(tcDao.readOne(tc));
 				c.setCbu(Long.parseLong(clienteDao.readOne(dni).getDni().toString()));
-				System.out.print(c.toString());
+				System.out.println(c.getDni().getDni());
+				System.out.println(c.getCbu());
+				System.out.println(c.getTipoCuenta().getCodTipo());
+				
 				return cDao.insert(c);
 		}
 		catch(Exception e) {
@@ -121,13 +124,20 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 }
 	}
 	public boolean verificarMaxCuentas(String dni) {
+		try
+		{
 		CuentaDao cDao = new CuentaDaoImpl();
 		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) cDao.readForClient(dni);
+
 		if(lCuenta.size()>=3)
 		{
 			return true;
 		}
 		return false;
+		}
+		catch(Exception  e)
+		{
+			return false;
+		}
 	}
-
 }

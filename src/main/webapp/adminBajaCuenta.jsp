@@ -97,7 +97,7 @@
 		<table >
 		<thead>
 		<tr>
-			<td colspan="6">Cuentas disponibles para el DNI <%=dni%></td>
+			<td colspan="8">Cuentas disponibles para el DNI <%=dni%></td>
 		</tr>
 		   	</thead>
 		<tr>
@@ -106,21 +106,28 @@
 		    <th>Fecha Creación</th>
 		    <th>Tipo de cuenta</th>
 		     <th>Saldo</th>
-		     <th colspan="2">Estado</th>
+		     <th colspan="2"></th>
 		</tr>
 		<%
 		for(Cuenta c:listaCuentas)
-		{%>
+		{
+		if(c.isEstado())
+		{
+		
+		%>
+		
 		<tr>
 			<td><%=c.getNroCuenta() %></td>
 			<td><%=c.getCbu() %></td>
 			<td><%=c.getFecha_creacion() %></td>
 			<td><%=c.getTipoCuenta().getTipoCuenta() %></td>
 			<td>$<%=c.getSaldo() %></td>
-			<td><input type="hidden" name="cuenta" value="<%=c.getNroCuenta() %>"></td>
-			<td> <input type="submit" value="Buscar" name="btnBaja"></td>
+			<input type="hidden" name="cuenta" value="<%=c.getNroCuenta() %>">
+			<td> <input type="submit" value="Dar de baja" name="btnBaja"></td>
+			
+			
 		</tr>
-		<%}}%>
+		<%}}}%>
 		</table>
  </form>
 	 </div>
