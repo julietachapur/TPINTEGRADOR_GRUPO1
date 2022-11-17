@@ -6,5 +6,5 @@ import entidad.Cuenta;
 import entidad.TipoMovimiento;
 
 public interface TransferenciaDao {
-	public Boolean DoTransfer(Cuenta CtaOrigen, Cuenta CtaDestino, BigDecimal importe,TipoMovimiento TMov, String detalle);
+	public Boolean DoTransfer(Cuenta CtaOrigen, Cuenta CtaDestino, BigDecimal importe, BigDecimal saldoOrigen, BigDecimal SaldoDestino, TipoMovimiento TMov, String detalle);
 }

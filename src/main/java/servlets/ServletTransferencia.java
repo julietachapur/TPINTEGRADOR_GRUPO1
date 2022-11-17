@@ -93,12 +93,13 @@ public class ServletTransferencia extends HttpServlet {
 		BigDecimal importeBig = new BigDecimal(importe);
 		SaldoDestino = cueDestino.getSaldo().add(importeBig);
 		saldoOrigen = cueOrigen.getSaldo().subtract(importeBig);
+
 		
 		/*Cuenta origen*/
 		TipoMovimiento Tmov= new TipoMovimiento(4,"Transferencia",true);
 		
 		TransferenciaNegocioImpl Transferencia = new TransferenciaNegocioImpl();
-		if (Transferencia.DoTransfer(cueOrigen, cueDestino, importeBig, Tmov, detalle))
+		if (Transferencia.DoTransfer(cueOrigen, cueDestino, importeBig, saldoOrigen, SaldoDestino, Tmov, detalle))
 			request.setAttribute("Transferencia", true);
 	
 		else 

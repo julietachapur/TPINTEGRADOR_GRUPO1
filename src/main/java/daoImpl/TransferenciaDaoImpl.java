@@ -13,9 +13,9 @@ import entidad.TipoMovimiento;
 public class TransferenciaDaoImpl implements TransferenciaDao{
 	private static final String transferir = "{CALL SP_TRANSFERENCIA(?,?,?,?,?,?,?)}";
 	
-	public Boolean DoTransfer(Cuenta CtaOrigen, Cuenta CtaDestino, BigDecimal importe, TipoMovimiento TMov, String detalle){
+	public Boolean DoTransfer(Cuenta CtaOrigen, Cuenta CtaDestino, BigDecimal importe, BigDecimal saldoOrigen, BigDecimal SaldoDestino, TipoMovimiento TMov, String detalle){
 		Connection conexion = Conexion.getConexion().getSQLConexion();
-		boolean isInsertExitoso = false;
+		boolean isInsertExitoso = false; 
 		try {
 	
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -27,10 +27,13 @@ public class TransferenciaDaoImpl implements TransferenciaDao{
 			cs.setInt(1, CtaOrigen.getNroCuenta());
 			cs.setInt(2, CtaDestino.getNroCuenta());
 			cs.setBigDecimal(3, importe); 
-			cs.setBigDecimal(4, CtaOrigen.getSaldo());
-			cs.setBigDecimal(5, CtaDestino.getSaldo());
+			cs.setBigDecimal(4, saldoOrigen);
+			cs.setBigDecimal(5, SaldoDestino);
 			cs.setInt(6,TMov.getCodTipo());
 			cs.setString(7,detalle);
+			
+			
+			
 			if (cs.executeUpdate() == -1) {
 				conexion.commit();
 				isInsertExitoso = true;
