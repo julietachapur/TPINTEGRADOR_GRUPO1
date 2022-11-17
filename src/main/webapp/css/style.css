@@ -1,5 +1,9 @@
 @charset "ISO-8859-1";
 
+*{
+	font-family: 'Arial', sans-serif;
+}
+
 :root{
 --color-1: green; 
 }
@@ -310,10 +314,6 @@ table th {
 }
 
 
-.logged {
- text-align: right;
- }
-
 dl
 {
 	text-align:left;
@@ -371,4 +371,18 @@ dl
 
 .paginado a:hover, .paginado a:active {
   text-decoration: underline;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem 2rem;
+}
+
+.logged {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	justify-content: center;
+	gap: 0.5rem;
 }
