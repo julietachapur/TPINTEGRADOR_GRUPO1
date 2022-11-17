@@ -1,11 +1,11 @@
-/*drop procedure SP_TRANSFERENCIA*/
+drop procedure SP_TRANSFERENCIA;
 DELIMITER //
 create procedure  SP_TRANSFERENCIA		(	
 										nroCuentaOrigen int, 
 										nroCuentaDestino int, 
-										importe decimal, 
-                                        saldoCtaOrigen decimal,
-										SaldoCtaDestino decimal,
+										importe DECIMAL(20,6),
+                                        saldoCtaOrigen DECIMAL(20,6),
+										SaldoCtaDestino DECIMAL(20,6),
 										tipoMovimiento int,
 										detalle varchar(200)
 										)

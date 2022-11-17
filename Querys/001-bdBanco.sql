@@ -1,4 +1,4 @@
-/*drop schema bdBanco*/
+drop schema bdBanco
 
 create schema bdBanco;
 use bdBanco;
@@ -99,7 +99,7 @@ CBU BIGINT NOT NULL,
 dni VARCHAR(10),
 fecha_creacion date NOT NULL,
 tipoCuenta INT NOT NULL, 
-saldo DECIMAL,
+saldo DECIMAL(20,6) NOT NULL,
 estado BIT NOT NULL DEFAULT TRUE,
 primary key (nroCuenta, CBU),
 foreign key (dni) references Clientes(dni) 
@@ -112,9 +112,9 @@ create table Movimientos
 codMovimiento INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 nroCuenta INT NOT NULL,
 fecha date NOT NULL,
-importe decimal NOT NULL,
+importe DECIMAL(20,6) NOT NULL,
 tipoMovimiento INT NOT NULL,
-saldo decimal not null,
+saldo DECIMAL(20,6) NOT NULL,
 detalle varchar(200),
 foreign key (nroCuenta) references Cuentas(nroCuenta) 
 );
@@ -126,10 +126,10 @@ create table Prestamos
 codPrestamo INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 dni VARCHAR(10),
 fecha date NOT NULL,
-importe_a_pagar decimal NOT NULL,
-importe_pedido decimal NOT NULL,
+importe_a_pagar DECIMAL(20,6) NOT NULL,
+importe_pedido DECIMAL(20,6) NOT NULL,
 plazo_pago int NOT NULL,
-monto_mensual decimal NOT NULL,
+monto_mensual DECIMAL(20,6) NOT NULL,
 cantidad_cuotas int NOT NULL,
 estado BIT NOT NULL DEFAULT TRUE,
 foreign key (dni) references Clientes(dni)
@@ -142,7 +142,7 @@ codPrestamo int NOT NULL,
 nroCuota int NOT NULL,
 fecha_venc date not null,
 fecha_pago date null,
-importe decimal not null,
+importe DECIMAL(20,6) NOT NULL,
 estado BIT NOT NULL DEFAULT TRUE,
 foreign key (codPrestamo) references Prestamos(codPrestamo)
 );
