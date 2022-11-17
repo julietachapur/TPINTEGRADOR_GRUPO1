@@ -78,7 +78,7 @@ public class ServletPrestamos extends HttpServlet {
 			}
 		}
 		
-		if (prestamosActivos.size() != 0 && cuotaList.size()!=0) {
+		if (prestamosActivos != null && cuotaList != null) {
 			request.setAttribute("Prestamos", prestamosActivos);
 			request.setAttribute("NroCuenta", nroCuenta);	
 			request.setAttribute("Cuotas", cuotaList);	

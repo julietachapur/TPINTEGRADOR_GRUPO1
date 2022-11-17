@@ -60,7 +60,7 @@
 </header> 
  
  
-<a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
+<a class="volver" href="gestionarCuentas.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
 	<h1 style="margin:auto; margin-bottom:20px;text-align:center;">Movimientos</h1>
 	
 	<section class="Cuenta">

@@ -17,9 +17,6 @@
 <body>
 <% 
 
-
-
-
 ///Verificacion  de usuario conectado
 Usuario usuario = null;
 if(request.getSession().getAttribute("Usuario") != null) {
@@ -55,7 +52,21 @@ if(request.getAttribute("resBoolean")!=null)
 	}
 /////Terminacion de resultados
  %>
-<a href="gestionarCuentas.jsp"> <span class="fa fa-home"></span> Volver</a>
+<header class="header"> 
+	<div>
+		<a href="#">
+			<img style = "float: left; margin: 2px 20px 10px 0; ; " src="img/logo.jpg"  alt="logo" width="50" height="50"  />
+		</a>
+	</div>
+	<div class="logged">
+		<span><%=usuario.getUsuario()%></span>
+		<span>LOGGUEADO</span>
+	</div>
+</header>
+
+
+
+<a style="margin-top: 0.5rem;" class="volver" href="gestionarCuentas.jsp"> <span class="volverIcon fa fa-home"></span> Volver</a>
 
 
 <form class="form" method="get" action="ServletPrestamosxAutorizar">

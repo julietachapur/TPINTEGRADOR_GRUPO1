@@ -99,6 +99,7 @@ CBU BIGINT NOT NULL,
 dni VARCHAR(10),
 fecha_creacion date NOT NULL,
 tipoCuenta INT NOT NULL, 
+saldo DECIMAL,
 estado BIT NOT NULL DEFAULT TRUE,
 primary key (nroCuenta, CBU),
 foreign key (dni) references Clientes(dni) 

@@ -1,10 +1,10 @@
 /*DROP trigger `bdbanco`.`CuentaCreada`;*/
 
-DROP PROCEDURE `bdbanco`.`Prestamos_x_Autorizar`;
+/*DROP PROCEDURE `bdbanco`.`Prestamos_x_Autorizar`;*/
 delimiter //
   create procedure prestamos_x_autorizar
 (
-in nroCuenta bigint(20) ,
+in nroCuenta int,
 in importe_pedido DECIMAL(20,6),
 in cantidad_cuotas INT
 )
