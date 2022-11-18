@@ -86,7 +86,18 @@
 		{			
 		%>
 		<tbody>
-		<tr> <td><%=mov.getNroCuenta().getNroCuenta()%></td>   <td><%=mov.getDetalle()%></td>    <td><%=mov.getFecha()%></td>   <td><%=mov.getImporte()%></td>  <td><%=mov.getSaldo()%></td></tr>
+		<tr> <td><%=mov.getNroCuenta().getNroCuenta()%></td>   
+		
+		        <%  if( mov.getDetalle() == null) { %>
+                <td> --- </td>    
+        	<%	} else { %>
+        	<td><%=mov.getDetalle()%></td>    
+        <%	}  %>
+        
+        
+		
+		
+		<td><%=mov.getFecha()%></td>   <td><%=mov.getImporte()%></td>  <td><%=mov.getSaldo()%></td></tr>
 		</tbody>
 		<%} %>
 	</table>

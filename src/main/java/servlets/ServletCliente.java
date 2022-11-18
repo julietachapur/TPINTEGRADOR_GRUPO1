@@ -110,11 +110,21 @@ public class ServletCliente extends HttpServlet {
 	
 	
 	private void cargarDesplegablesAlta(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Pais> lPais = (ArrayList<Pais>) pNeg.readAll();
-		request.setAttribute("nacionalidad", lPais);
+		ArrayList<Pais> lPais = new ArrayList<Pais> ();
+		ArrayList<Localidad> lLoc = new ArrayList<Localidad>();	
 		
-		ArrayList<Localidad> lLoc = (ArrayList<Localidad>) lNeg.readAll();
+		try {
+			lPais = (ArrayList<Pais>) pNeg.readAll();		
+			lLoc = (ArrayList<Localidad>) lNeg.readAll();			
+			
+		}  catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		
 		request.setAttribute("localidad", lLoc);
+		request.setAttribute("nacionalidad", lPais);
+
 			
 		RequestDispatcher rd = request.getRequestDispatcher("/altaCliente.jsp");
 		rd.forward(request, response);
@@ -122,15 +132,20 @@ public class ServletCliente extends HttpServlet {
 	}
 	
 	private void cargarDesplegablesModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Pais> lPais = (ArrayList<Pais>) pNeg.readAll();
-		request.setAttribute("nacionalidad", lPais);
+		ArrayList<Pais> lPais = new ArrayList<Pais> ();
+		ArrayList<Localidad> lLoc = new ArrayList<Localidad>();	
 		
-		LocalidadNegocio l = new LocalidadNegocioImpl(); 
-		ArrayList<Localidad> lLoc = (ArrayList<Localidad>) lNeg.readAll();
-		request.setAttribute("localidad", lLoc);
+		try {
+				lPais = (ArrayList<Pais>) pNeg.readAll();		
+				lLoc = (ArrayList<Localidad>) lNeg.readAll();			
 			
-		RequestDispatcher rd = request.getRequestDispatcher("/modifClienteForm.jsp");
-		rd.forward(request, response);
+		}  catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		
+		request.setAttribute("localidad", lLoc);
+		request.setAttribute("nacionalidad", lPais);
 		
 	}
 	

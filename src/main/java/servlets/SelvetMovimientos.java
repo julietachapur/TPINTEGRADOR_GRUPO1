@@ -173,32 +173,43 @@ public class SelvetMovimientos extends HttpServlet {
 	
 	private void hacerInformes(HttpServletRequest request) throws ServletException, IOException {
 		@SuppressWarnings("unchecked")
-		ArrayList<Movimiento> listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("listaMovimientos");
-		ArrayList<Movimiento> listaCuentas= null;
+		ArrayList<Movimiento> listaMovimientos = new ArrayList<Movimiento>();
+	 	int numLista = 0;
+	 	int numCuentas = 0;
 		BigDecimal saldos = new BigDecimal(0);
-		for(Movimiento mov:listaMovimientos)
-		{
-			boolean repetido = false;
-			if(listaCuentas == null){
-				listaCuentas = new ArrayList<Movimiento>();
-				listaCuentas.add(mov);
-				saldos = mov.getSaldo();
-			}
-			else{
-				for(Movimiento cuenta:listaCuentas){
-					if(mov.getNroCuenta().getNroCuenta()== cuenta.getNroCuenta().getNroCuenta()){
-						repetido = true;
-						break;
-					}
-				}
-				if(repetido == false ){
+
+		
+		try {
+			listaMovimientos = (ArrayList<Movimiento>) request.getAttribute("listaMovimientos");
+			ArrayList<Movimiento> listaCuentas= null;
+			for(Movimiento mov:listaMovimientos)
+			{
+				boolean repetido = false;
+				if(listaCuentas == null){
+					listaCuentas = new ArrayList<Movimiento>();
 					listaCuentas.add(mov);
+					saldos = mov.getSaldo();
 				}
-				saldos =saldos.add(mov.getSaldo());
+				else{
+					for(Movimiento cuenta:listaCuentas){
+						if(mov.getNroCuenta().getNroCuenta()== cuenta.getNroCuenta().getNroCuenta()){
+							repetido = true;
+							break;
+						}
+					}
+					if(repetido == false ){
+						listaCuentas.add(mov);
+					}
+					saldos =saldos.add(mov.getSaldo());
+				}
 			}
-		}
-	 	int numLista = listaMovimientos.size();
-	 	int numCuentas = listaCuentas.size();
+		 	 numLista = listaMovimientos.size();
+		 	 numCuentas = 0;
+		 	if(listaCuentas != null) numCuentas = listaCuentas.size();
+		} catch (Exception e) {
+			e.printStackTrace();
+	}
+		
 		request.setAttribute("saldos", saldos);
 		request.setAttribute("numLista", numLista);
 		request.setAttribute("numCuentas", numCuentas);

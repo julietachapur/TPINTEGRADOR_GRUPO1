@@ -54,7 +54,7 @@ VALUES
 new.codPrestamo,
 x,
 DATE_ADD(new.fecha, INTERVAL 30*x DAY),
-new.importe_pedido
+CAST((new.importe_pedido*1.15)/new.cantidad_cuotas AS decimal(10,0))
 );
  SET x = x + 1;
  END WHILE;
