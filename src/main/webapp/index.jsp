@@ -41,13 +41,13 @@
  	<form class="form" action="ServletUsuario" method="post">
  	    <fieldset>
 		<p class="inputIndex">
-		 <input placeholder="Tu DNI" type="text" name="txtDNI" required  value="22232425"> 
+		 <input placeholder="Tu DNI" type="text" name="txtDNI" required> 
 		 </p>
 		<p class="inputIndex">
-		 <input placeholder="Tu usuario" type="text" name="txtUsuario" required value="Nahuel" >
+		 <input placeholder="Tu usuario" type="text" name="txtUsuario" required  >
 		 </p>
 		<p class="inputIndex">
-		 <input placeholder="Tu clave" type="password" name="txtClave" required value="clave">
+		 <input placeholder="Tu clave" type="password" name="txtClave" required >
 		 		 </p>
       <p class="btnIniciarSesion">		
 		 <input type="submit" value="Iniciar" name="btnIniciarSesion" ID="btnIniciarSesion">

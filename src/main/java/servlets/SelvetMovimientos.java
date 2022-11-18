@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+/*
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,23 +12,26 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+*/
 
-
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import entidad.Cliente;
 import entidad.Cuenta;
 import entidad.Movimiento;
-import entidad.Pais;
 import entidad.TipoMovimiento;
 import negocio.ClienteNegocio;
 import negocio.CuentaNegocio;
 import negocio.MovimientoNegocio;
-import negocio.PaisNegocio;
 import negocio.TipoMovimientoNegocio;
 import negocioImpl.ClienteNegocioImpl;
 import negocioImpl.CuentaNegocioImpl;
 import negocioImpl.MovimientoNegocioImpl;
-import negocioImpl.PaisNegocioImpl;
 import negocioImpl.TipoMovimientoNegocioImpl;
 
 
@@ -73,6 +76,7 @@ public class SelvetMovimientos extends HttpServlet {
 		// TODO Auto-generated method stub
 
 	}
+	
 	private void validarDNI(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd;
 		boolean isCliente = false;
