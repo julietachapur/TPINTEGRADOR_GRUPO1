@@ -34,7 +34,7 @@ public class TransferenciaDaoImpl implements TransferenciaDao{
 			
 			
 			
-			if (cs.executeUpdate() == -1) {
+			if (cs.executeUpdate() == 0) {
 				conexion.commit();
 				isInsertExitoso = true;
 			}

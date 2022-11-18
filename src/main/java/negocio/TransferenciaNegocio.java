@@ -8,5 +8,5 @@ import entidad.TipoMovimiento;
 
 public interface TransferenciaNegocio {
 	
-	public Boolean DoTransfer(Cuenta CtaOrigen, Cuenta CtaDestino, BigDecimal importe, BigDecimal saldoOrigen, BigDecimal SaldoDestino, TipoMovimiento TMov, String detalle);
+	public Boolean DoTransfer(String CtaOrigen, String CtaDestino, BigDecimal importe, TipoMovimiento TMov, String detalle);
 }

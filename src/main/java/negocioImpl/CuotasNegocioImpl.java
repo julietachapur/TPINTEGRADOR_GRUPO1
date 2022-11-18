@@ -10,11 +10,11 @@ import negocio.CuotasNegocio;
 public class CuotasNegocioImpl implements CuotasNegocio{
 	CuotasDaoImpl cuotasDao = new CuotasDaoImpl();
 	
-	public boolean pagarCuota(int NroCuenta,int idCuota) {
+	public boolean pagarCuota(int NroCuenta,int idCuota, BigDecimal importe) {
 		CuentaDaoImpl cuenta = new CuentaDaoImpl();
 		Cuenta cuentaE;
 		cuentaE = cuenta.readOne(NroCuenta);
-		if(cuotasDao.pagarCuota(NroCuenta,idCuota, cuentaE.getSaldo(), "Pago cuota - ID" + idCuota))
+		if(cuotasDao.pagarCuota(NroCuenta,idCuota, cuentaE.getSaldo().subtract(importe), "Pago cuota - ID" + idCuota))
 			return true;
 		else
 			return false;

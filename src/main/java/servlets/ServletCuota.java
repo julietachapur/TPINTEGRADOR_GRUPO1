@@ -1,22 +1,17 @@
 package servlets;
 import java.io.IOException;
+import java.math.BigDecimal;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import negocioImpl.CuotasNegocioImpl;
 
 
-/*
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 
 
 /**
@@ -60,8 +55,10 @@ public class ServletCuota extends HttpServlet {
 	protected boolean pagarCuota(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int idCuota =  Integer.parseInt(request.getParameter("IdCuotaAPagar"));
 		int NroCuenta = Integer.parseInt(request.getParameter("NroCuenta"));
+		String importe = request.getParameter("impCuota");
+		BigDecimal importeBig = new BigDecimal(importe);
 		CuotasNegocioImpl cuotasneg =  new CuotasNegocioImpl();
-		if(cuotasneg.pagarCuota(NroCuenta, idCuota))
+		if(cuotasneg.pagarCuota(NroCuenta, idCuota, importeBig))
 			return true;
 		else
 			return false;

@@ -44,6 +44,19 @@
 		}
 		%></script><%
 	}
+	
+	if (request.getAttribute("Transferencia")!=null){
+		%><script><%
+		boolean sucess = (boolean) request.getAttribute("Transferencia");
+		if (sucess){
+			%>alert("Transferencia realizada con exitó!")<%
+		}
+		else{
+			%>alert("Ocurrio un error durante la transferencia.")<%
+		}
+		%></script><%
+		
+	}
 			
  %> 
  
