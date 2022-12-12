@@ -4,6 +4,8 @@ package negocioImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.internal.compiler.env.ISourceMethod;
+
 import dao.ClienteDao;
 import dao.CuentaDao;
 import dao.TipoCuentaDao;
@@ -88,31 +90,69 @@ public class CuentaNegocioImpl implements CuentaNegocio {
 	@Override
 	public boolean insert(String dni, int tc) {
 
+
 		CuentaDao cDao = new CuentaDaoImpl();
 		ClienteDao clienteDao = new ClienteDaoImpl();
 		TipoCuentaDao tcDao = new TipoCuentaDaoImpl();
 		Cuenta  c = new Cuenta();
 		boolean agregado;
-		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) cDao.readForClient(dni);
+		ArrayList<Cuenta> lCuenta = (ArrayList<Cuenta>) cDao.readForClient(dni); 	
 
 		///verificamos realmente que exista ese dni
-		try
-		{
-				c.setDni(clienteDao.readOne(dni));
-				c.setTipoCuenta(tcDao.readOne(tc));
-				c.setCbu(Long.parseLong(clienteDao.readOne(dni).getDni().toString()));
-				System.out.println(c.getDni().getDni());
-				System.out.println(c.getCbu());
-				System.out.println(c.getTipoCuenta().getCodTipo());
-				
-				return cDao.insert(c);
+		
+		try {
+			c.setDni(clienteDao.readOne(dni));
+			c.setTipoCuenta(tcDao.readOne(tc));
+					
+			long cbuNuevo = Long.parseLong(clienteDao.readOne(dni).getDni().toString());
+			ArrayList<Cuenta> todas = (ArrayList<Cuenta>)cDao.readAll();
+			int x;
+			
+			if(lCuenta.isEmpty()) {
+				for(x=0; x<todas.size(); x++) {
+					if(todas.get(x).getCbu()==cbuNuevo) {
+						cbuNuevo++;
+						x=0;
+						}
+					}
+				c.setCbu(cbuNuevo);
+				}
+			else{
+				int tam = lCuenta.size();
+				if(tam==1) {
+					cbuNuevo++;
+					for(x=0; x<todas.size(); x++) {
+						if(todas.get(x).getCbu()==cbuNuevo){
+							cbuNuevo++;
+							x=0;
+							}
+						}
+					c.setCbu(cbuNuevo);
+					}
+				if(tam==2) {
+					cbuNuevo+=2;
+					for(x=0; x<todas.size(); x++) {
+						if(todas.get(x).getCbu()==cbuNuevo){
+							cbuNuevo++;
+							x=0;
+							}
+						}
+					c.setCbu(cbuNuevo);
+					}
+				}
+			System.out.println(c.getDni().getDni());
+			System.out.println(c.getCbu());
+			System.out.println(c.getTipoCuenta().getCodTipo());
+			return cDao.insert(c);
+
 		}
+		
 		catch(Exception e) {
-            e.printStackTrace();
-}
+			e.printStackTrace();
+			}
 		return false;
-				
-}
+		}
+	
 	public boolean verificarCliente(String dni) {
 		ClienteDao clienteDao = new ClienteDaoImpl();
 		try										

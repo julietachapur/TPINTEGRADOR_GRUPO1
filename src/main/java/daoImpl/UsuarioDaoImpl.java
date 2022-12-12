@@ -25,7 +25,7 @@ import entidad.Usuario;
 
 public class UsuarioDaoImpl implements UsuarioDao {
 	
-	private static final String QueryIniciarSesion = "select  c.nombre, c.apellido, c.cuil, c.sexo, c.nacionalidad, c.fecha_nac, c.direccion, c.codLocalidad, c.codProvincia, c.codPais, c.correo_electronico, c.telefonos, c.estado, tu.tipoUsuario, tu.codTipo from usuarios u  inner join clientes c on c.dni = u.dni  inner join tiposUsuarios tu on tu.CodTipo = u.tipoUsuario where u.usuario = ? and u.DNI = ? and	u.contraseña = ? and	u.estado = 1 and c.estado = 1 and tu.estado = 1";
+	private static final String QueryIniciarSesion = "select  c.nombre, c.apellido, c.cuil, c.sexo, c.nacionalidad, c.fecha_nac, c.direccion, c.codLocalidad, c.codProvincia, c.codPais, c.correo_electronico, c.telefonos, c.estado, tu.tipoUsuario, tu.codTipo from bdbanco.usuarios u  inner join bdbanco.clientes c on c.dni = u.dni  inner join bdbanco.tiposUsuarios tu on tu.CodTipo = u.tipoUsuario where u.usuario = ? and u.DNI = ? and	u.contraseña = ? and	u.estado = 1 and c.estado = 1 and tu.estado = 1";
 	private static final String insert = "INSERT INTO Usuarios (usuario, dni, tipoUsuario, contraseña) VALUES (?,?,?,?)";
 	private static final String logicalDeletion = "UPDATE Usuarios set estado = 0 Where dni = ?";
 	private static final String readall = "SELECT * FROM Usuarios";
