@@ -72,7 +72,7 @@
 		<%	} %>
 		</div>
 		<div class="Cuenta-Detalle">
-			<label id="lblDisponibleCuenta">$<%= currentSaldo %></label>
+			<label id="lblDisponibleCuenta">$<%= listaMovimientos.get(listaMovimientos.size()-1).getSaldo() %></label>
 			<label id="lblDetalleCuenta"><%= nombreCta %> - Cuenta Nro: <%= currentCuenta %></label>
 		</div>
 	</section>

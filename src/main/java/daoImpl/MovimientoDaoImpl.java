@@ -21,7 +21,7 @@ import dao.TipoMovimientoDao;
 public class MovimientoDaoImpl implements MovimientoDao {
 	private static final String insert = "INSERT INTO Movimientos(nroCuenta, fecha, importe, tipoMovimiento, saldo, detalle) VALUES (?,?,?,?,?)";
 	private static final String readall = "SELECT * FROM Movimientos";
-	private static final String readOneCta = "SELECT * FROM Movimientos Where nroCuenta = ? order by fecha DESC";
+	private static final String readOneCta = "SELECT * FROM Movimientos Where nroCuenta = ? order by fecha ASC";
 	private static final String readlast = "SELECT * FROM Movimientos ORDER by fecha DESC LIMIT 1";
 	private static final String readXtipoMov = "SELECT * FROM Movimientos Where tipoMovimiento = ?";
 	private static final String readDesdeFecha = "SELECT * FROM Movimientos where fecha >=?";
