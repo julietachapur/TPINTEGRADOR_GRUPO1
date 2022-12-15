@@ -21,7 +21,7 @@ import entidad.TipoCuenta;
 import entidad.Cliente;
 
 public class CuentaDaoImpl implements CuentaDao{
-	private static final String insert = "{CALL agregarCuenta(?,?,?)}";
+	private static final String insert = "insert into cuentas(`CBU`,`dni`, `fecha_creacion`, `tipoCuenta`, `saldo`) values(?,?, current_date(),?,'10000')";
 	private static final String logicalDeletion = "UPDATE Cuentas set estado = false Where nroCuenta = ?";
 	private static final String readall = "SELECT * FROM Cuentas";
 	private static final String readlast = "SELECT * FROM Cuentas ORDER by nroCuenta DESC LIMIT 1";

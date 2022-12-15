@@ -41,11 +41,11 @@
  	<form class="form" action="ServletUsuario" method="post">
  	    <fieldset>
 		<p class="inputIndex">
-		 <input value="40668539" type="text" name="txtDNI" required> 
+		 <input value="400" type="text" name="txtDNI" required> 
 		 <!-- placeholder="Tu DNI" -->		 
 		 </p>
 		<p class="inputIndex">
-		 <input value="JuliFinal" type="text" name="txtUsuario" required  >
+		 <input value="Julian" type="text" name="txtUsuario" required  >
 		 <!-- placeholder="Tu clave" -->
 		 </p>
 		<p class="inputIndex">
